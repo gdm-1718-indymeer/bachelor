@@ -1,0 +1,11 @@
+cd backend
+virtualenv venv
+pip install -r requirements.txt
+
+
+requirements.txt
+Flask==1.1.2
+itsdangerous==1.1.0
+Jinja2==2.11.2
+
+npm run dev

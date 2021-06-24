@@ -16,4 +16,4 @@ const App = () => {
     )
 }
 
-ReactDom.render(<App />, document.getElementById('app'));
+export default App
