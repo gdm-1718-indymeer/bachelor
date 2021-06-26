@@ -1,0 +1,106 @@
+// general mixins --------------------------------------------------------
+@mixin set-breakpoints($properties, $values, $offset: null) {
+    @for $i from 1 through length($values) {
+      @include breakpoint(nth(nth($breakpoints, $i), 1)) {
+        @if nth($values, $i) != null {
+          @if ($offset != null) {
+            @include set-properties($properties, nth($values, $i) + $offset);
+          }
+          @else {
+            @include set-properties($properties, nth($values, $i));
+          }
+        }
+      }
+    }
+  }
+  
+  @mixin container-fluid() {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 12px;
+  
+    @include media-breakpoint-up(xxl) {
+      padding: 0 50px;
+    }
+  }
+  
+  @mixin outline() {
+    outline: 1px solid red;
+  }
+  
+  // cross-browser mixins --------------------------------------------------
+  // ie11 selector
+  @mixin ie11Only() {
+    @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+      @content;
+    }
+  }
+  
+  // safari selector
+  @mixin safariOnly() {
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance:none) {
+        @content;
+      }
+    }
+  }
+  
+  // remove bootstrap from deeper component twigs
+  @mixin removeBootstrapFromChildren() {
+    .container {
+      padding: 0;
+    }
+  
+    .row > div {
+      margin-left: 0;
+      flex: 0 0 100%;
+      max-width: none;
+    }
+  }
+  
+  // component mixins ------------------------------------------------------
+  @mixin componentMargin() {
+    margin-bottom: map-get($componentMargins, small);
+  
+    @include media-breakpoint-up(lg) {
+      margin-bottom: map-get($componentMargins, large);
+    }
+  }
+  
+  // Gradients -------------------------------------------------------------
+  @mixin gradientGreenHorizontal() {
+    background: $clrGreen;
+    background: linear-gradient(135deg, $clrGreen 0%, $clrGreenDark 100%);
+  }
+  
+  // fonts -----------------------------------------------------------------
+  @mixin fntHwt() {
+    font-family: hwt-artz, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  @mixin noto() {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @mixin notoCondensed() {
+    font-family: 'Noto Sans Cond', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @mixin notoBold() {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @mixin notoBoldCondensed() {
+    font-family: 'Noto Sans Cond', sans-serif;
+    font-weight: bold;
+    font-style: normal;
+  }
+  

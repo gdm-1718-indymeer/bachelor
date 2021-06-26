@@ -1,0 +1,8 @@
+// When writing any SCSS code for your component, you should first include this file.
+// This will load all variables and mixins that you can use
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "base/variables";
+@import "utils/mixins";

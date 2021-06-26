@@ -1,9 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-export default function Home() {
+const Home = () => {
     return (
-        <>
-            <h1>Hello Flask+React</h1>
-        </>
-    );
+        <div>
+            
+        </div>
+    )
 }
+
+export default Home

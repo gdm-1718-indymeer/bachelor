@@ -1,0 +1,39 @@
+.icon--social {
+    max-width: 22px;
+    max-height: 20px;
+  }
+  
+  .icon--logo {
+    width: 90px;
+    height: 15px;
+  
+    &--beyond {
+      width: 77px;
+      height: 51px;
+  
+      @include media-breakpoint-up(lg) {
+        width: 90px;
+        height: 65px;
+      }
+    }
+  }
+  
+  .icon--chevron {
+    max-width: 8px;
+    max-height: 4px;
+  }
+  
+  .icon--arrow {
+    max-width: 16px;
+    max-height: 16px;
+  }
+  
+  .icon--globe {
+    max-width: 12px;
+    max-height: 12px;
+  }
+  
+  .icon--downloads {
+    max-width: 21px;
+    max-height: 20px;
+  }

@@ -1,0 +1,80 @@
+// colors
+$white: #fff;
+$black: #000;
+
+$clrGreen: #96c115;
+$clrGreenDark: #6c8b12;
+$clrBlue: #0098d6;
+$clrBlueLight: #24a5da;
+
+$clrGrey: #ddd !default;
+$clrGreyLight: #ddd !default;
+$clrGreySuperLight: #f7f7f7 !default;
+$clrGreyBg: #fafafa !default;
+$clrGreyMedium: #666;
+$clrGreyDark: #888 !default;
+$clrGreyBlack: #575756 !default;
+$clrError: #e52020;
+$clrSuccess: #06b232;
+$clrFontMain: #1c1c1c !default;
+$clrRequired: #ee090f;
+
+$crlBodyFont: $black;
+$clrHeaderFont: $black;
+$clrLinkFont: #4596ed;
+
+// sizes & measuring
+$bodyMaxWidth: 1600px;
+$componentMargins: (small: 40px, large: 60px);
+
+// spacings
+$paragraphMarginBottom: 50px;
+
+// fonts & font sizes
+$fontSize12: 0.75rem; // a practical system these to convert the pixel values in the design to rem. this way, referencing to the values in the design is easier. And changing the font-size site-wide is easier ('the font looks so big. can we make it smaller?')
+$fontSize13: 0.8125rem;
+$fontSize14: 0.875rem;
+$fontSize16: 1rem;
+$fontSize18: 1.125rem;
+$fontSize20: 1.25rem;
+$fontSize22: 1.375rem;
+$fontSize24: 1.5rem;
+$fontSize28: 1.75rem;
+$fontSize36: 2.25rem;
+$fontSize40: 2.5rem;
+$fontSize48: 3rem;
+$fontSize58: 3.625rem;
+$fontSize80: 5rem;
+
+//
+$bodyFontFamily: 'Noto Sans', sans-serif;
+$headerFontFamily: hwt-artz, sans-serif;
+$bodyFontSize: $fontSize16;
+$bodyLineHeight: 1.75;
+$h1FontSize: $fontSize36;
+$h2FontSize: $fontSize24;
+$tinyFontSize: $fontSize12;
+$headerLineHeight: 1.5;
+
+// animation
+$transition-duration: 0.4s;
+$easeOutCirc: cubic-bezier(0.075, 0.82, 0.165, 1);
+$easeInCirc: cubic-bezier(0.6, 0.04, 0.98, 0.335);
+$easeInOutCirc: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+
+// z-indexes
+$zBottom: 0;
+$zMiddle: 1;
+$zTop: 2;
+
+$zMenuTop: 11;
+$zMenuMiddle: 10;
+$zMenuBottom: 9;
+
+// Geysir
+$dialogBtnBg: #504d61;
+$clrTableDrag: #0a6fb4;
+$clrBgParagraphWrapper: rgba(85, 142, 213, 0.1);
+
+// Buttons
+$buttonRadius: 4px;
