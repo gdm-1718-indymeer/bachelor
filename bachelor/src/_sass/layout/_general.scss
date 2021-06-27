@@ -51,7 +51,7 @@ html {
   
   .b-lazy {
     opacity: 0;
-    transition: opacity $duration-slow $easeOutCirc;
+    transition: opacity .5s $easeOutCirc;
   
     &.b-loaded {
       opacity: 1;

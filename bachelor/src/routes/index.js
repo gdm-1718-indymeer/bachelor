@@ -1,5 +1,5 @@
 // GENERAL
-export const HOME = '/home'
+export const HOME = '/'
 export const DASHBOARD = '/dashboard'
 export const PRIVACY_POLICY = '/privacy-policy'
 export const LOGIN = '/login'

@@ -24,7 +24,6 @@ body {
     }
   
     .display {
-      @include line-height(42, 42);
       font-size: $fontSize58;
       line-height: #{$fontSize58 * 1};
   
@@ -37,7 +36,6 @@ body {
     h1,
     .h1-style {
       // @include poppinsBlackItalic();
-      @include line-height(42, 42);
       font-size: $fontSize48;
       line-height: #{$fontSize48 * 1};
   
