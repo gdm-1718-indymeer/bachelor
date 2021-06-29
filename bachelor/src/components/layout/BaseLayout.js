@@ -11,6 +11,7 @@ function BaseLayout(props) {
   return (
     <div>
         {children}
+        <Navigation></Navigation>
     </div>
   )
 }

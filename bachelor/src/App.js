@@ -2,8 +2,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
 
-import { Home } from './pages'
-import { BaseLayout, LoginLayout } from './components/layout'
+import { Home, Welcome} from './pages'
+import { BaseLayout } from './components/layout'
 
 import * as Routes from './routes' 
 import logo from './logo.svg';
@@ -14,6 +14,8 @@ function App() {
     <Router>
     <Switch>
       <RouteWrapper path={Routes.HOME} layout={BaseLayout} component={Home} exact />
+      <RouteWrapper path={Routes.WELCOME} layout={BaseLayout} component={Welcome} exact />
+
     </Switch>
   </Router>
   );
