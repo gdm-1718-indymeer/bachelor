@@ -1,22 +1,36 @@
 .icon--social {
-    max-width: 22px;
-    max-height: 20px;
-  }
+  max-width: 22px;
+  max-height: 20px;
+}
+
+.icon--add {
+  max-width: 22px;
+  max-height: 20px;
+  margin:0 3em 0 1em;
+}
+
+.icon--food {
+  max-width: 102px;
+  max-height: 70px;
+  width: unset !important;
+}
+
+
+
+.icon--logo {
+  width: 90px;
+  height: 15px;
   
-  .icon--logo {
-    width: 90px;
-    height: 15px;
+  &--beyond {
+    width: 77px;
+    height: 51px;
   
-    &--beyond {
-      width: 77px;
-      height: 51px;
-  
-      @include media-breakpoint-up(lg) {
-        width: 90px;
-        height: 65px;
-      }
+    @include media-breakpoint-up(lg) {
+      width: 90px;
+      height: 65px;
     }
   }
+}
   
   .icon--chevron {
     max-width: 8px;

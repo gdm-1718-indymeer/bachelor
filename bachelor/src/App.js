@@ -2,7 +2,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
 
-import { Home, Welcome} from './pages'
+import { AddMedicine, Home, Welcome} from './pages'
 import { BaseLayout } from './components/layout'
 
 import * as Routes from './routes' 
@@ -15,6 +15,8 @@ function App() {
     <Switch>
       <RouteWrapper path={Routes.HOME} layout={BaseLayout} component={Home} exact />
       <RouteWrapper path={Routes.WELCOME} layout={BaseLayout} component={Welcome} exact />
+      <RouteWrapper path={Routes.ADD} layout={BaseLayout} component={AddMedicine} exact />
+
 
     </Switch>
   </Router>
