@@ -1,1 +1,16 @@
-// ...
+.home {
+  background-color: $clrOrange;
+  width: 100%;
+  padding: 3em;
+  min-height: 400px;
+}
+
+.overview {
+  margin-top: -50px;
+  border-radius: 20px 20px 0 0;
+  background-color: $clrGreyBg;
+
+  &__activity {
+    margin-top: 3%;
+  }
+}

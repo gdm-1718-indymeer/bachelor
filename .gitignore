@@ -15,6 +15,7 @@ bachelor/flask/__pycache__
 
 # misc
 ./bachelor/.DS_Store
+./bachelor/.env
 ./bachelor/.env.local
 ./bachelor/.env.development.local
 ./bachelor/.env.test.local

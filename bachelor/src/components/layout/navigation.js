@@ -3,6 +3,8 @@ import { Nav, NavItem} from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faHome, faUserCircle, faCalendar, faCamera } from '@fortawesome/free-solid-svg-icons';
+import Logo from '../../assets/images/OpWit.svg'
+
 
 const tabs = [{
   route: "/home",
@@ -32,7 +34,9 @@ const Navigation = (props) => {
     <div>
       <nav className="navbar navbar-expand-md navbar-light d-none d-lg-block sticky-top" role="navigation">
         <div className="container-fluid">
-            <a className="navbar-brand" href="/home">Brand</a>
+            <a className="navbar-brand" href="/home">     <div class="brand-wrapper">
+                            <img src={Logo} alt="logo" class="logo" />
+                        </div></a>
             <Nav className="ml-auto">
               <NavItem>
                 <NavLink to="/search" className="nav-link">
@@ -40,7 +44,7 @@ const Navigation = (props) => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/login" className="nav-link">
+                <NavLink to="/welcome" className="nav-link">
                   Login
                 </NavLink>
               </NavItem>

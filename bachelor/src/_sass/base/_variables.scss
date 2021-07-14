@@ -4,8 +4,9 @@ $black: #000;
 
 $clrGreen: #96c115;
 $clrGreenDark: #6c8b12;
-$clrBlue: #0098d6;
-$clrBlueLight: #24a5da;
+$clrBlue: #5db4ff;
+$clrBlueLight: #f6faff;
+$clrOrange: #f7c453;
 
 $clrGrey: #ddd !default;
 $clrGreyLight: #ddd !default;
@@ -25,7 +26,10 @@ $clrLinkFont: #4596ed;
 
 // sizes & measuring
 $bodyMaxWidth: 1600px;
-$componentMargins: (small: 40px, large: 60px);
+$componentMargins: (
+  small: 40px,
+  large: 60px,
+);
 
 // spacings
 $paragraphMarginBottom: 50px;
@@ -47,7 +51,7 @@ $fontSize58: 3.625rem;
 $fontSize80: 5rem;
 
 //
-$bodyFontFamily: 'Noto Sans', sans-serif;
+$bodyFontFamily: "Noto Sans", sans-serif;
 $headerFontFamily: hwt-artz, sans-serif;
 $bodyFontSize: $fontSize16;
 $bodyLineHeight: 1.75;
