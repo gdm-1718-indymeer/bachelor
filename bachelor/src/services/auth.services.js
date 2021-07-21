@@ -1,7 +1,8 @@
-import firebase from '../config/FirebaseConfig'
+import firebase from '../config/firebaseConfig'
 
 export const auth = firebase.auth()
 export const db = firebase.database()
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
 
 
 // SIGN IN
@@ -21,7 +22,7 @@ export const signInWithEmailAndPassword = async (email, password) => {
 
 
 // SIGN UP
-export const createUserWithEmailAndPassword = async (email, password, firstname, lastname, type, typename) => {
+export const createUserWithEmailAndPassword = async (email, password, firstname, lastname) => {
     try {
       const createUser = await auth.createUserWithEmailAndPassword(email, password)
       createUser.user.updateProfile({
@@ -32,14 +33,9 @@ export const createUserWithEmailAndPassword = async (email, password, firstname,
         firstname,
         lastname,
         email,
-        type,
         tel: ''
       })
 
-      await db.ref(type).push({
-        uid: createUser.user.uid,
-        name: typename,
-      })
 
       let result = createUser
       await authStatus(result)
@@ -50,6 +46,24 @@ export const createUserWithEmailAndPassword = async (email, password, firstname,
     }    
 }
 
+
+
+// SIGN UP Google
+
+export const signInWithGoogle = () => {
+  auth.signInWithPopup(googleProvider).then((res) => {
+      let user = res.user
+      db.ref('user').child(res.user.uid).set({
+        displayName: user.displayName,
+        email: user.email,
+        tel: user.phoneNumber,
+        profilePicture: user.photoURL,
+      })
+      window.location = '/settings'
+  }).catch((error) => {
+    console.log(error.message)
+  })
+}
 
 
 // GET TYPE 

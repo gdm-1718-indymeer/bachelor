@@ -95,10 +95,10 @@ const AddMedicine = () => {
         <div className="container pb-100">
             <div className="row">
                 <div className="col-12">
-                    <h2>Add a plan</h2>
+                    <h2>Voeg een planning toe</h2>
 
                     <div className="option-container">
-                        <h5>Pills name</h5> 
+                        <h5>Medicijn naam</h5> 
                         <Select
                             defaultValue={pillNames[0]}
                             options={pillNames}
@@ -126,18 +126,42 @@ const AddMedicine = () => {
                     </div>
 
                     <div className="option-container row">
-                        <div class="col-sm">
-                            <FontAwesomeIcon className="icon--food" icon={faCoffee} />
-                            <h5>Breakfast</h5>
+                    <fieldset class="checkbox-group">
+                        <legend class="checkbox-group-legend">Choose your favorites</legend>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <FontAwesomeIcon className="icon--food" icon={faCoffee} />
+                                    </span>
+                                    <span class="checkbox-label">Ontbijt</span>
+                                </span>
+                            </label>
                         </div>
-                        <div class="col-sm">
-                            <FontAwesomeIcon className="icon--food" icon={faBreadSlice}/>
-                            <h5>Lunch</h5>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input"  />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <FontAwesomeIcon className="icon--food" icon={faBreadSlice}/>
+                                    </span>
+                                    <span class="checkbox-label">Middag</span>
+                                </span>
+                            </label>
                         </div>
-                        <div class="col-sm">
-                            <FontAwesomeIcon className="icon--food" icon={faUtensils}/>
-                            <h5>Dinner</h5>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <FontAwesomeIcon className="icon--food" icon={faUtensils}/>
+                                    </span>
+                                    <span class="checkbox-label">Avond</span>
+                                </span>
+                            </label>
                         </div>
+                    </fieldset>
                     </div>
 
 
