@@ -1,15 +1,25 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {addDays, addMonths, subMonths,isSameMonth, isSameDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, format, parse } from 'date-fns'
 
 
-class Week extends React.Component {
-  state = {
+const Week = (props) => {
+  const [getDate, setDate] = useState({
     currentMonth: new Date(),
     selectedDate: new Date()
+  });
+  const { currentMonth, selectedDate } = getDate;
+
+  useEffect(() => {
+    props.handleSetDate(format(getDate.selectedDate, 'd/M/yyyy'))
+  }, []);
+
+
+  const onDateClick = (day) => {
+    setDate(prevState => ({...prevState, selectedDate: day}))
+    props.handleSetDate(format(day, 'd/M/yyyy'))
   };
 
-  renderCells() {
-    const { currentMonth, selectedDate } = this.state;
+  const renderCells = () => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(currentMonth);
@@ -24,55 +34,46 @@ class Week extends React.Component {
     let day = startDate;
     let formattedDate = "";
 
-    while (day <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, dateFormat);
-        const cloneDay = day;
-        days.push(
-          <div
-            className={`col cell pill ${
-              !isSameMonth(day, monthStart)
-                ? "disabled"
-                : isSameDay(day, selectedDate) ? "selected" : ""
-            }`}
-            key={day}
-            onClick={() => this.onDateClick(parse(cloneDay))}
-          >
-            <div className='wrapper'>
-              <div className="col number" key={i}>
-                {format(addDays(startDate, i), dayFormat)}
+        while (day <= endDate) {
+          for (let i = 0; i < 14; i++) {
+            formattedDate = format(day, dateFormat);
+            const cloneDay = day;
+            days.push(
+              <div
+                className={`col cell pill ${
+                  !isSameMonth(day, monthStart)
+                    ? "disabled"
+                    : isSameDay(day, selectedDate) ? "selected" : ""
+                }`}
+                key={day}
+                onClick={() => onDateClick(cloneDay)}
+              >
+                <div className='wrapper'>
+                  <div className="col number" key={i}>
+                    {format(addDays(startDate, i), dayFormat)}
+                  </div>
+                  <span className="day">{formattedDate}</span>
+                </div>
+
               </div>
-              <span className="day">{formattedDate}</span>
+            );
+            day = addDays(day, 1);
+          }
+          rows.push(
+            <div className="row week__view" key={day}>
+              {days}
             </div>
-
-          </div>
-        );
-        day = addDays(day, 1);
-      }
-      rows.push(
-        <div className="row week__view" key={day}>
-          {days}
-        </div>
-      );
-      days = [];
-    }
-    return <div className="body">{rows}</div>;
+          );
+          days = [];
+        }
+        return <div className="body">{rows}</div>;
+ 
   }
-
-  onDateClick = day => {
-    this.setState({
-      selectedDate: day
-    });
-  };
-
-
-  render() {
-    return (
-      <div className="week">
-        {this.renderCells()}
-      </div>
-    );
-  }
+  
+  return (
+    <div className="week">
+      {renderCells()}
+    </div>
+  );
 }
-
 export default Week;

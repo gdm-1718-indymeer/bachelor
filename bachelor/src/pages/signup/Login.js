@@ -9,7 +9,6 @@ const Login = (props) => {
     const [state, setValue] = useState({});
     const [message, setMessage] = useState(false);
 
-
     const onChange = (e) => {
         const { target: {name, value }} = e
         let stateValue = state

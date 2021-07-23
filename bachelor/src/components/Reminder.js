@@ -1,6 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useCallback} from 'react';
+import { getScheduleByDate } from "../services/auth.services";
 
-const Reminder = () => {
+const Reminder = (props) => {
+
+    let data = {}
+    
+    const [tasksRemaining, setTasksRemaining] = useState(0);
+    const [tasks, setTasks] = useState({
+ 
+    }
+        // {
+        //     title: "Ibuprofen",
+        //     dose: '150g, 1 capsule',
+        //     when: 'after breakfast',
+        //     time: '8:00pm',
+        //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
+        //     completed: true,
+        // },
+        // {
+        //     title: "Dafalgan",
+        //     dose: '150g, 1 capsule',
+        //     when: 'after breakfast',
+        //     time: '8:00pm',
+        //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
+        //     completed: true
+        // },
+        // {
+        //     title: "Ibu",
+        //     dose: '150g, 1 capsule',
+        //     when: 'after breakfast',
+        //     time: '8:00pm',
+        //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
+        //     completed: false
+        // }
+    );
+
+
+    const getEvents = useCallback(async (uid, date) => {
+        try {
+            const response = await getScheduleByDate(uid, date);
+            setTasks(response)
+
+        } catch (e) {
+            console.error(e);
+        }
+    });
+    
+    useEffect(() => {
+        let date = props.handleDate;
+        let uid = props.uid
+        getEvents(uid, date);
+    }, [props.handleDate]);
+
     function Task({ task, index, completeTask, removeTask }) {
         return (
             <div
@@ -8,19 +59,28 @@ const Reminder = () => {
                 style={{ textDecoration: task.completed ? "line-through" : "" }}
             >
                 <li class="one red">
-                    <span class="task-title"> {task.title}</span>
-                     <span class="task-time">{task.time}</span>
-                    <span class="task-cat"><button class="btn btn--action"> {task.when}</button></span>
+                    <span className="task-title"> {task.medicineName}</span>
+                     <span className="task-time">{task.targetTime}</span>
+                    <span className="task-cat">
+  
+                        { task.beforeDinner &&
+                         <button class="btn btn--action"> Voor het eten</button>
+                        }
+                        
+                        { task.duringDinner &&
+                         <button class="btn btn--action"> Tijdens het eten</button>
+                        }
+                        
+                        { task.afterDinner &&
+                         <button class="btn btn--action"> Na het eten</button>
+                        }
+
+                    </span>
                 </li>
                  
-                <img className='task__image' src={task.icon}></img>
-                {task.dose}
-                
+                <img className='task__image' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU'></img>
+                {task.Amount}
 
-               
-
-
-    
                 <button style={{ background: "red" }} onClick={() => removeTask(index)}>x</button>
                 <button onClick={() => completeTask(index)}>Complete</button>
     
@@ -28,38 +88,6 @@ const Reminder = () => {
         );
     }
     
-    
-    const [tasksRemaining, setTasksRemaining] = useState(0);
-    const [tasks, setTasks] = useState([
-        {
-            title: "Ibuprofen",
-            dose: '150g, 1 capsule',
-            when: 'after breakfast',
-            time: '8:00pm',
-            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
-            completed: true,
-        },
-        {
-            title: "Dafalgan",
-            dose: '150g, 1 capsule',
-            when: 'after breakfast',
-            time: '8:00pm',
-            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
-            completed: true
-        },
-        {
-            title: "Ibu",
-            dose: '150g, 1 capsule',
-            when: 'after breakfast',
-            time: '8:00pm',
-            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
-            completed: false
-        }
-    ]);
-      
-    // useEffect(() => { 
-    //   setTasksRemaining(tasks.filter(task => !task.completed).length) 
-    // });
 
     const completeTask = index => {
         const newTasks = [...tasks];
@@ -78,17 +106,20 @@ const Reminder = () => {
                 {/* <div className="header">Remaining items {tasksRemaining}</div> */}
                 
                 <div className="tasks">
-                <ul class="tasks">
-
-                    {tasks.map((task, index) => (
-                        <Task
-                        task={task}
-                        index={index}
-                        completeTask={completeTask}
-                        removeTask={removeTask}
-                        key={index}
-                        />
-                    ))}
+                <ul className="tasks">
+                {tasks !== null ? <>           
+                        {Object.keys(tasks).map(key => (
+                            <>
+                            <Task
+                            task={tasks[key]}
+                            index={key}
+                            completeTask={completeTask}
+                            removeTask={removeTask}
+                            key={key}
+                            />
+                            </>
+                        ))}
+                    </>: <p>Geen data gepland</p> }
                     </ul>
                 </div>
    

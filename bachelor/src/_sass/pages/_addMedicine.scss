@@ -1,3 +1,11 @@
+.rangeData {
+  display: inline-flex;
+  width: 100%;
+
+  p {
+    margin-left: 3%;
+  }
+}
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;

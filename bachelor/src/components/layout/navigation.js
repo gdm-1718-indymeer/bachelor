@@ -34,7 +34,7 @@ const Navigation = (props) => {
     <div>
       <nav className="navbar navbar-expand-md navbar-light d-none d-lg-block sticky-top" role="navigation">
         <div className="container-fluid">
-            <a className="navbar-brand" href="/home">     <div class="brand-wrapper">
+            <a className="navbar-brand" href="/">     <div class="brand-wrapper">
                             <img src={Logo} alt="logo" class="logo" />
                         </div></a>
             <Nav className="ml-auto">

@@ -1,70 +1,71 @@
 html {
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+  //overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 0;
   }
-  
-  body {
-    overflow-x: hidden;
-  
-    @include media-breakpoint-up(lg) {
-      margin-top: 0;
-    }
-  
-    &.modal-open {
-      overflow: visible;
-      padding-right: 0 !important;
-    }
+
+  &.modal-open {
+    overflow: visible;
+    padding-right: 0 !important;
   }
-  
-  .container {
-    position: relative;
+}
+
+.container {
+  position: relative;
+}
+
+.container-fluid {
+  max-width: 1600px;
+
+  @include media-breakpoint-up(xxl) {
+    padding: 0 50px;
   }
-  
-  .container-fluid {
-    max-width: 1600px;
-  
-    @include media-breakpoint-up(xxl) {
-      padding: 0 50px;
-    }
+}
+
+iframe {
+  border: none;
+}
+
+.app-main {
+  background-color: $clrGreyBg;
+
+  .toolbar-tray-open & {
+    top: 79px !important;
   }
-  
-  iframe {
-    border: none;
+}
+
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+
+  li {
+    list-style-type: none;
   }
-  
-  .app-main {
-    background-color: $clrGreyBg;
-  
-    .toolbar-tray-open & {
-      top: 79px !important;
-    }
+}
+
+.b-lazy {
+  opacity: 0;
+  transition: opacity 0.5s $easeOutCirc;
+
+  &.b-loaded {
+    opacity: 1;
   }
-  
-  ul,ol {
-    padding: 0;
-    margin: 0;
-  
-    li {
-      list-style-type: none;
-    }
+}
+
+button {
+  &:focus {
+    outline: none;
   }
-  
-  .b-lazy {
-    opacity: 0;
-    transition: opacity .5s $easeOutCirc;
-  
-    &.b-loaded {
-      opacity: 1;
-    }
-  }
-  
-  button {
-    &:focus {
-      outline: none;
-    }
-  }
-  
-  /*
+}
+
+/*
   // loading animation ----------------------------------------------------------------------------------------
   .ajax-progress.ajax-progress-throbber {
     transform: translate(-14px, 20px);
@@ -94,38 +95,37 @@ html {
     }
   }
   */
-  
-  .media--loading::before {
-    // content: url(../img/inline-svg/loading-logo.svg);
-    animation-name: rotateX;
-    background: none;
+
+.media--loading::before {
+  // content: url(../img/inline-svg/loading-logo.svg);
+  animation-name: rotateX;
+  background: none;
+}
+
+@keyframes throbber-animation {
+  0% {
+    transform: scale(0.7);
   }
-  
-  @keyframes throbber-animation {
-    0% {
-      transform: scale(0.7);
-    }
-  
-    50% {
-      transform: scale(1);
-    }
-  
-    100% {
-      transform: scale(0.7);
-    }
+
+  50% {
+    transform: scale(1);
   }
-  
-  @keyframes rotateX {
-    0% {
-      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    }
-  
-    50% {
-      transform: perspective(120px) rotateX(0deg) rotateY(-180.1deg);
-    }
-  
-    100% {
-      transform: perspective(120px) rotateX(0deg) rotateY(-360.1deg);
-    }
+
+  100% {
+    transform: scale(0.7);
   }
-  
+}
+
+@keyframes rotateX {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+
+  50% {
+    transform: perspective(120px) rotateX(0deg) rotateY(-180.1deg);
+  }
+
+  100% {
+    transform: perspective(120px) rotateX(0deg) rotateY(-360.1deg);
+  }
+}

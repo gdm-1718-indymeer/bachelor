@@ -66,6 +66,32 @@ export const signInWithGoogle = () => {
 }
 
 
+// CREATE CUSTOM UID 
+
+export const uuidv4 = () => {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
+
+// PUSH SCHEDULE 
+
+export const setSchedule = async (uid, data) => {
+  await db.ref().child(`event/${uid}/`).update(data)
+  return true
+}
+
+
+// GET SCHEDULE FROM DATE
+export const getScheduleByDate = async (uid, date) => {
+  let data
+  await db.ref().child(`event/${uid}/`).orderByChild('targetDate').equalTo(date).once('value').then(snapshot => {
+    data = snapshot.val()
+  })
+  return data
+}
+
 // GET TYPE 
 export const getType = async (userId) => {
   await db.ref(`user/${userId}`).once('value', snapshot => {
