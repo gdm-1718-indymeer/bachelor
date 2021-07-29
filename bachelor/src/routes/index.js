@@ -7,3 +7,5 @@ export const LOGIN = '/login'
 export const REGISTER = '/register'
 export const SETTINGS = '/settings'
 export const ADD = '/add'
+export const NOW = '/now'
+

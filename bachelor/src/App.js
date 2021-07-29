@@ -2,7 +2,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
 
-import { AddMedicine, Home, Login, Settings, Welcome} from './pages'
+import { AddMedicine, Home, Login, Settings, Timer, Welcome} from './pages'
 import { BaseLayout } from './components/layout'
 
 import * as Routes from './routes' 
@@ -18,9 +18,7 @@ function App() {
       <RouteWrapper path={Routes.ADD} layout={BaseLayout} component={AddMedicine} exact />
       <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
       <RouteWrapper path={Routes.LOGIN} layout={BaseLayout} component={Login} exact />
-
-
-
+      <RouteWrapper path={Routes.NOW} layout={BaseLayout} component={Timer} exact />
 
     </Switch>
   </Router>

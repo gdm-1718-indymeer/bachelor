@@ -6,7 +6,7 @@
   width: 100%;
   background: var(--neutral-color);
   border: 1px solid var(--border-color);
-  margin-top: 5%;
+  margin-top: 2%;
 
   &__view {
     justify-content: space-between;
@@ -51,7 +51,7 @@
     }
 
     .selected {
-      background-color: #6387fd;
+      background-color: $clrBlue;
     }
 
     .row {

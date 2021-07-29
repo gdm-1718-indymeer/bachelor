@@ -6,40 +6,14 @@ const Reminder = (props) => {
     let data = {}
     
     const [tasksRemaining, setTasksRemaining] = useState(0);
-    const [tasks, setTasks] = useState({
- 
-    }
-        // {
-        //     title: "Ibuprofen",
-        //     dose: '150g, 1 capsule',
-        //     when: 'after breakfast',
-        //     time: '8:00pm',
-        //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
-        //     completed: true,
-        // },
-        // {
-        //     title: "Dafalgan",
-        //     dose: '150g, 1 capsule',
-        //     when: 'after breakfast',
-        //     time: '8:00pm',
-        //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
-        //     completed: true
-        // },
-        // {
-        //     title: "Ibu",
-        //     dose: '150g, 1 capsule',
-        //     when: 'after breakfast',
-        //     time: '8:00pm',
-        //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU',
-        //     completed: false
-        // }
-    );
+    const [tasks, setTasks] = useState({});
 
 
     const getEvents = useCallback(async (uid, date) => {
         try {
             const response = await getScheduleByDate(uid, date);
             setTasks(response)
+            console.log(tasks)
 
         } catch (e) {
             console.error(e);
@@ -55,35 +29,45 @@ const Reminder = (props) => {
     function Task({ task, index, completeTask, removeTask }) {
         return (
             <div
-                className="task"
+                className="task mb-3"
                 style={{ textDecoration: task.completed ? "line-through" : "" }}
             >
-                <li class="one red">
-                    <span className="task-title"> {task.medicineName}</span>
-                     <span className="task-time">{task.targetTime}</span>
-                    <span className="task-cat">
-  
-                        { task.beforeDinner &&
-                         <button class="btn btn--action"> Voor het eten</button>
-                        }
-                        
-                        { task.duringDinner &&
-                         <button class="btn btn--action"> Tijdens het eten</button>
-                        }
-                        
-                        { task.afterDinner &&
-                         <button class="btn btn--action"> Na het eten</button>
-                        }
+                <div class="row gap-3">
+                    <div className="pill-image position-relative col-md-4">
+                        <span class="position-absolute start-100 translate-middle badge rounded-pill btn-primary">
+                        {task.Amount}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                        <img className='task__image mdl-badge' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
+                    </div>
 
-                    </span>
-                </li>
-                 
-                <img className='task__image' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E1272bu1zV2zuYlyRXR3ipZUFqHNoezMvA&usqp=CAU'></img>
-                {task.Amount}
+                    <div class="col-md-8">
+                        <div className='task-intro'>
+                            <h5 className="task-title fw-bold">{task.targetTime}</h5>
+                            <h6 className="task-title"> {task.medicineName}</h6>
+                        </div>        
+                            <hr />
+                            {/* <button style={{ background: "red" }} onClick={() => removeTask(index)}>x</button>
+                            <button onClick={() => completeTask(index)}>Complete</button> */}
 
-                <button style={{ background: "red" }} onClick={() => removeTask(index)}>x</button>
-                <button onClick={() => completeTask(index)}>Complete</button>
-    
+                            <span className="task-cat">
+        
+                                { task.beforeDinner &&
+                                <p> {task.notification}min <span className='food btn--action'> voor het eten</span></p>
+                                }
+                                
+                                { task.duringDinner &&
+                                  <p> {task.notification}min <span className='food btn--action'> tijdens het eten</span></p>
+                                }
+                                
+                                { task.afterDinner &&
+                                  <p> {task.notification}min <span className='food btn--action'> na het eten</span></p>
+                                }
+
+                            </span>
+                    </div>
+                </div>
+        
             </div>
         );
     }

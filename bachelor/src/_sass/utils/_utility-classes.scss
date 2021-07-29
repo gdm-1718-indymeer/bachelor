@@ -1,231 +1,237 @@
-
 // debug
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+
 .outline {
-    outline: 1px solid red;
+  outline: 1px solid red;
+}
+
+.outline-blue {
+  outline: 1px solid blue;
+}
+
+.outline-2 {
+  outline: 2px solid red;
+}
+
+// Paddings
+.pb-200 {
+  padding-bottom: 100px;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 200px;
   }
-  
-  .outline-blue {
-    outline: 1px solid blue;
+}
+
+.pb-100 {
+  padding-bottom: 70px;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 110px;
   }
-  
-  .outline-2 {
-    outline: 2px solid red;
+}
+
+.pb-50 {
+  padding-bottom: 30px;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 50px;
   }
-  
-  // Paddings
-  .pb-200 {
-    padding-bottom: 100px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-bottom: 200px;
-    }
-  }
-  
-  .pb-100 {
-    padding-bottom: 70px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-bottom: 110px;
-    }
-  }
-  
-  .pb-50 {
+}
+
+// Paddings
+.pb-30 {
+  padding-bottom: 15px;
+
+  @include media-breakpoint-up(lg) {
     padding-bottom: 30px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-bottom: 50px;
-    }
   }
-  
-  // Paddings
-  .pb-30 {
-    padding-bottom: 15px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-bottom: 30px;
-    }
+}
+
+.pt-200 {
+  padding-top: 200px;
+}
+
+.pt-150 {
+  padding-top: 150px;
+}
+
+.pt-130 {
+  padding-top: 65px;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 130px;
   }
-  
-  .pt-200 {
-    padding-top: 200px;
+}
+
+.pt-100 {
+  padding-top: 80px;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 130px;
   }
-  
-  .pt-150 {
-    padding-top: 150px;
+}
+
+.pt-50 {
+  padding-top: 30px;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 50px;
   }
-  
-  .pt-130 {
-    padding-top: 65px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-top: 130px;
-    }
-  }
-  
-  .pt-100 {
-    padding-top: 80px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-top: 130px;
-    }
-  }
-  
-  .pt-50 {
+}
+
+.pt-30 {
+  padding-top: 15px;
+
+  @include media-breakpoint-up(lg) {
     padding-top: 30px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-top: 50px;
-    }
   }
-  
-  .pt-30 {
-    padding-top: 15px;
-  
-    @include media-breakpoint-up(lg) {
-      padding-top: 30px;
-    }
-  }
-  
-  // Margins
-  .mb-30 {
-    margin-bottom: 15px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-bottom: 30px;
-    }
-  }
-  
-  .mb-200 {
-    margin-bottom: 100px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-bottom: 200px;
-    }
-  }
-  
-  .mb-100 {
-    margin-bottom: 70px !important;
-  
-    @include media-breakpoint-up(lg) {
-      margin-bottom: 110px !important;
-    }
-  }
-  
-  .mb-50 {
+}
+
+// Margins
+.mb-30 {
+  margin-bottom: 15px;
+
+  @include media-breakpoint-up(lg) {
     margin-bottom: 30px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-bottom: 50px;
-    }
   }
-  
-  .mt-200 {
-    margin-top: 200px;
+}
+
+.mb-200 {
+  margin-bottom: 100px;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 200px;
   }
-  
-  .mt-150 {
-    margin-top: 75px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-top: 150px;
-    }
+}
+
+.mb-100 {
+  margin-bottom: 70px !important;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 110px !important;
   }
-  
-  .mt-130 {
-    margin-top: 65px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-top: 130px;
-    }
+}
+
+.mb-50 {
+  margin-bottom: 30px;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
   }
-  
-  .mt-100 {
-    margin-top: 80px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-top: 130px;
-    }
+}
+
+.mt-200 {
+  margin-top: 200px;
+}
+
+.mt-150 {
+  margin-top: 75px;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 150px;
   }
-  
-  .mt-50 {
+}
+
+.mt-130 {
+  margin-top: 65px;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 130px;
+  }
+}
+
+.mt-100 {
+  margin-top: 80px;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 130px;
+  }
+}
+
+.mt-50 {
+  margin-top: 30px;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 50px;
+  }
+}
+
+.mt-30 {
+  margin-top: 15px;
+
+  @include media-breakpoint-up(lg) {
     margin-top: 30px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-top: 50px;
-    }
   }
-  
-  .mt-30 {
-    margin-top: 15px;
-  
-    @include media-breakpoint-up(lg) {
-      margin-top: 30px;
-    }
-  }
-  
-  // Font Colors
-  .clr-purple {
-    color: $purple;
-  }
-  
-  .clr-yellow {
-    color: $yellow;
-  }
-  
-  .clr-red {
-    color: $red;
-  }
-  
-  .clr-blue {
-    color: $blue;
-  }
-  
-  .clr-darkgrey {
-    color: $clrGreyDark;
-  }
-  
-  .clr-white {
-    color: $white;
-  }
-  
-  .clr-grey {
-    color: $clrGrey;
-  }
-  
-  // Font Weights
-  .fnt-bold {
-    font-weight: 700 !important;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .visually-hidden {
-    position: absolute !important;
-    overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
-    width: 1px;
-    height: 1px;
-    word-wrap: normal;
-  }
-  
-  // flexbox
-  .flex {
-    display: flex;
-  }
-  
-  // center for flexbox
-  .center {
-    justify-content: center;
-  }
-  
-  // padding
-  .pt-0 {
-    padding-top: 0 !important;
-  }
-  
-  .pb-0 {
-    padding-bottom: 0 !important;
-  }
-  
+}
+
+// Font Colors
+.clr-purple {
+  color: $purple;
+}
+
+.clr-yellow {
+  color: $yellow;
+}
+
+.clr-red {
+  color: $red;
+}
+
+.clr-blue {
+  color: $blue;
+}
+
+.clr-darkgrey {
+  color: $clrGreyDark;
+}
+
+.clr-white {
+  color: $white;
+}
+
+.clr-grey {
+  color: $clrGrey;
+}
+
+// Font Weights
+.fnt-bold {
+  font-weight: 700 !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+}
+
+// flexbox
+.flex {
+  display: flex;
+}
+
+// center for flexbox
+.center {
+  justify-content: center;
+}
+
+// padding
+.pt-0 {
+  padding-top: 0 !important;
+}
+
+.pb-0 {
+  padding-bottom: 0 !important;
+}

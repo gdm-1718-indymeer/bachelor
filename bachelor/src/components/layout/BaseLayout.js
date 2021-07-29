@@ -10,8 +10,9 @@ function BaseLayout(props) {
 
   return (
     <div>
-       <Navigation></Navigation>
         {children}
+        <Navigation></Navigation>
+
     </div>
   )
 }

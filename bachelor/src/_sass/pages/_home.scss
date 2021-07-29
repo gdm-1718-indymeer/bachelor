@@ -1,14 +1,21 @@
 .home {
-  background-color: $clrOrange;
+  background-color: $clrDarkBlue;
   width: 100%;
   padding: 3em;
   min-height: 400px;
+  max-width: 100%;
 }
 
+.white {
+  color: $white;
+}
 .overview {
   margin-top: -50px;
   border-radius: 20px 20px 0 0;
   background-color: $clrGreyBg;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 
   &__activity {
     margin-top: 3%;

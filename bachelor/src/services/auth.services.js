@@ -84,6 +84,7 @@ export const setSchedule = async (uid, data) => {
 
 
 // GET SCHEDULE FROM DATE
+
 export const getScheduleByDate = async (uid, date) => {
   let data
   await db.ref().child(`event/${uid}/`).orderByChild('targetDate').equalTo(date).once('value').then(snapshot => {
@@ -103,6 +104,7 @@ export const getType = async (userId) => {
 
 
 // SIGN OUT
+
 export const signOut = async () => {
     localStorage.removeItem('firebase:currentUser')
     return await auth.signOut()
@@ -111,6 +113,7 @@ export const signOut = async () => {
 
 
 // SET USER
+
 export const authStatus = async (result) => {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
@@ -122,6 +125,7 @@ export const authStatus = async (result) => {
 
 
 // GET USER
+
 export const getCurrentUser = async () => {
   const currentUser = await JSON.parse(localStorage.getItem('firebase:currentUser'))
   if (currentUser) {
