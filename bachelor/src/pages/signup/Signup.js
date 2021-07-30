@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import MedicineImg from '../../assets/images/medicine.jpg'
-import Logo from '../../assets/images/OpWit.svg'
 import { signInWithGoogle, createUserWithEmailAndPassword } from "../../services/auth.services";
 
 

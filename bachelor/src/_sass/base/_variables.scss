@@ -1,6 +1,10 @@
 // colors
 $white: #fff;
 $black: #000;
+$gray: #99a4ae;
+$blue: #66dcec;
+$yellow: #fdca40;
+$green: #86d8c9;
 
 $clrGreen: #96c115;
 $clrGreenDark: #6c8b12;
@@ -20,6 +24,22 @@ $clrError: #e52020;
 $clrSuccess: #06b232;
 $clrFontMain: #1c1c1c !default;
 $clrRequired: #ee090f;
+
+$item-border: #fefefe;
+
+@function palette($palette, $shade: base) {
+  @return map-get(map-get($palettes, $palette), $shade);
+}
+
+$palettes: (
+  gray-shades: (
+    darker: #9faab7,
+    base: #99a4ae,
+    light: #dcdce3,
+    lighter: #bec1ca,
+    lightest: #f2f6f8,
+  ),
+);
 
 $crlBodyFont: $black;
 $clrHeaderFont: $black;
@@ -75,11 +95,6 @@ $zTop: 2;
 $zMenuTop: 11;
 $zMenuMiddle: 10;
 $zMenuBottom: 9;
-
-// Geysir
-$dialogBtnBg: #504d61;
-$clrTableDrag: #0a6fb4;
-$clrBgParagraphWrapper: rgba(85, 142, 213, 0.1);
 
 // Buttons
 $buttonRadius: 4px;

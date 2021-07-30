@@ -1,94 +1,85 @@
-.ui-w-80 {
-  width: 80px !important;
-  height: auto;
+.wrapper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.btn-default {
-  border-color: rgba(24, 28, 33, 0.1);
-  background: rgba(0, 0, 0, 0);
-  color: #4e5155;
+.dashboard {
+  background-color: #edf1f2;
 }
 
-label.btn {
-  margin-bottom: 0;
+.dashboard__header {
+  background-color: $yellow;
+  padding: 20px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.btn-outline-primary {
-  border-color: #26b4ff;
-  background: transparent;
-  color: #26b4ff;
+.dashboard__header p {
+  color: $clrDarkBlue;
 }
 
-.btn {
-  cursor: pointer;
-}
-
-.text-light {
-  color: #babbbc !important;
-}
-
-.btn-facebook {
-  border-color: rgba(0, 0, 0, 0);
-  background: #3b5998;
-  color: #fff;
-}
-
-.btn-instagram {
-  border-color: rgba(0, 0, 0, 0);
-  background: #000;
-  color: #fff;
-}
-
-.card {
-  background-clip: padding-box;
-  box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
-}
-
-.row-bordered {
+.dashboard-main__item {
+  background-color: #fff;
+  border: 1px solid $clrGreySuperLight;
+  text-align: center;
+  padding-top: 20px;
   overflow: hidden;
+  position: relative;
+  flex: 33%;
+  max-width: 33%;
+  padding-bottom: 25px;
 }
 
-.account-settings-fileinput {
+.dashboard-main-item__graph {
+  margin-bottom: -10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.dashboard-main-item__graph {
+  width: 100%;
   position: absolute;
-  visibility: hidden;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+  bottom: 0;
+  left: 0;
 }
-.account-settings-links .list-group-item.active {
-  font-weight: bold !important;
+
+.dashboard-main__item h5 {
+  color: #b5b5b5;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: normal;
 }
-html:not(.dark-style) .account-settings-links .list-group-item.active {
-  background: transparent !important;
+
+.dashboard-main__item h5 i {
+  color: #b5b5b5;
+  font-size: 1rem;
+  margin-right: 10px;
 }
-.account-settings-multiselect ~ .select2-container {
-  width: 100% !important;
+
+.dashboard-main__item h4 {
+  font-weight: bold;
+  font-size: 3.2rem;
 }
-.light-style .account-settings-links .list-group-item {
-  padding: 0.85rem 1.5rem;
-  border-color: rgba(24, 28, 33, 0.03) !important;
+
+.dashboard-main__item h6 {
+  font-weight: normal;
+  color: #b5b5b5;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
 }
-.light-style .account-settings-links .list-group-item.active {
-  color: #4e5155 !important;
+
+.dashboard-main__item h6 * {
+  font-weight: normal;
+  color: #b5b5b5;
+  font-size: 1.1rem;
 }
-.material-style .account-settings-links .list-group-item {
-  padding: 0.85rem 1.5rem;
-  border-color: rgba(24, 28, 33, 0.03) !important;
-}
-.material-style .account-settings-links .list-group-item.active {
-  color: #4e5155 !important;
-}
-.dark-style .account-settings-links .list-group-item {
-  padding: 0.85rem 1.5rem;
-  border-color: rgba(255, 255, 255, 0.03) !important;
-}
-.dark-style .account-settings-links .list-group-item.active {
-  color: #fff !important;
-}
-.light-style .account-settings-links .list-group-item.active {
-  color: #4e5155 !important;
-}
-.light-style .account-settings-links .list-group-item {
-  padding: 0.85rem 1.5rem;
-  border-color: rgba(24, 28, 33, 0.03) !important;
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .dashboard-main__item {
+    flex: 48%;
+    max-width: 48%;
+  }
 }

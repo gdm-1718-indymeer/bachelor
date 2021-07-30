@@ -20,7 +20,6 @@ export const signInWithEmailAndPassword = async (email, password) => {
 
 
 
-
 // SIGN UP
 export const createUserWithEmailAndPassword = async (email, password, firstname, lastname) => {
     try {
@@ -92,6 +91,17 @@ export const getScheduleByDate = async (uid, date) => {
   })
   return data
 }
+
+// GET DATA AROUND DATE
+
+export const getPreviousData = async (uid, date) => {
+  let data
+  await db.ref().child(`event/${uid}/`).orderByChild('timestamp').endAt(date).once('value').then(snapshot => {
+    data = snapshot.val()
+  })
+  return data
+}
+
 
 // GET TYPE 
 export const getType = async (userId) => {

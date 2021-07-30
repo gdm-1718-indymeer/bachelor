@@ -1,6 +1,7 @@
 import React, { useState, useEffect , useCallback} from 'react'
-import { getScheduleByDate } from "../../services/auth.services";
-import { format } from 'date-fns'
+import { getPreviousData } from "../../services/auth.services";
+import { format } from 'date-fns';
+import moment from 'moment';
 import { CountdownCircleTimer, remainingTime } from 'react-countdown-circle-timer';
 
 
@@ -9,23 +10,26 @@ const Timer = () => {
 
   const [tasks, setTasks] = useState({});
 
-  const getEvents = useCallback(async (uid, date) => {
+  const getEvents = useCallback(async (uid, time) => {
       try {
-          const response = await getScheduleByDate(uid, date);
+          const response = await getPreviousData(uid, time);
           setTasks(response)
-          console.log(tasks)
+         await  console.log(tasks)
 
       } catch (e) {
           console.error(e);
       }
   });
+  const toTimestamp = (year,month,day,hour, minute, second) =>{
+    var datum = new Date(Date.UTC(year,month-1,day,hour, minute, second));
+    return datum.getTime()/1000;
+   }
     
   useEffect (() => {
     let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
     const uid = currentUser.uid
-    let dateToday = new Date;
-    dateToday = format(dateToday, 'd/M/yyyy');
-    getEvents(uid, dateToday);
+    let time = toTimestamp(moment().year(), moment().month(), moment().day(), moment().hour(), moment().minute(), moment().second() )
+    getEvents(uid, time);
 
   }, []);
 
@@ -42,9 +46,9 @@ const Timer = () => {
   }
     return (
       <div className="timer-background">
-          <div class="wave">
-            <div class="wave-bk"><span></span></div>
-            <div class="wave-fr"><span></span></div>
+          <div className="wave">
+            <div className="wave-bk"><span></span></div>
+            <div className="wave-fr"><span></span></div>
           </div>
 
           <div className="countdown-wrapper">

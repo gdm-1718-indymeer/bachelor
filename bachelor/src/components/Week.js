@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {addDays, addMonths, subMonths,isSameMonth, isSameDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, format, parse } from 'date-fns'
+import {addDays,isSameMonth, isSameDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, format } from 'date-fns'
 
 
 const Week = (props) => {
@@ -21,7 +21,6 @@ const Week = (props) => {
 
   const renderCells = () => {
     const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(currentMonth);
     const endDate = endOfWeek(currentMonth);
 

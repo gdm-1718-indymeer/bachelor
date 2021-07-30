@@ -3,9 +3,6 @@ import { getScheduleByDate } from "../services/auth.services";
 
 const Reminder = (props) => {
 
-    let data = {}
-    
-    const [tasksRemaining, setTasksRemaining] = useState(0);
     const [tasks, setTasks] = useState({});
 
 
@@ -29,30 +26,22 @@ const Reminder = (props) => {
     function Task({ task, index, completeTask, removeTask }) {
         return (
             <div
-                className="task mb-3"
-                style={{ textDecoration: task.completed ? "line-through" : "" }}
-            >
-                <div class="row gap-3">
-                    <div className="pill-image position-relative col-md-4">
-                        <span class="position-absolute start-100 translate-middle badge rounded-pill btn-primary">
-                        {task.Amount}
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
-                        <img className='task__image mdl-badge' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
-                    </div>
+                className=" mb-3"
+                style={{ textDecoration: task.completed ? "line-through" : "" }}>
 
-                    <div class="col-md-8">
-                        <div className='task-intro'>
-                            <h5 className="task-title fw-bold">{task.targetTime}</h5>
-                            <h6 className="task-title"> {task.medicineName}</h6>
-                        </div>        
-                            <hr />
-                            {/* <button style={{ background: "red" }} onClick={() => removeTask(index)}>x</button>
-                            <button onClick={() => completeTask(index)}>Complete</button> */}
-
-                            <span className="task-cat">
-        
-                                { task.beforeDinner &&
+                <li class="events__item">
+                    <div class="events__item--left">
+                        <div className="pill-image position-relative col-md-4">
+                            <span class="position-absolute start-100 translate-middle badge rounded-pill btn-primary">
+                            {task.Amount}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                            <img className='task__image mdl-badge' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
+                        </div>
+                        
+                        <span class="events__name">{task.medicineName}</span>
+                        <span class="events__date">  
+                        { task.beforeDinner &&
                                 <p> {task.notification}min <span className='food btn--action'> voor het eten</span></p>
                                 }
                                 
@@ -62,11 +51,12 @@ const Reminder = (props) => {
                                 
                                 { task.afterDinner &&
                                   <p> {task.notification}min <span className='food btn--action'> na het eten</span></p>
-                                }
-
-                            </span>
+                                }</span>
                     </div>
-                </div>
+                    <span class="events__tag">{task.targetTime}</span>
+                </li>
+               
+              
         
             </div>
         );
@@ -90,7 +80,7 @@ const Reminder = (props) => {
                 {/* <div className="header">Remaining items {tasksRemaining}</div> */}
                 
                 <div className="tasks">
-                <ul className="tasks">
+                <ul className="events__list">
                 {tasks !== null ? <>           
                         {Object.keys(tasks).map(key => (
                             <>

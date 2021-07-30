@@ -1,34 +1,8 @@
 import React, {useEffect, useRef} from 'react';
-import { Nav, NavItem} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faHome, faUserCircle, faCalendar, faCamera, faClock, faArrowLeft, faPlus, faChevronLeft, faAlignJustify, faCog } from '@fortawesome/free-solid-svg-icons';
-import Logo from '../../assets/images/OpWit.svg'
+import {  faCamera, faClock, faPlus, faChevronLeft, faCog } from '@fortawesome/free-solid-svg-icons';
 
-
-const tabs = [{
-  route: "/home",
-  icon: faSearch,
-  label: "Home"
-},{
-  route: "/search",
-  icon: faSearch,
-  label: "Search"
-},{
-  route: "/login",
-  icon: faUserCircle,
-  label: "Login"
-},{
-  route: "/calendar",
-  icon: faCalendar,
-  label: "Calendar"
-},{
-  route: "/camera",
-  icon: faCamera,
-  label: "Login"
-}]
-
-const bgColorsBody = ["#ffb457", "#ff96bd", "#9999fb", "#ffe797", "#cffff1"];
 
 const Navigation = (props) => {
   const activeItem = useRef(null)
@@ -44,6 +18,7 @@ const Navigation = (props) => {
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize)
+
     activeItem.current = firstButtonRef.current
     return () => {
       window.removeEventListener('resize', handleWindowResize)
@@ -52,7 +27,7 @@ const Navigation = (props) => {
 
   const handleWindowResize = () => {
     offsetMenuBorder(activeItem?.current, menuBorderRef.current);
-      // menuRef.current.element.style.setProperty("--timeOut", "none");
+    //menuRef.current.element.style.setProperty("--timeOut", "none");
   }
 
   const offsetMenuBorder = (element, menuBorder) => {
@@ -62,7 +37,6 @@ const Navigation = (props) => {
   }
 
   const handleMenuClick = (index) => (item) => {
-    menuRef.current.style.removeProperty("--timeOut")
 
     if(activeItem.current) {
       activeItem.current.classList.remove("active");
@@ -88,7 +62,7 @@ const Navigation = (props) => {
       <Link onClick={handleMenuClick(3)} to="/camera"  ref={fourthButtonRef} className="menu__item" style={{bgColorItem: "#e0b115"}} > 
         <FontAwesomeIcon className="icon" icon={faCamera}/>
       </Link>
-      <Link onClick={handleMenuClick(4)} ref={fifthButtonRef} className="menu__item" style={{bgColorItem:"#65ddb7"}}>
+      <Link onClick={handleMenuClick(4)} to="/settings" ref={fifthButtonRef} className="menu__item" style={{bgColorItem:"#65ddb7"}}>
         <FontAwesomeIcon className="icon" icon={faCog}/>
 
         {/* <svg className="icon" viewBox="0 0 24 24" >
@@ -110,43 +84,7 @@ const Navigation = (props) => {
         </clipPath>
       </svg>
     </div>
-      {/* <nav className="navbar navbar-expand-md navbar-light d-none d-lg-block sticky-top" role="navigation">
-        <div className="container-fluid">
-            <a className="navbar-brand" href="/">     <div class="brand-wrapper">
-                            <img src={Logo} alt="logo" class="logo" />
-                        </div></a>
-            <Nav className="ml-auto">
-              <NavItem>
-                <NavLink to="/search" className="nav-link">
-                  Search
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink to="/welcome" className="nav-link">
-                  Login
-                </NavLink>
-              </NavItem>
-            </Nav>
-        </div>
-      </nav>
-    <nav className="navbar fixed-bottom navbar-light d-block d-lg-none bottom-tab-nav bottom-navbar" role="navigation">
-      <Nav className="w-100">
-        <div className="d-flex flex-row justify-content-around w-100">
-          {
-            tabs.map((tab, index) =>(
-              <NavItem key={`tab-${index}`}>
-                <NavLink to={tab.route} className="nav-link bottom-nav-link" activeClassName="active">
-                  <div className="row d-flex flex-column justify-content-center align-items-center">
-                    <FontAwesomeIcon className="icon--social" icon={tab.icon}/>
-                    <div className="bottom-tab-label">{tab.label}</div>
-                  </div>
-                </NavLink>
-              </NavItem>
-            ))
-          }
-        </div>
-      </Nav>
-    </nav> */}
+     
     </div>
   )
 };

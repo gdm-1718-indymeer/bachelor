@@ -1,12 +1,13 @@
 
 import React from 'react'
-import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { AddMedicine, Home, Login, Settings, Timer, Welcome} from './pages'
-import { BaseLayout } from './components/layout'
+import { Clients } from './admin'
+
+import { BaseLayout, DashboardLayout } from './components/layout'
 
 import * as Routes from './routes' 
-import logo from './logo.svg';
 import './_sass/app.scss';
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
       <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
       <RouteWrapper path={Routes.LOGIN} layout={BaseLayout} component={Login} exact />
       <RouteWrapper path={Routes.NOW} layout={BaseLayout} component={Timer} exact />
+
+      <RouteWrapper path={Routes.DASHBOARD} layout={DashboardLayout} component={Clients} exact />
+
 
     </Switch>
   </Router>

@@ -1,4 +1,4 @@
-import {React , useState, useEffect} from 'react'
+import {React , useState} from 'react'
 import Select, { components } from 'react-select'
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
@@ -6,7 +6,7 @@ import { setSchedule, uuidv4 } from "../services/auth.services";
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBreadSlice, faCalendar, faClock, faCoffee, faPills, faPrescriptionBottleAlt, faTimes, faTimesCircle, faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { faBreadSlice, faCoffee, faPills, faPrescriptionBottleAlt, faUtensils } from '@fortawesome/free-solid-svg-icons'
 
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from 'react-modern-calendar-datepicker';
@@ -36,19 +36,6 @@ for (let i = 0; i < 100; i+=1) {
    
 }
 
-const iconStyle = {
-    position: 'absolute',
-    width: '24px',
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-  
-  const starPath = "M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"
-
 const CustomSelectOption = props => (
   <Option {...props}>
         {props.data.label}
@@ -70,32 +57,11 @@ const CustomAmount = props => (
     </div>
 )
 
-let getIcon = (path, style = {}) => {
-    return (
-      <i
-        style={{
-          fontSize: '12px',
-          fontStyle: 'normal',
-          color: '#aaa',
-          display: 'inline-block',
-          lineHeight: '1',
-          width: '20px',
-          transition: 'color 0.3s ease',
-          ...style,
-        }}
-      >
-        <svg
-          viewBox="0 0 1024 1024"
-          width="1em"
-          height="1em"
-          fill="currentColor"
-          style={{ verticalAlign: '-.125em' }}
-        >
-          <path d={path} p-id="5827" />
-        </svg>
-      </i>
-    );
-  };
+const toTimestamp = (year,month,day,hour, minute, second) =>{
+    var datum = new Date(Date.UTC(year,month-1,day,hour, minute, second));
+    return datum.getTime()/1000;
+   }
+
 
 const AddMedicine = () => {
     const [selectedDay, setSelectedDay] = useState(null);
@@ -105,7 +71,7 @@ const AddMedicine = () => {
         medicine: pillNames[0].value,
         days: options[1].value,
         amount: options[1].value,
-        time: moment().format('HH:mm'),
+        time: moment().format('HH:mm:ss'),
         pillAmount:  options[1].value,
         notificationTime:  options[1].value,
         before: false,
@@ -116,13 +82,7 @@ const AddMedicine = () => {
     let months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
 
-    const onChange = (e) => {
-        const { target: {name, value }} = e
-        let stateValue = state
-        stateValue[name] = value
-        setValue(stateValue)
-    }
-    
+
 
     const renderCustomInput = ({ ref }) => (
         <input
@@ -148,11 +108,20 @@ const AddMedicine = () => {
 
 
         if(state.before || state.during || state.after && selectedDay) {
-            const targetDate = `${selectedDay.day}/${selectedDay.month}/${selectedDay.year}`
+            const targetDate = `${selectedDay.day}/${selectedDay.month}/${selectedDay.year}`;
+            
+            let time = state.time
+            var a = time.split(':'); // split it at the colons
+            let hour = a[0];
+            let  minute = a[1];
+            let second = a[2];
+
 
             let data = {}
             for (let i = 0; i < state.days; i++) {
                 let uid = uuidv4()
+                let newDate = toTimestamp(selectedDay.year , selectedDay.month, selectedDay.day, hour, minute, second )
+
                 data[uid] = {
                     medicineName: state.medicine,
                     targetDate: targetDate,
@@ -163,6 +132,7 @@ const AddMedicine = () => {
                     duringDinner: state.during,
                     afterDinner: state.after,
                     notification: state.notificationTime,
+                    timestamp: newDate,
                 }
             }
             const result = await setSchedule(uid, data)
@@ -250,7 +220,8 @@ const AddMedicine = () => {
                                 showSecond={showSecond}
                                 defaultValue={moment()}
                                 className="xxx"
-                                onChange={(obj) => setValue({...state, time: obj.format('HH:mm')})}
+                                onChange={(obj) => setValue({...state, time: obj.format('HH:mm:ss')})}
+                                
                             />
                         </div>
 
