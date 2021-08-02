@@ -1,7 +1,6 @@
 /* wave */
 .timer-background {
   transform-origin: 50% 100%;
-  background-color: #1e384c;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -11,126 +10,25 @@
   );
 
   .wave {
-    position: absolute;
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 60%;
     overflow: hidden;
-  }
+    transform: rotate(180deg);
+    background-color: $clrGreen;
+    border-radius: 34px 34px 0 0;
 
-  .wave *,
-  .wave *::before,
-  .wave *::after {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    bottom: 0;
-  }
-
-  .wave *::before,
-  .wave *::after {
-    content: "";
-  }
-
-  .wave-bk {
-    width: 120%;
-    height: 75%;
-  }
-
-  .wave-bk span::before,
-  .wave-bk span::after {
-    background-image: radial-gradient(
-      85% 85% at 50% 75%,
-      rgba(30, 63, 88, 0.6) 0%,
-      rgba(21, 52, 75, 0.6) 70%,
-      rgba(49, 32, 143, 0) 70%
-    );
-  }
-
-  .wave-bk span::before {
-    left: -100%;
-  }
-
-  .wave-bk span::after {
-    left: 100%;
-  }
-
-  .wave-bk::before,
-  .wave-bk::after {
-    background-image: radial-gradient(
-      85% 85% at 50% 10%,
-      rgba(206, 33, 156, 0) 0%,
-      rgba(206, 33, 156, 0) 70%,
-      rgba(21, 52, 75, 0.6) 70%
-    );
-  }
-
-  .wave-bk::after {
-    left: 200%;
-  }
-
-  .wave-fr {
-    width: 110%;
-    height: 75%;
-  }
-
-  .wave-fr span::before,
-  .wave-fr span::after {
-    background-image: radial-gradient(
-      90% 90% at 50% 10%,
-      rgba(206, 33, 156, 0) 0%,
-      rgba(206, 33, 156, 0) 70%,
-      rgba(21, 52, 75, 0.6) 70%
-    );
-  }
-
-  .wave-fr span::before {
-    left: -100%;
-  }
-
-  .wave-fr span::after {
-    left: 100%;
-  }
-
-  .wave-fr::before,
-  .wave-fr::after {
-    background-image: radial-gradient(
-      90% 90% at 50% 87%,
-      rgba(30, 63, 88, 0.6) 0%,
-      rgba(21, 52, 75, 0.6) 70%,
-      rgba(206, 33, 156, 0) 70%
-    );
-  }
-
-  .wave-fr::after {
-    left: 200%;
-  }
-
-  .wave-bk {
-    transform: translateX(-10%);
-    animation: wave-move-left 15s linear infinite;
-  }
-
-  @keyframes wave-move-left {
-    0% {
-      transform: translateX(-10%);
-    }
-    100% {
-      transform: translateX(-210%);
-    }
-  }
-
-  .wave-fr {
-    transform: translateX(-145%);
-    animation: wave-move-right 18s linear infinite;
-  }
-
-  @keyframes wave-move-right {
-    0% {
-      transform: translateX(-145%);
-    }
-    100% {
-      transform: translateX(55%);
+    &__overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: radial-gradient(
+        circle,
+        $clrGreen 7%,
+        rgba(9, 9, 121, 0) 35%,
+        rgba(0, 212, 255, 0) 100%
+      );
+      z-index: 1;
     }
   }
 
@@ -140,5 +38,61 @@
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    text-align: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    .pillName {
+      background-color: $white;
+      padding: 20px 10px;
+      border-radius: 21px;
+      width: 312px;
+      text-align: center;
+      margin-bottom: 1em;
+
+      &__title {
+        font-size: $fontSize22;
+        color: $clrAqua;
+        font-weight: bold;
+      }
+    }
+
+    &__timer {
+      width: 312px;
+      padding: 40px 20px;
+      background-color: $white;
+      border-radius: 21px;
+      box-shadow: 0 34px 55px rgba(40, 40, 40, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      .inner {
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+
+        P {
+          margin: 20px 0;
+        }
+      }
+    }
+
+    &__button {
+      width: 312px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 3em 0;
+      color: $white;
+      border-radius: 21px;
+      box-shadow: 15px 15px 40px rgba(50, 157, 156, 0.21);
+      background: linear-gradient(
+        90deg,
+        rgba(123, 228, 149, 1),
+        rgba(50, 157, 156, 1)
+      );
+    }
   }
 }

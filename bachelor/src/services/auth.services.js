@@ -92,15 +92,30 @@ export const getScheduleByDate = async (uid, date) => {
   return data
 }
 
-// GET DATA AROUND DATE
+// GET DATA BEFORE DATE
 
-export const getPreviousData = async (uid, date) => {
+export const getPreviousData = async (uid, time) => {
   let data
-  await db.ref().child(`event/${uid}/`).orderByChild('timestamp').endAt(date).once('value').then(snapshot => {
-    data = snapshot.val()
+  await db.ref(`event/${uid}/`).orderByChild('timeStamp').endAt(time).limitToLast(1).once('value').then(snapshot => {
+    snapshot.forEach((childSnapshot) => {
+      data = childSnapshot.val();
+     });
   })
   return data
 }
+
+// GET DATA CLOSE TO DATE
+
+export const getNextData = async (uid, time) => {
+  let data
+  await db.ref(`event/${uid}/`).orderByChild('timeStamp').startAt(time).limitToFirst(1).once('value').then(snapshot => {
+    snapshot.forEach((childSnapshot) => {
+      data = childSnapshot.val();
+     });
+  })
+  return data
+}
+
 
 
 // GET TYPE 
@@ -145,6 +160,7 @@ export const getCurrentUser = async () => {
 
 
 // GET USER DATA 
+
 export const getUserData = async (uid) => {
   let data
   await db.ref().child('user').child(uid).once('value').then(userSnap => {

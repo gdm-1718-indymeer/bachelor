@@ -5,6 +5,10 @@ import Settings from './settings'
 import Login from './signup/Login'
 import Timer from './timer/Timer'
 
+import Profile from './settings/childs/Profile'
+import Calender from './settings/childs/Calender'
+
+
 
 export {
     Home,
@@ -12,5 +16,7 @@ export {
     AddMedicine,
     Settings,
     Login,
-    Timer
+    Timer,
+    Profile,
+    Calender
 }

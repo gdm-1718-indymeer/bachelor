@@ -9,7 +9,6 @@ function BaseLayout(props) {
   return (
     <div>
         {children}
-        <Navigation path={props.location.pathname}></Navigation>
 
     </div>
   )

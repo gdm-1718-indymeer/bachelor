@@ -3,26 +3,37 @@ $white: #fff;
 $black: #000;
 $gray: #99a4ae;
 $blue: #66dcec;
-$yellow: #fdca40;
+$yellow: #ffcf5c;
+$orange: #ffbe88;
 $green: #86d8c9;
+$red: #f8716e;
+$purple: #c04dff;
 
-$clrGreen: #96c115;
+$lightOrange: #f5642d52;
+$lightYellow: #fff5da;
+$lightRed: #fedbdb;
+$lightBlue: #cbf2fd;
+$lightPurple: #edceff;
+
+$clrLightGreen: #cde0c9;
+$clrGreen: #56c596;
 $clrGreenDark: #6c8b12;
-$clrBlue: #5db4ff;
-$clrDarkBlue: #19114e;
+$clrBlue: #56cae7;
+$clrDarkBlue: #205072;
+$clrAqua: #329d9c;
 $clrBlueLight: #f6faff;
 $clrOrange: #f7c453;
 
 $clrGrey: #ddd !default;
 $clrGreyLight: #ddd !default;
-$clrGreySuperLight: #f7f7f7 !default;
+$clrGreySuperLight: #f6f6fa !default;
 $clrGreyBg: #fafafa !default;
 $clrGreyMedium: #666;
 $clrGreyDark: #888 !default;
 $clrGreyBlack: #575756 !default;
 $clrError: #e52020;
 $clrSuccess: #06b232;
-$clrFontMain: #1c1c1c !default;
+$clrFontMain: $clrDarkBlue !default;
 $clrRequired: #ee090f;
 
 $item-border: #fefefe;
@@ -72,8 +83,8 @@ $fontSize58: 3.625rem;
 $fontSize80: 5rem;
 
 //
-$bodyFontFamily: "Noto Sans", sans-serif;
-$headerFontFamily: hwt-artz, sans-serif;
+$bodyFontFamily: "Oxygen", sans-serif;
+$headerFontFamily: "Oxygen", sans-serif;
 $bodyFontSize: $fontSize16;
 $bodyLineHeight: 1.75;
 $h1FontSize: $fontSize36;

@@ -32,7 +32,6 @@ for (let i = 0; i < 100; i+=1) {
         label:  `${i}`, 
     }
     options.push(option);
-   // options = [...options, option]
    
 }
 
@@ -44,23 +43,20 @@ const CustomSelectOption = props => (
 
 const CustomName = props => (
     <div>
-    <FontAwesomeIcon className="icon--add" icon={faPrescriptionBottleAlt}/>
       {props.data.label}
     </div>
 )
 
 const CustomAmount = props => (
     <div>
-    <FontAwesomeIcon className="icon--add" icon={faPills}/>
       {props.data.label}
 
     </div>
 )
 
 const toTimestamp = (year,month,day,hour, minute, second) =>{
-    var datum = new Date(Date.UTC(year,month-1,day,hour, minute, second));
-    return datum.getTime()/1000;
-   }
+    return  Math.floor((new Date(year,month-1,day,hour, minute, second)).getTime() / 1000) ;
+}
 
 
 const AddMedicine = () => {
@@ -70,7 +66,6 @@ const AddMedicine = () => {
     const [state, setValue] = useState({
         medicine: pillNames[0].value,
         days: options[1].value,
-        amount: options[1].value,
         time: moment().format('HH:mm:ss'),
         pillAmount:  options[1].value,
         notificationTime:  options[1].value,
@@ -85,19 +80,13 @@ const AddMedicine = () => {
 
 
     const renderCustomInput = ({ ref }) => (
-        <input
+        <textarea 
           ref={ref} // necessary
           placeholder="Datum"
           value={selectedDay ? ` ${selectedDay.day} ${months[selectedDay.month - 1]}` : ''}
-          style={{
-            textAlign: 'center',
-            padding: '0.5rem 1.5rem',
-            border: '1px solid #9c88ff',
-            borderRadius: '100px',
-            color: '#9c88ff',
-            outline: 'none',
-          }}
-          className="my-custom-input-class" // a styling class
+          onChange={setSelectedDay}
+
+          className="datePicker" // a styling class
         />
       )
     
@@ -112,15 +101,20 @@ const AddMedicine = () => {
             
             let time = state.time
             var a = time.split(':'); // split it at the colons
-            let hour = a[0];
-            let  minute = a[1];
-            let second = a[2];
+            let hour = Number(a[0]);
+            let  minute = Number(a[1]);
+            let second = Number(a[2]);
 
 
             let data = {}
             for (let i = 0; i < state.days; i++) {
                 let uid = uuidv4()
                 let newDate = toTimestamp(selectedDay.year , selectedDay.month, selectedDay.day, hour, minute, second )
+
+                console.log(newDate)
+                console.log(new Date(newDate * 1000))
+
+
 
                 data[uid] = {
                     medicineName: state.medicine,
@@ -132,10 +126,10 @@ const AddMedicine = () => {
                     duringDinner: state.during,
                     afterDinner: state.after,
                     notification: state.notificationTime,
-                    timestamp: newDate,
+                    timeStamp: newDate,
                 }
             }
-            const result = await setSchedule(uid, data)
+            const result = 'ree'// await setSchedule(uid, data)
             
             if (!result.message) {
                 setMessage({
@@ -156,17 +150,18 @@ const AddMedicine = () => {
     }
 
     return (
-        <div className="container pb-100">
+        <div className="container add-medicine pb-100">
             <div className="row">
                 <div className="col-12">
-                    <h2>Voeg een planning toe</h2>
+                    <h2 className="h2-style">Voeg een planning toe</h2>
                     {message.error && 
                         <p className='alert alert-danger'>{message.error}</p>
                     }
                     {message.succeed && 
                         <p className='alert alert-success'>{message.succeed}</p>
                     }
-                    <div className="option-container">
+
+                    <div className="option-container add-medicine__name">
                         <h5>Medicijn naam</h5> 
                         <Select
                             defaultValue={pillNames[0]}
@@ -176,11 +171,11 @@ const AddMedicine = () => {
                         />
                     </div>
 
-                    <div className="option-container row">
-                        <h5>Amount & How long?</h5> 
+                    <div className="option-container add-medicine__date row">
+                        {/* <h5>Amount & How long?</h5>  */}
 
                         <div className='col-6'>
-                            <h5> From: </h5>
+                            <h5 className='add-medicine__date__title'> From: </h5>
                             <DatePicker
                                 value={selectedDay}
                                 onChange={setSelectedDay}
@@ -190,42 +185,35 @@ const AddMedicine = () => {
                                 />
                         </div>
                         <div className='col-6'>
-                        <h5> Period: </h5>
+                        <h5 className='add-medicine__date__title'> Period: </h5>
                             <div className="rangeData">
                                 <Select
                                     defaultValue={options[1]}
                                     options={options}
                                     components={{ Option: CustomSelectOption, SingleValue: CustomAmount }}
                                     onChange={(obj) => setValue({...state, days: obj.value})}
+                                    className={'rangeData__select'}
                                 />
-                                <p>days</p>
+                                <p>dag(en)</p>
                             </div>
-                            <div className="rangeData">
-                                <Select
-                                    defaultValue={options[1]}
-                                    options={options}
-                                    components={{ Option: CustomSelectOption, SingleValue: CustomAmount }}
-                                    onChange={(obj) => setValue({...state, amount: obj.value})}
-                                />
-                                <p>/ per day</p>
-                            </div>
+
 
                         </div>
                     </div>
 
-                    <div className="option-container time-select row">
-                        <div className='col-6'>
+                    <div className="option-container add-medicine__time row">
+                        <div className='col-6 '>
                             <TimePicker
                                 style={{ width: 100 }}
                                 showSecond={showSecond}
                                 defaultValue={moment()}
-                                className="xxx"
+                                className="add-medicine__time__timepicker"
                                 onChange={(obj) => setValue({...state, time: obj.format('HH:mm:ss')})}
                                 
                             />
                         </div>
 
-                        <div className='col-6'>
+                        <div className='col-6 stripe'>
                         <div className="rangeData">
                                 <Select
                                     defaultValue={options[1]}
@@ -233,63 +221,64 @@ const AddMedicine = () => {
                                     components={{ Option: CustomSelectOption, SingleValue: CustomAmount }}
                                     onChange={(obj) => setValue({...state, pillAmount: obj.value})}
                                 />
-                                <p> pillen</p>
+                                <p> pil(len)</p>
                             </div>
                         </div>
                     </div>  
 
-                    <div className="option-container row">
-                    <fieldset className="checkbox-group">
-                        <legend className="checkbox-group-legend">Choose your favorites</legend>
-                        <div className="checkbox">
-                            <label className="checkbox-wrapper">
-                                <input type="checkbox" className="checkbox-input"  name='before'  checked={state.before}  onChange={() => setValue({...state, before: !state.before})}/>
-                                <span className="checkbox-tile">
-                                    <span class="checkbox-icon">
-                                        <FontAwesomeIcon className="icon--food" icon={faCoffee} />
-                                    </span>
-                                    <span className="checkbox-label">Voor</span>
-                                </span>
-                            </label>
-                        </div>
-                        <div className="checkbox">
-                            <label className="checkbox-wrapper">
-                                <input type="checkbox" className="checkbox-input"  name='during' checked={state.during} onChange={() => setValue({...state, during: !state.during})} />
-                                <span className="checkbox-tile">
-                                    <span className="checkbox-icon">
-                                        <FontAwesomeIcon className="icon--food" icon={faBreadSlice}/>
-                                    </span>
-                                    <span className="checkbox-label">Tijdens</span>
-                                </span>
-                            </label>
-                        </div>
-                        <div className="checkbox">
-                            <label className="checkbox-wrapper">
-                                <input type="checkbox" className="checkbox-input"  name='after' checked={state.after} onChange={() => setValue({...state, after: !state.after})} />
-                                <span className="checkbox-tile">
-                                    <span className="checkbox-icon">
-                                        <FontAwesomeIcon className="icon--food" icon={faUtensils}/>
-                                    </span>
-                                    <span className="checkbox-label">Na</span>
-                                </span>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <div className="rangeData">
-                            <Select
-                                defaultValue={options[1]}
-                                options={options}
-                                components={{ Option: CustomSelectOption, SingleValue: CustomAmount }}
-                                onChange={(obj) => setValue({...state, notificationTime: obj.value})}
+                    <div className="add-medicine__option row">
+                        <h5 className='add-medicine__date__title'>Kies je moment</h5>
 
-                            />
-                            <p> min / voor het eten </p>
+                        <fieldset className="checkbox-group">
+                            <div className="checkbox">
+                                <label className="checkbox-wrapper">
+                                    <input type="checkbox" className="checkbox-input"  name='before'  checked={state.before}  onChange={() => setValue({...state, before: !state.before})}/>
+                                    <span className="checkbox-tile">
+                                        <span class="checkbox-icon">
+                                            <FontAwesomeIcon className="icon--food" icon={faCoffee} />
+                                        </span>
+                                        <span className="checkbox-label">Voor</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label className="checkbox-wrapper">
+                                    <input type="checkbox" className="checkbox-input"  name='during' checked={state.during} onChange={() => setValue({...state, during: !state.during})} />
+                                    <span className="checkbox-tile">
+                                        <span className="checkbox-icon">
+                                            <FontAwesomeIcon className="icon--food" icon={faBreadSlice}/>
+                                        </span>
+                                        <span className="checkbox-label">Tijdens</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label className="checkbox-wrapper">
+                                    <input type="checkbox" className="checkbox-input"  name='after' checked={state.after} onChange={() => setValue({...state, after: !state.after})} />
+                                    <span className="checkbox-tile">
+                                        <span className="checkbox-icon">
+                                            <FontAwesomeIcon className="icon--food" icon={faUtensils}/>
+                                        </span>
+                                        <span className="checkbox-label">Na</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div className="rangeData">
+                                <Select
+                                    defaultValue={options[1]}
+                                    options={options}
+                                    components={{ Option: CustomSelectOption, SingleValue: CustomAmount }}
+                                    onChange={(obj) => setValue({...state, notificationTime: obj.value})}
+
+                                />
+                                <p> min / voor het eten </p>
                          </div>
                     </div>
               
 
-                    <div className="d-grid gap-2 d-md-block">
-                        <button className="btn btn-primary" type="button" onClick={onSubmit}>Voeg toe aan planning</button>
+                    <div className="d-grid gap-2  justify-content-center">
+                        <button className="btn " type="button" onClick={onSubmit}>Voeg toe aan planning</button>
                     </div>
                 </div>
             </div>

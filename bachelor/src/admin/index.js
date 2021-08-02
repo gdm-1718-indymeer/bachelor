@@ -1,4 +1,4 @@
-import Clients from './clients/clients'
+import Clients from './childs/clients'
 
 export {
     Clients,

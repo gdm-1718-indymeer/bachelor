@@ -3,11 +3,11 @@ $sidebarReducedWidth: 70px;
 $sidebarExpandedWidth: 220px;
 
 // VARIABLES - COLORS
-$main-color: #102c58;
+$main-color: #2e88fa;
 $text-color: #ababab;
 $light-blue: #5f9cfd;
 $red: #f91605;
-$navy: #051835;
+$navy: #2167bf;
 $bg-color-light: #f3f3f3;
 $bg-color-dark: $navy;
 $orange: #f5642d;
@@ -273,25 +273,6 @@ $header-color: #ffffff;
   @include transition(padding 0.5s ease-in-out);
 }
 
-.c-search {
-  display: flex;
-  flex-grow: 1;
-  height: 100%;
-
-  &__input {
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-right: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    font-size: 14px;
-    padding: 0 20px;
-
-    @include transition(all 0.3s ease-in-out);
-  }
-}
-
 .c-dropdown {
   opacity: 0;
   text-align: left;
@@ -313,7 +294,7 @@ $header-color: #ffffff;
 
 .l-sidebar {
   width: $sidebarReducedWidth;
-  position: absolute;
+  position: fixed;
   z-index: 10;
   left: 0;
   top: 0;
@@ -417,10 +398,10 @@ $header-color: #ffffff;
 
       svg {
         flex: 0 0 $sidebarReducedWidth;
-        font-size: 16px;
+        font-size: 10px;
         font-weight: normal;
         text-align: center;
-
+        color: $white;
         @include transition(all 0.5s ease-in-out);
       }
 

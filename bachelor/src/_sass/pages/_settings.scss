@@ -25,32 +25,86 @@
   background-color: #fff;
   border: 1px solid $clrGreySuperLight;
   text-align: center;
-  padding-top: 20px;
+  padding: 40px 0 40px 0;
   overflow: hidden;
   position: relative;
   flex: 33%;
   max-width: 33%;
-  padding-bottom: 25px;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-.dashboard-main-item__graph {
-  margin-bottom: -10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+  svg {
+    max-width: 40px;
+    max-height: 40px;
+  }
 
-.dashboard-main-item__graph {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  &__profile,
+  &__calendar,
+  &__delete,
+  &__dashboard,
+  &__pillcase {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+  }
+
+  &__profile {
+    background-color: $lightOrange;
+    svg {
+      fill: $orange;
+      color: $orange;
+      stroke: $orange;
+    }
+  }
+
+  &__calendar {
+    background-color: $lightYellow;
+    svg {
+      fill: $yellow;
+      color: $yellow;
+      stroke: $yellow;
+    }
+  }
+
+  &__delete {
+    background-color: $lightRed;
+    svg {
+      fill: $red;
+      color: $red;
+      stroke: $red;
+    }
+  }
+
+  &__dashboard {
+    background-color: $lightBlue;
+    svg {
+      fill: $clrBlue;
+      color: $clrBlue;
+      stroke: $clrBlue;
+    }
+  }
+
+  &__pillcase {
+    background-color: $lightPurple;
+    svg {
+      fill: $purple;
+      color: $purple;
+      stroke: $purple;
+    }
+  }
 }
 
 .dashboard-main__item h5 {
-  color: #b5b5b5;
+  color: $clrFontMain;
   margin-bottom: 10px;
-  font-size: 1rem;
-  font-weight: normal;
+  font-size: 1rem !important;
+  font-weight: bold !important;
 }
 
 .dashboard-main__item h5 i {

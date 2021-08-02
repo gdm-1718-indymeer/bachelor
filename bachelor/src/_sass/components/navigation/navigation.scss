@@ -12,7 +12,8 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: #1d1d27;
+  background-color: $white;
+  box-shadow: 0 -5px 13px rgba(118, 134, 115, 0.08);
 }
 
 .menu__item {
@@ -30,7 +31,9 @@
   transition: transform var(--timeOut, $transition-duration);
 
   svg {
-    color: $white;
+    color: $clrLightGreen;
+    stroke: $clrLightGreen;
+    fill: transparent;
   }
 }
 
@@ -47,17 +50,22 @@
 }
 
 .menu__item.active {
-  transform: translate3d(0, -0.8em, 0);
+  transform: translate3d(0, -0.8em, 0) scale(1.2);
+
+  svg {
+    color: $clrDarkBlue;
+    stroke: $clrDarkBlue;
+  }
 }
 
 .menu__item.active::before {
-  transform: scale(1);
-  background-color: $clrGreyBlack;
+  transform: scale(0.7);
+  background-color: $white;
 }
 
 .icon {
-  width: 2.6em;
-  height: 2.6em;
+  width: 2.4em;
+  height: 2.4em;
   stroke: white;
   fill: transparent;
   stroke-width: 1pt;
@@ -68,7 +76,7 @@
 }
 
 .menu__item.active .icon {
-  animation: strok 1.5s reverse;
+  animation: strok 1s reverse;
 }
 
 @keyframes strok {
@@ -85,7 +93,8 @@
   position: absolute;
   clip-path: url(#menu);
   will-change: transform;
-  background-color: #1d1d27;
+  background-color: #e8e8e8;
+  box-shadow: 0 -5px 13px rgba(118, 134, 115, 0.28);
   transition: transform $transition-duration;
 }
 

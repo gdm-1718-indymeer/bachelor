@@ -1,16 +1,97 @@
+.add-medicine {
+  margin-top: 3em;
+  max-width: 550px;
+  width: 100%;
+
+  .btn {
+    width: 312px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 3em 0;
+    color: $white;
+    border-radius: 21px;
+    box-shadow: 15px 15px 40px rgba(50, 157, 156, 0.21);
+    background: linear-gradient(
+      90deg,
+      rgba(123, 228, 149, 1),
+      rgba(50, 157, 156, 1)
+    );
+  }
+
+  &__name {
+    margin: 3em 0;
+  }
+
+  &__time {
+    background-color: $yellow;
+    display: flex;
+    align-items: center;
+
+    &__timepicker {
+      input {
+        border-radius: 21px;
+        height: 44px;
+        color: $clrDarkBlue;
+        font-weight: bold;
+        font-size: 1.137rem;
+        text-align: center;
+      }
+    }
+
+    .stripe {
+      border-left: 1px solid $clrGrey;
+    }
+  }
+
+  &__date,
+  &__time,
+  &__option {
+    margin: 3em 0;
+    padding: 20px;
+    border-radius: 21px;
+    box-shadow: 8px 8px 13px rgba($color: #000000, $alpha: 0.13);
+
+    &__title {
+      font-weight: bold !important;
+      margin-bottom: 1em;
+    }
+    .datePicker {
+      text-align: center;
+      padding: 0.5rem 1.5rem;
+      border-radius: 21px;
+      border: 0;
+      color: $clrDarkBlue;
+      outline: none;
+      background-color: $clrBlueLight;
+      width: 11ch;
+      padding: 10px;
+      overflow-y: hidden;
+      resize: none;
+    }
+  }
+
+  &__option {
+    .rangeData {
+      margin-top: 2em;
+    }
+  }
+}
 .rangeData {
   display: inline-flex;
   width: 100%;
+  align-items: center;
 
   p {
-    margin-left: 3%;
+    margin: 0 0 0 3%;
   }
 }
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
+  justify-content: space-between;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   max-width: 600px;
