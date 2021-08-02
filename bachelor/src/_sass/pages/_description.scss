@@ -1,0 +1,60 @@
+body {
+  height: 100%;
+}
+
+.headerDes {
+  text-align: center;
+  padding: 50px 0 50px 0;
+  background-color: #f4cf6b;
+  border-radius: 0 0 21px 21px;
+}
+
+h4 {
+  font-weight: 700;
+  padding-top: 0px;
+  margin: 0;
+}
+
+.descriptionImg {
+  margin-top: 50px;
+}
+
+.bodyPres {
+  margin: 50px 0 50px 0;
+}
+
+.addPres {
+  margin: 0 0 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.pres {
+  text-align: left;
+}
+
+.logo {
+  text-align: right;
+}
+
+p {
+  text-align: center;
+}
+
+.container {
+  margin: 50px auto 0 auto;
+}
+
+.labelHead {
+  padding: 0 12px;
+  margin-bottom: 30px;
+}
+
+.imgLabel {
+  text-align: center;
+}
+
+img {
+  border-radius: 4px;
+}

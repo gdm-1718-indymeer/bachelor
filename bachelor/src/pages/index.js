@@ -4,6 +4,7 @@ import AddMedicine from './AddMedicine'
 import Settings from './settings'
 import Login from './signup/Login'
 import Timer from './timer/Timer'
+import Description from './timer/Description'
 
 import Profile from './settings/childs/Profile'
 import Calender from './settings/childs/Calender'
@@ -18,5 +19,6 @@ export {
     Login,
     Timer,
     Profile,
-    Calender
+    Calender,
+    Description
 }

@@ -2,8 +2,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { AddMedicine, Calender, Home, Login, Profile, Settings, Timer, Welcome} from './pages'
-import { Clients } from './admin'
+import { AddMedicine, Calender, Description, Home, Login, Profile, Settings, Timer, Welcome} from './pages'
+import { Clients, Create, Medication } from './admin'
 
 import { BaseLayout, DashboardLayout, SettingsLayout } from './components/layout'
 
@@ -15,10 +15,12 @@ function App() {
     <Router>
     <Switch>
       <RouteWrapper path={Routes.HOME} layout={BaseLayout} component={Home} exact />
-      <RouteWrapper path={Routes.WELCOME} layout={BaseLayout} component={Welcome} exact />
+      <RouteWrapper path={Routes.WELCOME} layout={SettingsLayout} component={Welcome} exact />
       <RouteWrapper path={Routes.ADD} layout={BaseLayout} component={AddMedicine} exact />
-      <RouteWrapper path={Routes.LOGIN} layout={BaseLayout} component={Login} exact />
+      <RouteWrapper path={Routes.LOGIN} layout={SettingsLayout} component={Login} exact />
       <RouteWrapper path={Routes.NOW} layout={BaseLayout} component={Timer} exact />
+      <RouteWrapper path={Routes.DESCRIPTION} layout={SettingsLayout} component={Description} exact />
+
 
       <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
       <RouteWrapper path={Routes.PROFILE} layout={SettingsLayout} component={Profile} exact />
@@ -28,6 +30,10 @@ function App() {
 
 
       <RouteWrapper path={Routes.DASHBOARD} layout={DashboardLayout} component={Clients} exact />
+      <RouteWrapper path={Routes.DASHMEDICATION} layout={DashboardLayout} component={Medication} exact />
+      <RouteWrapper path={Routes.CREATEMED} layout={DashboardLayout} component={Create} exact />
+
+
 
 
     </Switch>

@@ -73,6 +73,7 @@ const AddMedicine = () => {
         during: false,
         after: false
     });
+    
 
     let months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
@@ -111,11 +112,6 @@ const AddMedicine = () => {
                 let uid = uuidv4()
                 let newDate = toTimestamp(selectedDay.year , selectedDay.month, selectedDay.day, hour, minute, second )
 
-                console.log(newDate)
-                console.log(new Date(newDate * 1000))
-
-
-
                 data[uid] = {
                     medicineName: state.medicine,
                     targetDate: targetDate,
@@ -129,13 +125,26 @@ const AddMedicine = () => {
                     timeStamp: newDate,
                 }
             }
-            const result = 'ree'// await setSchedule(uid, data)
+            const result = await setSchedule(uid, data)
             
             if (!result.message) {
                 setMessage({
                     succeed: 'De data is succesvol toegevoegd.'
                 })
-                setValue({})
+                setValue({
+                    medicine: pillNames[0].value,
+                    days: options[1].value,
+                    time: moment().format('HH:mm:ss'),
+                    pillAmount:  options[1].value,
+                    notificationTime:  options[1].value,
+                    before: false,
+                    during: false,
+                    after: false
+                })
+                setTimeout(() => {
+                    setMessage({})
+                  }, 3000);
+             
             } else if (result.message) {
                 setMessage({
                     error: result.message

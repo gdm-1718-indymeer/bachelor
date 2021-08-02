@@ -11,6 +11,8 @@ const Timer = () => {
 
   const [previous, setPrevious] = useState({});
   const [next, setNext] = useState({});
+  const [time, setTime] = useState({});
+
 
   const defaultOptions = {
     loop: true,
@@ -30,12 +32,15 @@ const Timer = () => {
   const calculateTime = (previous, next) => {
 
     setNext(next)
-    const dateObjectPrev = new Date((previous.timeStamp) * 1000)
-    const dateObjectNext = new Date((next.timeStamp) * 1000)
-    let d = new Date(0)
-    d.setUTCSeconds(previous.timeStamp);
+    const dateObjectPrev = new Date((previous.timeStamp) * 1000) // convert back from epoch
+    const dateObjectNext = new Date((next.timeStamp) * 1000) // convert back from epoch
+    let time = (dateObjectNext.getTime() - new Date().getTime()) / 1000
+    let prev = (dateObjectPrev.getTime() - dateObjectNext.getTime()) / 1000
+    setTime({
+      time: time,
+      prev: prev
+    })
 
-    console.log( dateObjectNext - dateObjectPrev)
   }
   
   const getEvents = useCallback(async (uid, time) => {
@@ -56,9 +61,7 @@ const Timer = () => {
     const uid = currentUser.uid
     var d = new Date();
     let time = toTimestamp(d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds() )
-    console.log(d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds())
-    console.log(d)
-    console.log(new Date(time * 1000).toUTCString())
+
     getEvents(uid, time);
 
   }, []);
@@ -68,6 +71,7 @@ const Timer = () => {
   }
  
   const children = ({ remainingTime }) => {
+    const days = Math.floor(remainingTime / (24 * 3600))
     const hours = Math.floor(remainingTime / 3600)
     const minutes = Math.floor((remainingTime % 3600) / 60)
     const seconds = remainingTime % 60
@@ -83,7 +87,7 @@ const Timer = () => {
       </g>
     </svg>
       <br/>
-    <p>{hours}h {minutes}m {seconds} s</p>
+    <p>{days}d {hours}h {minutes}m {seconds} s</p>
     </div>
     );
   }
@@ -108,21 +112,21 @@ const Timer = () => {
               </div>
 
               <div className="countdown-wrapper__timer">
-                  <CountdownCircleTimer
+                { time.time &&
+                 <CountdownCircleTimer
                     onComplete={() => {
                       // do your stuff here
                       return [true, 1500] // repeat animation in 1.5 seconds
                     }}
                     isPlaying
-                    duration={500}
-                    colors={[
-                      ['#53ade4', 0.33],
-                      ['#53ade4', 0.33],
-                      ['#53ade4', 0.33],
-                    ]}
+                    duration={time.prev}
+                    initialRemainingTime={time.time}
+                    isLinearGradient={true}
+                    colors="#56c596"
+                    rotation={'rotation'}
                   >
                     {children}
-                  </CountdownCircleTimer>
+                  </CountdownCircleTimer>}
                 </div>
 
                 <button className='countdown-wrapper__button btn'>

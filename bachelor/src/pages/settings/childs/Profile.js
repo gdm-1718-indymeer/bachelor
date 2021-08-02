@@ -1,6 +1,37 @@
-import React from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 
-const Profile = () => {
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
+
+
+const Profile = (props) => {
+
+    const [state, setTasks] = useState({});
+
+    const onChange = (e) => {
+        const { target: {name, value }} = e
+        let stateValue = state
+        stateValue[name] = value
+
+        setTasks(stateValue)
+    }
+
+    const getEvents = useCallback(async (uid, date) => {
+        try {
+            const response = 'ree' //await getScheduleByDate(uid, date);
+            setTasks(response)
+            console.log(state)
+
+        } catch (e) {
+            console.error(e);
+        }
+    });
+    
+    useEffect(() => {
+        let uid = currentUser.uid
+        getEvents(uid);
+    }, []);
+
+
     return (
         <>
             <div className="container content clear-fix">

@@ -49,7 +49,7 @@ export const createUserWithEmailAndPassword = async (email, password, firstname,
 
 // SIGN UP Google
 
-export const signInWithGoogle = () => {
+export const signInWithGoogle =  () => {
   auth.signInWithPopup(googleProvider).then((res) => {
       let user = res.user
       db.ref('user').child(res.user.uid).set({
@@ -58,6 +58,9 @@ export const signInWithGoogle = () => {
         tel: user.phoneNumber,
         profilePicture: user.photoURL,
       })
+
+      authStatus(res.user)
+
       window.location = '/settings'
   }).catch((error) => {
     console.log(error.message)
@@ -169,6 +172,15 @@ export const getUserData = async (uid) => {
   return data
 }
 
+// GET MEDICINES DATA
+
+export const getAllMedicineData = async () => {
+  let data
+  await db.ref().child('medicine').once('value').then(userSnap => {
+    data = userSnap.val()
+  })
+  return data
+}
 
 // GET USER (AGENCY/ARTIST) INFORMATION BY UID
 export const getTypeInformation = async (type, uid) => {
