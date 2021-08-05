@@ -25,8 +25,7 @@ const Timer = () => {
 
   const toTimestamp = (year,month,day,hour, minute, second) =>{
     return  Math.floor((new Date(year,month-1,day,hour, minute, second)).getTime() / 1000) ;
-}
-
+  }
 
 
   const calculateTime = (previous, next) => {

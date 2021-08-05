@@ -1,6 +1,7 @@
 // GENERAL
 export const HOME = '/'
 export const WELCOME = '/welcome'
+export const CAMERA = '/camera'
 export const PRIVACY_POLICY = '/privacy-policy'
 export const LOGIN = '/login'
 export const REGISTER = '/register'

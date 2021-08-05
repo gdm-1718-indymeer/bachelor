@@ -159,6 +159,21 @@ const AddMedicine = () => {
     }
 
     return (
+        <>
+   <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    
         <div className="container add-medicine pb-100">
             <div className="row">
                 <div className="col-12">
@@ -292,6 +307,8 @@ const AddMedicine = () => {
                 </div>
             </div>
         </div>
+        </div >
+        </>
     )
 }
 

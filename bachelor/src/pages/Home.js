@@ -30,17 +30,31 @@ const Home = (props) => {
     
     return (
         <div className='full-height'>
-            <div className='container-fluid home'>
-                <div className='row'>
-                    <div className='col-12'>
-                        <h1 className="h1-style pt-50">
-                            <CheckMorning/><br />
-                            {currentUser.displayName ?
-                               currentUser.displayName : '' }
-                        </h1>
-                        <p> Hieronder zie je dagelijkse overzicht </p>
+            <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+                <div className='container-fluid home'>
+                    <div className='row'>
+                        <div className='col-12'>
+                            <h1 className="h1-style pt-50">
+                                <CheckMorning/><br />
+                                {currentUser.displayName ?
+                                currentUser.displayName : '' }
+                            </h1>
+                            <p> Hieronder zie je dagelijkse overzicht </p>
+                        </div>
+                        <Week handleSetDate={handleSetDate }/>
                     </div>
-                    <Week handleSetDate={handleSetDate }/>
                 </div>
             </div>
 
