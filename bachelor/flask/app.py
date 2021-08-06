@@ -120,9 +120,7 @@ def main():
     img = cv2.imdecode(np.array(file.getbuffer()),cv2.IMREAD_COLOR)
 
     # prettier-ignore
-    s3 = boto3.client('s3',
-                      aws_access_key_id=os.getenv('AWS_ACCESS_ID'),
-                      aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
+    s3 = boto3.client('s3',aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
     bucket = 'bachelorpill'
     photo = file
@@ -133,11 +131,8 @@ def main():
     )
     #s3.upload_file(photo, bucket, photo)
 
-    client = boto3.client('rekognition',
-                          aws_access_key_id=os.getenv('AWS_ACCESS_ID'),
-                          aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
-    response = client.detect_text(
-        Image={'S3Object': {'Bucket': 'bachelorpill', 'Name': file_name}})
+    client = boto3.client('rekognition',aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
+    response = client.detect_text(Image={'S3Object': {'Bucket': 'bachelorpill', 'Name': file_name}})
 
     textDetections = response['TextDetections']
     text2 = ""
@@ -145,7 +140,7 @@ def main():
         if text['DetectedText'] not in text2:
             text2 = text2 + text['DetectedText']
     text2 = ''.join(text2.split())
-    text2 = 'test'
+
     # Getting color
     actual_name, closest_name = get_colour_name(requested_colour)
     print(actual_name)
