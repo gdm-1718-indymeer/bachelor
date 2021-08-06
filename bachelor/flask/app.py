@@ -108,10 +108,6 @@ def main():
     if request.method == 'POST':
         f = request.json['data']
         file, file_name = decode_base64_file(f)
-        #fh = open(file_name, 'wb')
-        #fh.write(file.getbuffer())
-        # f.save(secure_filename(file_name))
-        # f = str(file_name)
 
     #get files before aws closes the file
 
