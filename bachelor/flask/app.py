@@ -115,6 +115,10 @@ def main():
         # f.save(secure_filename(file_name))
         # f = str(file_name)
 
+    #get files before aws closes the file
+    requested_colour = color(file)
+    img = cv2.imdecode(np.array(file.getbuffer()),cv2.IMREAD_COLOR)
+
     # prettier-ignore
     s3 = boto3.client('s3',
                       aws_access_key_id=os.getenv('AWS_ACCESS_ID'),
@@ -141,9 +145,8 @@ def main():
         if text['DetectedText'] not in text2:
             text2 = text2 + text['DetectedText']
     text2 = ''.join(text2.split())
-
+    text2 = 'test'
     # Getting color
-    requested_colour = color(file)
     actual_name, closest_name = get_colour_name(requested_colour)
     print(actual_name)
     if "gray" in closest_name:
@@ -159,7 +162,6 @@ def main():
 
     # Getting shape with opencv
     shape = ""
-    img = cv2.imread(photo)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.Canny(np.asarray(gray), 50, 250)
 
@@ -170,8 +172,10 @@ def main():
     for cnt in contours:
         approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
         avgArray.append(len(approx))
-
-    edges = statistics.median(avgArray)
+    print(avgArray)
+    edges = 0
+    if(len(avgArray) > 0):
+        edges = statistics.median(avgArray)
 
     if edges == 3:
         shape = "triangle"
