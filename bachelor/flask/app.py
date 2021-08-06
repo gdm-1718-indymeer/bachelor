@@ -23,8 +23,6 @@ dotenv_path = Path('./.env')
 
 load_dotenv(dotenv_path=dotenv_path)
 
-os.environ['AWS_DEFAULT_REGION'] = 'eu-west-2'
-
 app = Flask(__name__)
 CORS(app)
 
@@ -120,7 +118,7 @@ def main():
     img = cv2.imdecode(np.array(file.getbuffer()),cv2.IMREAD_COLOR)
 
     # prettier-ignore
-    s3 = boto3.client('s3',aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
+    s3 = boto3.client('s3',region_name='eu-west-2', aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
     bucket = 'bachelorpill'
     photo = file
@@ -131,7 +129,7 @@ def main():
     )
     #s3.upload_file(photo, bucket, photo)
 
-    client = boto3.client('rekognition',aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
+    client = boto3.client('rekognition',region_name='eu-west-2', aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
     response = client.detect_text(Image={'S3Object': {'Bucket': 'bachelorpill', 'Name': file_name}})
 
     textDetections = response['TextDetections']
