@@ -1,11 +1,10 @@
+
 import React, { useState, useEffect , useCallback} from 'react'
 import Select, { components } from 'react-select'
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { setSchedule, uuidv4 } from "../services/auth.services";
 import { getMedicines } from "../services/medication.services";
-
-
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBreadSlice, faCoffee, faUtensils } from '@fortawesome/free-solid-svg-icons'
@@ -14,8 +13,14 @@ import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from 'react-modern-calendar-datepicker';
 
 import 'rc-time-picker/assets/index.css';
+// const textmagicClient = require('textmagic-client');
 
+// const api = new textmagicClient.TextMagicApi();
+// const client = textmagicClient.ApiClient.instance;
+// const auth = client.authentications['BasicAuth'];
 
+// auth.username = process.env.REACT_APP_SMS_USERNAME;
+// auth.password = process.env.REACT_APP_SMS_API;
 
 const { Option } = components
 const showSecond = false;
@@ -95,18 +100,14 @@ const AddMedicine = () => {
         during: false,
         after: false
     });
-
-  
       
     useEffect (() => {
         getNames();
-  
     }, []);
     
 
     let months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
-
 
 
     const renderCustomInput = ({ ref }) => (
@@ -115,7 +116,6 @@ const AddMedicine = () => {
           placeholder="Datum"
           value={selectedDay ? ` ${selectedDay.day} ${months[selectedDay.month - 1]}` : ''}
           onChange={setSelectedDay}
-
           className="datePicker" // a styling class
         />
       )
@@ -153,8 +153,24 @@ const AddMedicine = () => {
                     notification: state.notificationTime,
                     timeStamp: newDate,
                 }
+
+                const input = {
+                    text: "http://localhost:3000/dashboard",
+                    phones: "32491066364",
+                    // Optional parameters
+                    sendingTime: newDate,
+                }
+
+                // api.sendMessage(input).then(function (data) {
+                //     console.log(data);
+                // }).catch(function(err){
+                //     console.error(err);
+                // });
             }
-            const result = await setSchedule(uid, data)
+
+            const result = 'W' //await setSchedule(uid, data)
+
+       
             
             if (!result.message) {
                 setMessage({
