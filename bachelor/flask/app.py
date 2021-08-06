@@ -114,14 +114,15 @@ def main():
         # f = str(file_name)
 
     #get files before aws closes the file
+
     requested_colour = color(file)
     img = cv2.imdecode(np.array(file.getbuffer()),cv2.IMREAD_COLOR)
+    file.seek(0)
 
     # prettier-ignore
     s3 = boto3.client('s3',region_name='eu-west-2', aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
     bucket = 'bachelorpill'
-    photo = file
     s3.upload_fileobj(
         file,
         bucket,
@@ -183,7 +184,7 @@ def main():
     elif edges > 15:
         shape = "CIRCLE"
 
-    data = {"uploadName": photo, "text": text2,
+    data = {"uploadName": file_name, "text": text2,
             "color": closest_name, "shape": shape}
 
     dataframe = pd.read_csv("out.csv")
