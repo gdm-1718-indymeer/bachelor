@@ -18,12 +18,12 @@ import DatePicker from 'react-modern-calendar-datepicker';
 import 'rc-time-picker/assets/index.css';
 const textmagicClient = require('textmagic-client');
 
-const api = new textmagicClient.TextMagicApi();
 const client = textmagicClient.ApiClient.instance;
 const auth = client.authentications['BasicAuth'];
+const api = new textmagicClient.TextMagicApi();
 
-auth.username = process.env.REACT_APP_SMS_USERNAME;
-auth.password = process.env.REACT_APP_SMS_API;
+auth.username =  process.env.REACT_APP_SMS_USERNAME;
+auth.password =  'ZAH7BlldVKUcm5Dv6kyGKPCfEqCD9C' //process.env.REACT_APP_SMS_API;
 
 const { Option } = components;
 const showSecond = false;
@@ -71,10 +71,7 @@ const AddMedicine = () => {
     try {
       let data = await getMedicines();
       data.forEach((obj) => renameKey(obj, 'term', 'value'));
-
       setMedicines(data);
-
-      console.log(medicines);
     } catch (e) {
       console.error(e);
     }
@@ -164,20 +161,29 @@ const AddMedicine = () => {
         };
 
         const input = {
-          text: 'http://localhost:3000/dashboard',
+          text: 'http%3A%2F%2Flocalhost%3A3000%2Fdashboard',
           phones: '32491066364',
-          // Optional parameters
-          sendingTime: newDate,
+          sendingDateTime: `${selectedDay.year}-${selectedDay.month}-${selectedDay.day} ${time}`,
         };
 
-        api
-          .sendMessage(input)
-          .then(function (data) {
-            console.log('whooo', data);
-          })
-          .catch(function (err) {
+        const opts = {
+            page: 1,
+            limit: 10,
+            lastId: 1,
+        };
+        api.getAllOutboundMessages(opts).then(function (data) {
+            console.log(data);
+        }).catch(function(err){
             console.error(err);
-          });
+        });
+        // api
+        //   .sendMessage(input)
+        //   .then(function (data) {
+        //     console.log('whooo', data);
+        //   })
+        //   .catch(function (err) {
+        //     console.error(err);
+        //   });
       }
 
       const result = 'W'; //await setSchedule(uid, data)
