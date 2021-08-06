@@ -24,3 +24,4 @@ bachelor/flask/__pycache__
 ./bachelor/npm-debug.log*
 ./bachelor/yarn-debug.log*
 ./bachelor/yarn-error.log*
+*.env
