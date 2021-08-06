@@ -1,14 +1,23 @@
 import React, { useState, useEffect , useCallback} from 'react'
 import {getMedicineDetails} from '../../services/medication.services'
+import {getCurrentData} from '../../services/auth.services'
+import Lottie from 'react-lottie';
+import Water from '../../assets/lotties/water.json'
+import { ReactComponent as Tablet} from '../../assets/images/medicines/tablet.svg'
 
-const Description = () => {
-    const [state, setState] = useState({});
 
-    const getEvents = useCallback(async (name) => {
+const Description = (props) => {
+    const [state, setState] = useState(false);
+
+    const getEvents = useCallback(async (name, uid) => {
         try {
-            const result = await getMedicineDetails(name);
-            setState({result})
-            await console.log(state)
+            console.log(props.match.params.id)
+            const currentData = await getCurrentData(uid, props.match.params.id)
+            const result = await getMedicineDetails(currentData.medicineName);
+            setState([result, currentData])
+            console.log(state)
+            console.log(state)
+
 
         } catch (e) {
             console.error(e);
@@ -20,46 +29,62 @@ const Description = () => {
       let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
       const uid = currentUser.uid
   
-      getEvents('imodium');
+      getEvents('imodium', uid);
   
     }, []);
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: Water,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        }
+      };
   
 
     return (
         <>
             <div className="headerDes">
-                <h4>Vitamin D</h4>
-                <img className="descriptionImg" src="https://toppng.com/uploads/preview/white-pills-11533030042mkd3inu6tx.png" alt="Prescripted pills" width="200px" height="200px"/>
+                <h4>{state && state[1].medicineName}</h4>
+                <svg><Tablet className="descriptionImg"/></svg>
+
             </div> 
 
             <div className="bodyPres container">
                 <div className="addPres row">
                     <div class='pres col-6'>
-                        <h4>Prescription</h4>
+                        <h4>Wat is het</h4>
                     </div>
                     <div className='logo col-6'>
-                        <img className="prescriptionImg" src="https://toppng.com/uploads/preview/white-pills-11533030042mkd3inu6tx.png" alt="Prescripted pills" width="30px" height="30px"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="30" viewBox="0 0 42 30">
+                    <g id="Icons_pc" data-name="Icons/ pc" transform="translate(1.5 1.5)">
+                        <g id="Icons_pc-2" data-name="Icons/ pc">
+                        <path id="Path" d="M30,16.5V0H0V16.5" transform="translate(4.5)" fill="none" stroke="#205072" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+                        <path id="Path-2" data-name="Path" d="M39,6H0L3,0H36Z" transform="translate(0 21)" fill="none" stroke="#205072" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+                        <path id="Path-3" data-name="Path" d="M.75,0V9" transform="translate(18.75 6)" fill="none" stroke="#205072" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+                        <path id="Path-4" data-name="Path" d="M0,.75H9" transform="translate(15 9.75)" fill="none" stroke="#205072" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+                        </g>
+                    </g>
+                    </svg>
                     </div>
-                </div> 
+                    {state[0] &&<p dangerouslySetInnerHTML={  {__html: state[0]}}></p>}
+                </div>         
 
-                {state &&
-                <div dangerouslySetInnerHTML={  {__html: state.result.dosage_and_administration_table[0]}}></div>
-                }
-
-                                
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque mattis egestas condimentum. 
-                    Fusce ullamcorper sodales mi sit amet varius. Donec suscipit venenatis auctor. 
-                    Donec vel orci in dolor dapibus tempor in vitae nisl. Nullam vestibulum id felis in pretium. 
-                    Donec euismod quam et dolor scelerisque, nec euismod quam consectetur. 
-                    Praesent blandit risus sed neque varius tincidunt.</p>
+                          
             </div>
 
             <div className="label container">
                 <div className="labelHead">
-                    <h4>Label</h4>
+                    <h4>Inname</h4>
                 </div>
                 <div className="imgLabel">
-                <img src="https://toppng.com/uploads/preview/white-pills-11533030042mkd3inu6tx.png" alt="Prescripted pills" height="300px" width="300px"/>
+                <Lottie 
+                    options={defaultOptions}
+                    height={'100%'}
+                    width={'100%'}
+                    className='test'
+                    />
                 </div>
             </div>
         </>

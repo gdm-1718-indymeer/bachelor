@@ -5,7 +5,7 @@ body {
 .headerDes {
   text-align: center;
   padding: 50px 0 50px 0;
-  background-color: #f4cf6b;
+  background-color: $yellow;
   border-radius: 0 0 21px 21px;
 }
 
@@ -21,6 +21,11 @@ h4 {
 
 .bodyPres {
   margin: 50px 0 50px 0;
+  text-align: left !important;
+
+  p {
+    text-align: left;
+  }
 }
 
 .addPres {

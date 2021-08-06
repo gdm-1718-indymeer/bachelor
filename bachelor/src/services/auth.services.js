@@ -84,6 +84,17 @@ export const setSchedule = async (uid, data) => {
   return true
 }
 
+// GET CURRENT DATA 
+
+export const getCurrentData = async (uid, id) => {
+  let data
+  await db.ref().child(`event/${uid}/${id}`).once('value').then((snapshot) => {
+    
+    data = snapshot.val()
+  })
+  return data
+}
+
 
 // GET SCHEDULE FROM DATE
 
@@ -111,12 +122,14 @@ export const getPreviousData = async (uid, time) => {
 
 export const getNextData = async (uid, time) => {
   let data
+  let key 
   await db.ref(`event/${uid}/`).orderByChild('timeStamp').startAt(time).limitToFirst(1).once('value').then(snapshot => {
     snapshot.forEach((childSnapshot) => {
+      key = childSnapshot.key
       data = childSnapshot.val();
      });
   })
-  return data
+  return [data, key]
 }
 
 

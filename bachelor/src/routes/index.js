@@ -8,6 +8,7 @@ export const REGISTER = '/register'
 export const ADD = '/add'
 export const NOW = '/now'
 export const DESCRIPTION = '/description'
+export const NEXT = '/reminder/:id'
 
 export const SETTINGS = '/settings'
 export const PROFILE = '/settings/profile'

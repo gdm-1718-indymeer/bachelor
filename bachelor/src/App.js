@@ -20,6 +20,7 @@ function App() {
       <RouteWrapper path={Routes.LOGIN} layout={SettingsLayout} component={Login} exact />
       <RouteWrapper path={Routes.NOW} layout={BaseLayout} component={Timer} exact />
       <RouteWrapper path={Routes.CAMERA} layout={BaseLayout} component={Webcam} exact />
+      <RouteWrapper path={Routes.NEXT} layout={SettingsLayout} component={Description} exact />
       <RouteWrapper path={Routes.DESCRIPTION} layout={SettingsLayout} component={Description} exact />
 
 

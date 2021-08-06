@@ -1,12 +1,14 @@
-import {React , useState} from 'react'
+import React, { useState, useEffect , useCallback} from 'react'
 import Select, { components } from 'react-select'
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { setSchedule, uuidv4 } from "../services/auth.services";
+import { getMedicines } from "../services/medication.services";
+
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBreadSlice, faCoffee, faPills, faPrescriptionBottleAlt, faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { faBreadSlice, faCoffee, faUtensils } from '@fortawesome/free-solid-svg-icons'
 
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from 'react-modern-calendar-datepicker';
@@ -62,9 +64,29 @@ const toTimestamp = (year,month,day,hour, minute, second) =>{
 const AddMedicine = () => {
     const [selectedDay, setSelectedDay] = useState(null);
     const [message, setMessage] = useState(false);
+    const [medicines, setMedicines] = useState({});
+
+    const  renameKey  = ( obj, oldKey, newKey ) => {
+        obj[newKey] = obj[oldKey];
+        obj['label'] = obj[newKey];
+        delete obj[oldKey];
+      }
+
+    const getNames = useCallback(async () => {
+        try {
+            let data = await getMedicines();
+            data.forEach( obj => renameKey( obj, 'term', 'value' ) );
+
+            setMedicines(data)
+  
+            console.log(medicines)
+        } catch (e) {
+            console.error(e);
+        }
+    });
 
     const [state, setValue] = useState({
-        medicine: pillNames[0].value,
+        medicine: 'Ibuprofen',
         days: options[1].value,
         time: moment().format('HH:mm:ss'),
         pillAmount:  options[1].value,
@@ -73,6 +95,13 @@ const AddMedicine = () => {
         during: false,
         after: false
     });
+
+  
+      
+    useEffect (() => {
+        getNames();
+  
+    }, []);
     
 
     let months = [ "January", "February", "March", "April", "May", "June", 
@@ -187,12 +216,13 @@ const AddMedicine = () => {
 
                     <div className="option-container add-medicine__name">
                         <h5>Medicijn naam</h5> 
+                       {medicines && 
                         <Select
-                            defaultValue={pillNames[0]}
-                            options={pillNames}
+                            defaultValue={medicines[0]}
+                            options={medicines}
                             components={{ Option: CustomSelectOption, SingleValue: CustomName }}
                             onChange={(obj) => setValue({...state, medicine: obj.value})}
-                        />
+                        />}
                     </div>
 
                     <div className="option-container add-medicine__date row">

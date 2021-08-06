@@ -3,6 +3,7 @@ import { getPreviousData, getNextData } from "../../services/auth.services";
 import { CountdownCircleTimer, remainingTime } from 'react-countdown-circle-timer';
 import Lottie from 'react-lottie';
 import confetti from '../../assets/lotties/confetti.json'
+import { Link } from 'react-router-dom';
 
 
 
@@ -10,7 +11,7 @@ import confetti from '../../assets/lotties/confetti.json'
 const Timer = () => {
 
   const [previous, setPrevious] = useState({});
-  const [next, setNext] = useState({});
+  const [next, setNext] = useState(false);
   const [time, setTime] = useState({});
 
 
@@ -30,23 +31,23 @@ const Timer = () => {
 
   const calculateTime = (previous, next) => {
 
-    setNext(next)
     const dateObjectPrev = new Date((previous.timeStamp) * 1000) // convert back from epoch
-    const dateObjectNext = new Date((next.timeStamp) * 1000) // convert back from epoch
+    const dateObjectNext = new Date((next[0].timeStamp) * 1000) // convert back from epoch
     let time = (dateObjectNext.getTime() - new Date().getTime()) / 1000
     let prev = (dateObjectPrev.getTime() - dateObjectNext.getTime()) / 1000
     setTime({
       time: time,
       prev: prev
     })
-
   }
   
   const getEvents = useCallback(async (uid, time) => {
       try {
           const previousDate = await getPreviousData(uid, time);
           const nextDate = await getNextData(uid, time);
+          setNext(nextDate)
 
+          console.log(next)
           calculateTime(previousDate,nextDate )
 
       } catch (e) {
@@ -70,10 +71,12 @@ const Timer = () => {
   }
  
   const children = ({ remainingTime }) => {
-    const days = Math.floor(remainingTime / (24 * 3600))
-    const hours = Math.floor(remainingTime / 3600)
-    const minutes = Math.floor((remainingTime % 3600) / 60)
-    const seconds = remainingTime % 60
+
+    let d = Math.floor(remainingTime / (3600*24));
+    let h = Math.floor(remainingTime % (3600*24) / 3600);
+    let m = Math.floor(remainingTime % 3600 / 60);
+    let s = Math.floor(remainingTime % 60);
+
 
     return (
       <div className="inner">
@@ -86,7 +89,7 @@ const Timer = () => {
       </g>
     </svg>
       <br/>
-    <p>{days}d {hours}h {minutes}m {seconds} s</p>
+    <p>{d}d {h}h {m}m {s} s</p>
     </div>
     );
   }
@@ -105,8 +108,8 @@ const Timer = () => {
           <div className="countdown-wrapper">
               <h2 className="white pb-50">Je volgende pil</h2>
               <div className="pillName">
-                <h3 className="pillName__title">{next ?
-                  next.medicineName : " Loading"} 
+                <h3 className="pillName__title">{next &&
+                  next[0].medicineName } 
                 </h3>
               </div>
 
@@ -128,9 +131,9 @@ const Timer = () => {
                   </CountdownCircleTimer>}
                 </div>
 
-                <button className='countdown-wrapper__button btn'>
+                <Link className='countdown-wrapper__button btn' to={`reminder/${next[1]}`}>
                   Bekijk de details
-                </button>
+                </Link>
               </div>
 
         </div>
