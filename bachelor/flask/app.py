@@ -110,9 +110,8 @@ def main():
     if request.method == 'POST':
         f = request.json['data']
         file, file_name = decode_base64_file(f)
-
-        fh = open(file_name, 'wb')
-        fh.write(file.getbuffer())
+        #fh = open(file_name, 'wb')
+        #fh.write(file.getbuffer())
         # f.save(secure_filename(file_name))
         # f = str(file_name)
 
@@ -122,7 +121,7 @@ def main():
                       aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
     bucket = 'bachelorpill'
-    photo = file_name
+    photo = file
     s3.upload_fileobj(
         file,
         bucket,
@@ -144,7 +143,7 @@ def main():
     text2 = ''.join(text2.split())
 
     # Getting color
-    requested_colour = color(photo)
+    requested_colour = color(file)
     actual_name, closest_name = get_colour_name(requested_colour)
     print(actual_name)
     if "gray" in closest_name:
