@@ -4,6 +4,14 @@ import {getCurrentData} from '../../services/auth.services'
 import Lottie from 'react-lottie';
 import Water from '../../assets/lotties/water.json'
 import { ReactComponent as Tablet} from '../../assets/images/medicines/tablet.svg'
+import { ReactComponent as Capsule} from '../../assets/images/medicines/capsule.svg'
+import { ReactComponent as Pill} from '../../assets/images/medicines/pill.svg'
+import { ReactComponent as Syringe} from '../../assets/images/medicines/syringe.svg'
+import { ReactComponent as Inhaler} from '../../assets/images/medicines/inhaler.svg'
+
+
+
+
 
 
 const Description = (props) => {
@@ -47,7 +55,15 @@ const Description = (props) => {
         <>
             <div className="headerDes">
                 <h4>{state && state[1].medicineName}</h4>
-                <svg><Tablet className="descriptionImg"/></svg>
+               <Tablet className="descriptionImg"/>
+                <Capsule className="descriptionImg"/>
+                <Pill className="descriptionImg"/>
+                <Inhaler className="descriptionImg"/>
+
+                {/* <Syringe className="descriptionImg"/> */}
+
+
+
 
             </div> 
 

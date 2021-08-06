@@ -7,8 +7,6 @@ import imghdr
 import io
 import boto3
 import os
-import time
-
 import colorgram
 import webcolors
 import numpy as np
@@ -145,157 +143,151 @@ def main():
             text2 = text2 + text['DetectedText']
     text2 = ''.join(text2.split())
 
-    while not os.path.exists(file_name):
-        time.sleep(1)
-        print(1)
+    # Getting color
+    requested_colour = color(photo)
+    actual_name, closest_name = get_colour_name(requested_colour)
+    print(actual_name)
+    if "gray" in closest_name:
+        closest_name = "WHITE"
+    if "rose" in closest_name:
+        closest_name = "PINK"
+    if "red" in closest_name:
+        closest_name = "RED"
+    if "yellow" in closest_name:
+        closest_name = "YELLOW"
+    if "blue" in closest_name:
+        closest_name = "BLUE"
 
-    if os.path.isfile(file_name):
-        # Getting color
-        requested_colour = color(photo)
-        actual_name, closest_name = get_colour_name(requested_colour)
-        print(actual_name)
-        if "gray" in closest_name:
-            closest_name = "WHITE"
-        if "rose" in closest_name:
-            closest_name = "PINK"
-        if "red" in closest_name:
-            closest_name = "RED"
-        if "yellow" in closest_name:
-            closest_name = "YELLOW"
-        if "blue" in closest_name:
-            closest_name = "BLUE"
+    # Getting shape with opencv
+    shape = ""
+    img = cv2.imread(photo)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.Canny(np.asarray(gray), 50, 250)
 
-        # Getting shape with opencv
-        shape = ""
-        img = cv2.imread(photo)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = cv2.Canny(np.asarray(gray), 50, 250)
+    contours, hierarchy = cv2.findContours(
+        gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        contours, hierarchy = cv2.findContours(
-            gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    avgArray = []
+    for cnt in contours:
+        approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+        avgArray.append(len(approx))
 
-        avgArray = []
-        for cnt in contours:
-            approx = cv2.approxPolyDP(
-                cnt, 0.01 * cv2.arcLength(cnt, True), True)
-            avgArray.append(len(approx))
+    edges = statistics.median(avgArray)
 
-        edges = statistics.median(avgArray)
+    if edges == 3:
+        shape = "triangle"
+    elif edges == 4:
+        shape = "square"
+    elif edges == 8 or edges == 8.0:
+        shape = "circle"
+    elif edges == 9:
+        shape = "half-circle"
+    elif edges < 15:
+        shape = "OVAL"
+    elif edges > 15:
+        shape = "CIRCLE"
 
-        if edges == 3:
-            shape = "triangle"
-        elif edges == 4:
-            shape = "square"
-        elif edges == 8 or edges == 8.0:
-            shape = "circle"
-        elif edges == 9:
-            shape = "half-circle"
-        elif edges < 15:
-            shape = "OVAL"
-        elif edges > 15:
-            shape = "CIRCLE"
+    data = {"uploadName": photo, "text": text2,
+            "color": closest_name, "shape": shape}
 
-        data = {"uploadName": photo, "text": text2,
-                "color": closest_name, "shape": shape}
+    dataframe = pd.read_csv("out.csv")
 
-        dataframe = pd.read_csv("out.csv")
+    for idx, row in dataframe.iterrows():
+        name = str(row["Imprint"]).replace(";", "")
+        if not is_nan(row["Name"]):
+            if name == text2 and row["Color"] == color and row["Shape"] == shape:
+                return '''<style>
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                }
+                b{
+                    margin-left: 43%;
+                    font-size: 20px;
+                }
+                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
+                  <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
+                    <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
+                    <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
+                    <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
+                    <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
+                    <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
+                    <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
+                </table>'''
 
-        for idx, row in dataframe.iterrows():
-            name = str(row["Imprint"]).replace(";", "")
-            if not is_nan(row["Name"]):
-                if name == text2 and row["Color"] == color and row["Shape"] == shape:
-                    return '''<style>
-                    table, th, td {
-                        border: 1px solid black;
-                        border-collapse: collapse;
-                    }
-                    th, td {
-                        padding: 5px;
-                        text-align: left;
-                    }
-                    b{
-                        margin-left: 43%;
-                        font-size: 20px;
-                    }
-                    </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                    <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
-                        <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
-                        <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
-                        <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
-                        <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
-                        <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
-                        <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
-                    </table>'''
+            elif name == text2 and row["Color"] == color:
+                return '''<style>
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                }
+                b{
+                    margin-left: 43%;
+                    font-size: 20px;
+                }
+                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
+                  <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
+                    <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
+                    <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
+                    <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
+                    <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
+                    <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
+                    <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
+                </table>'''
 
-                elif name == text2 and row["Color"] == color:
-                    return '''<style>
-                    table, th, td {
-                        border: 1px solid black;
-                        border-collapse: collapse;
-                    }
-                    th, td {
-                        padding: 5px;
-                        text-align: left;
-                    }
-                    b{
-                        margin-left: 43%;
-                        font-size: 20px;
-                    }
-                    </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                    <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
-                        <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
-                        <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
-                        <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
-                        <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
-                        <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
-                        <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
-                    </table>'''
+            elif name == text2:
+                return '''<style>
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                }
+                b{
+                    margin-left: 43%;
+                    font-size: 20px;
+                }
+                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
+                  <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
+                    <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
+                    <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
+                    <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
+                    <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
+                    <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
+                    <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
+                </table>'''
 
-                elif name == text2:
-                    return '''<style>
-                    table, th, td {
-                        border: 1px solid black;
-                        border-collapse: collapse;
-                    }
-                    th, td {
-                        padding: 5px;
-                        text-align: left;
-                    }
-                    b{
-                        margin-left: 43%;
-                        font-size: 20px;
-                    }
-                    </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                    <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
-                        <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
-                        <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
-                        <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
-                        <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
-                        <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
-                        <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
-                    </table>'''
-
-                elif idx == dataframe.index[-1]:
-                    return '''<style>
-                    table, th, td {
-                        border: 1px solid black;
-                        border-collapse: collapse;
-                    }
-                    th, td {
-                        padding: 5px;
-                        text-align: left;
-                    }
-                    b{
-                        margin-left: 43%;
-                        font-size: 20px;
-                    }
-                    </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                        <p> Could not recognise the picture correct</p>
-                        <p> The data I saw was: </p>
-                        <tr><th>Name</th><td>''' + str(text2)+'''</td></tr>
-                        <tr><th>Color</th><td>''' + str(closest_name)+'''</td></tr>
-                        <tr><th>Shape</th><td>''' + str(shape) + '''</td></tr>
-                    </table>'''
+            elif idx == dataframe.index[-1]:
+                return '''<style>
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                }
+                b{
+                    margin-left: 43%;
+                    font-size: 20px;
+                }
+                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
+                    <p> Could not recognise the picture correct</p>
+                    <p> The data I saw was: </p>
+                    <tr><th>Name</th><td>''' + str(text2)+'''</td></tr>
+                    <tr><th>Color</th><td>''' + str(closest_name)+'''</td></tr>
+                    <tr><th>Shape</th><td>''' + str(shape) + '''</td></tr>
+                </table>'''
 
 
 if __name__ == "__main__":
