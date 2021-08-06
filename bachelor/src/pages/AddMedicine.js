@@ -170,11 +170,14 @@ const AddMedicine = () => {
           sendingTime: newDate,
         };
 
-        // api.sendMessage(input).then(function (data) {
-        //     console.log(data);
-        // }).catch(function(err){
-        //     console.error(err);
-        // });
+        api
+          .sendMessage(input)
+          .then(function (data) {
+            console.log('whooo', data);
+          })
+          .catch(function (err) {
+            console.error(err);
+          });
       }
 
       const result = 'W'; //await setSchedule(uid, data)
