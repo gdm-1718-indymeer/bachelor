@@ -245,7 +245,6 @@ export const logoutUser = async () => {
   await auth.signOut();
   try {
     await localStorage.clear();
-    window.location.pathname = '/login';
   } catch (error) {
     return error;
   }
