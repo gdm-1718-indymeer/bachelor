@@ -35,6 +35,10 @@ function App() {
      The empty array is important to not run this every update!
   */
   useEffect(() => {
+    /* 
+    onAuthStateChanged is a listener so this will detect changes while the app is running...
+    If the user is logged out this will catch the error
+    */
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
@@ -46,6 +50,7 @@ function App() {
       }
     });
   }, []);
+  //make sure nothing happens while it is checking the user
   if (appState.loginStatus === 'PENDING') return <></>;
   return (
     <AppProvider value={{ ...appState, updateContext: setAppState }}>
