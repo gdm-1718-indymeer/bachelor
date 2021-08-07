@@ -1,14 +1,22 @@
 import React from 'react'
+import { useHistory, Redirect } from "react-router-dom";
+import firebase from '../../config/firebaseConfig'
 
-import {Navigation} from './index'
 
 function BaseLayout(props) {
-    const { window, children } = props
+  const { window, children } = props
+  let history = useHistory();
+
+  if (!firebase.auth().currentUser) {
+    return < Redirect to='/login' />
+  }
 
 
   return (
     <div>
-        {children}
+      <button onClick={() => history.goBack()}>Back</button>
+
+      {children}
 
     </div>
   )

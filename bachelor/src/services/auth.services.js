@@ -7,61 +7,60 @@ export const googleProvider = new firebase.auth.GoogleAuthProvider()
 
 // SIGN IN
 export const signInWithEmailAndPassword = async (email, password) => {
-    try {
-      const result = await auth.signInWithEmailAndPassword(email, password)
-      const userId = result.user.uid
-      await getType(userId)
-      await authStatus(result)
-      return true
-    } catch (error) {
-      return error
-    }    
+  try {
+    const result = await auth.signInWithEmailAndPassword(email, password)
+    const userId = result.user.uid
+    await getType(userId)
+    await authStatus(result)
+    return true
+  } catch (error) {
+    return error
+  }
 }
 
 
 
 // SIGN UP
 export const createUserWithEmailAndPassword = async (email, password, firstname, lastname) => {
-    try {
-      const createUser = await auth.createUserWithEmailAndPassword(email, password)
-      createUser.user.updateProfile({
-        displayName: firstname
-      })
-      
-      await db.ref('user').child(createUser.user.uid).set({
-        firstname,
-        lastname,
-        email,
-        tel: ''
-      })
+  try {
+    const createUser = await auth.createUserWithEmailAndPassword(email, password)
+    createUser.user.updateProfile({
+      displayName: firstname
+    })
+
+    await db.ref('user').child(createUser.user.uid).set({
+      firstname,
+      lastname,
+      email,
+      tel: ''
+    })
 
 
-      let result = createUser
-      await authStatus(result)
-      await getType(createUser.user.uid,)
-      return true
-    } catch (error) {
-      return(error)
-    }    
+    let result = createUser
+    await authStatus(result)
+    await getType(createUser.user.uid,)
+    return true
+  } catch (error) {
+    return (error)
+  }
 }
-
 
 
 // SIGN UP Google
 
-export const signInWithGoogle =  () => {
+export const signInWithGoogle = () => {
   auth.signInWithPopup(googleProvider).then((res) => {
-      let user = res.user
-      db.ref('user').child(res.user.uid).set({
-        displayName: user.displayName,
-        email: user.email,
-        tel: user.phoneNumber,
-        profilePicture: user.photoURL,
-      })
+    let user = res.user
+    db.ref('user').child(res.user.uid).set({
+      displayName: user.displayName,
+      email: user.email,
+      tel: user.phoneNumber,
+      profilePicture: user.photoURL,
+    })
 
-      authStatus(res.user)
+    authStatus(res.user)
 
-      window.location = '/settings'
+    //window.location = '/settings'
   }).catch((error) => {
     console.log(error.message)
   })
@@ -71,7 +70,7 @@ export const signInWithGoogle =  () => {
 // CREATE CUSTOM UID 
 
 export const uuidv4 = () => {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
   );
 }
@@ -89,7 +88,7 @@ export const setSchedule = async (uid, data) => {
 export const getCurrentData = async (uid, id) => {
   let data
   await db.ref().child(`event/${uid}/${id}`).once('value').then((snapshot) => {
-    
+
     data = snapshot.val()
   })
   return data
@@ -113,7 +112,7 @@ export const getPreviousData = async (uid, time) => {
   await db.ref(`event/${uid}/`).orderByChild('timeStamp').endAt(time).limitToLast(1).once('value').then(snapshot => {
     snapshot.forEach((childSnapshot) => {
       data = childSnapshot.val();
-     });
+    });
   })
   return data
 }
@@ -122,12 +121,12 @@ export const getPreviousData = async (uid, time) => {
 
 export const getNextData = async (uid, time) => {
   let data
-  let key 
+  let key
   await db.ref(`event/${uid}/`).orderByChild('timeStamp').startAt(time).limitToFirst(1).once('value').then(snapshot => {
     snapshot.forEach((childSnapshot) => {
       key = childSnapshot.key
       data = childSnapshot.val();
-     });
+    });
   })
   return [data, key]
 }
@@ -138,7 +137,7 @@ export const getNextData = async (uid, time) => {
 export const getType = async (userId) => {
   await db.ref(`user/${userId}`).once('value', snapshot => {
     localStorage.setItem('firebase:currentUserType', snapshot.val().type)
-    return  snapshot.val().type
+    return snapshot.val().type
   })
 }
 
@@ -147,8 +146,8 @@ export const getType = async (userId) => {
 // SIGN OUT
 
 export const signOut = async () => {
-    localStorage.removeItem('firebase:currentUser')
-    return await auth.signOut()
+  localStorage.removeItem('firebase:currentUser')
+  return await auth.signOut()
 }
 
 
@@ -158,6 +157,10 @@ export const signOut = async () => {
 export const authStatus = async (result) => {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
+      console.log(user)
+      console.log(user)
+
+
       localStorage.setItem('firebase:currentUser', JSON.stringify(result.user))
     }
   })
@@ -201,9 +204,9 @@ export const getTypeInformation = async (type, uid) => {
   await db.ref().child(type).orderByChild('uid').equalTo(uid).once('value').then(userSnap => {
     userSnap.forEach(childSnap => {
       key = childSnap.key
-      data = JSON.stringify(childSnap.val()) 
+      data = JSON.stringify(childSnap.val())
     })
-    
+
   })
   return [
     data,
@@ -249,13 +252,13 @@ export const updatePersonalInformation = async (uid, firstname, lastname, email,
   await currentUser.updateProfile({
     displayName: firstname
   })
-  
 
-    await db.ref(`${userType}/${typeId}`).update({
-      name,
-      vat,
-      account_number,
-    })
+
+  await db.ref(`${userType}/${typeId}`).update({
+    name,
+    vat,
+    account_number,
+  })
 
   return true
 }
@@ -265,16 +268,16 @@ export const uploadProfilePicture = async (typeId, picture) => {
   const fileName = picture.name.replace(/\s+/g, '-').toLowerCase()
   const storageRef = firebase.storage().ref(`images/${typeId}/${fileName}`)
   let imagePath = ''
-  let storeImage =''
+  let storeImage = ''
 
   await storageRef.put(picture).then(() => {
-      imagePath = `images/${typeId}/${fileName}`
+    imagePath = `images/${typeId}/${fileName}`
   })
 
   storeImage = firebase.storage().ref(imagePath)
   await storeImage.getDownloadURL().then((url) => {
-      pictureUrl = url
+    pictureUrl = url
   })
-  
+
   return pictureUrl
 }

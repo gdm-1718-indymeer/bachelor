@@ -3,6 +3,7 @@ import Welcome from './Welcome'
 import AddMedicine from './AddMedicine'
 import Settings from './settings'
 import Login from './signup/Login'
+import Register from './signup/Signup'
 import Timer from './timer/Timer'
 import Description from './timer/Description'
 import Webcam from './webcam/Webcam'
@@ -17,6 +18,7 @@ export {
     AddMedicine,
     Settings,
     Login,
+    Register,
     Timer,
     Profile,
     Calender,
