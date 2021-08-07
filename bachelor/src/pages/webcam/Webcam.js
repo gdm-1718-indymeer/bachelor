@@ -96,7 +96,8 @@ const Webcam = (props) => {
         getInputProps,
         isDragActive,
         isDragAccept,
-        isDragReject
+        isDragReject,
+        acceptedFiles
     } = useDropzone({
         accept: 'image/*',
         multiple: false,
@@ -110,6 +111,10 @@ const Webcam = (props) => {
             );
         }
     });
+
+    const remove = file => {
+        setFiles({})     // remove the file from the array
+    };
 
     const style = useMemo(() => ({
         ...baseStyle,
@@ -165,7 +170,15 @@ const Webcam = (props) => {
                             </> :
                             <div className="container">
                                 <div {...getRootProps({ style })}>
-                                    {files.length > 0 ? <img className='dropzone-img' src={files[0].preview} /> :
+                                    {files.length > 0 ? <>
+                                        <img className='dropzone-img' src={files[0].preview} />
+                                        <button className='countdown-wrapper__button btn' onClick={remove}>
+                                            Verwijder de afbeelding
+                                        </button>
+                                        <button className='countdown-wrapper__button btn' onClick={() => setDataUri(false)}>
+                                            Verzenden
+                                        </button>
+                                    </> :
                                         <>
                                             <input {...getInputProps()} />
                                             <p>Drag 'n' drop some files here, or click to select files</p>
