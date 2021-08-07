@@ -60,7 +60,7 @@ export const signInWithGoogle = () => {
         tel: user.phoneNumber,
         profilePicture: user.photoURL,
       });
-      //window.location = '/settings'
+      window.location = '/settings';
     })
     .catch((error) => {
       console.log(error.message);
