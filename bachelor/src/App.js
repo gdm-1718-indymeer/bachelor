@@ -44,7 +44,7 @@ function App() {
         localStorage.setItem('firebase:currentUser', JSON.stringify(user));
         setAppState({ loginStatus: 'LOGGED_IN' });
       } else {
-        localStorage.removeItem('firebase:currentUser');
+        localStorage.clear();
         setAppState({ loginStatus: 'LOGGED_OUT' });
       }
     });

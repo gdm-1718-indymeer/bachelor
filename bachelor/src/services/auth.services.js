@@ -243,11 +243,6 @@ export const getTypeInformationByKey = async (type, key) => {
 // LOGOUT
 export const logoutUser = async () => {
   await auth.signOut();
-  try {
-    await localStorage.clear();
-  } catch (error) {
-    return error;
-  }
 };
 
 // UPDATE PERSONAL AND PROFESSIONEL INFORMATION
