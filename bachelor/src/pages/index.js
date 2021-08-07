@@ -8,7 +8,7 @@ import Description from './timer/Description'
 import Webcam from './webcam/Webcam'
 import Profile from './settings/childs/Profile'
 import Calender from './settings/childs/Calender'
-
+import Invite from './invite/Invite'
 
 
 export {
@@ -21,5 +21,6 @@ export {
     Profile,
     Calender,
     Description,
-    Webcam
+    Webcam,
+    Invite
 }

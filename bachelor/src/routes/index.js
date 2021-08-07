@@ -18,4 +18,4 @@ export const DASHBOARD = '/dashboard'
 export const DASHMEDICATION = '/dashboard/medication'
 export const CREATEMED = '/dashboard/medication/create'
 
-
+export const INVITE = '/invite/:uid1/:uid2'
