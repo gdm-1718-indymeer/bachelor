@@ -40,7 +40,6 @@ function App() {
     If the user is logged out this will catch the error
     */
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         localStorage.setItem('firebase:currentUser', JSON.stringify(user));
         setAppState({ loginStatus: 'LOGGED_IN' });

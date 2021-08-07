@@ -22,8 +22,8 @@ const client = textmagicClient.ApiClient.instance;
 const auth = client.authentications['BasicAuth'];
 const api = new textmagicClient.TextMagicApi();
 
-auth.username =  process.env.REACT_APP_SMS_USERNAME;
-auth.password =  'ZAH7BlldVKUcm5Dv6kyGKPCfEqCD9C' //process.env.REACT_APP_SMS_API;
+auth.username = process.env.REACT_APP_SMS_USERNAME;
+auth.password = 'ZAH7BlldVKUcm5Dv6kyGKPCfEqCD9C'; //process.env.REACT_APP_SMS_API;
 
 const { Option } = components;
 const showSecond = false;
@@ -167,15 +167,18 @@ const AddMedicine = () => {
         };
 
         const opts = {
-            page: 1,
-            limit: 10,
-            lastId: 1,
+          page: 1,
+          limit: 10,
+          lastId: 1,
         };
-        api.getAllOutboundMessages(opts).then(function (data) {
+        api
+          .getAllOutboundMessages(opts)
+          .then(function (data) {
             console.log(data);
-        }).catch(function(err){
+          })
+          .catch(function (err) {
             console.error(err);
-        });
+          });
         // api
         //   .sendMessage(input)
         //   .then(function (data) {
@@ -220,8 +223,8 @@ const AddMedicine = () => {
 
   return (
     <>
-      <div class='area'>
-        <ul class='circles'>
+      <div className='area'>
+        <ul className='circles'>
           <li></li>
           <li></li>
           <li></li>
@@ -341,7 +344,7 @@ const AddMedicine = () => {
                         }
                       />
                       <span className='checkbox-tile'>
-                        <span class='checkbox-icon'>
+                        <span className='checkbox-icon'>
                           <FontAwesomeIcon
                             className='icon--food'
                             icon={faCoffee}

@@ -7,7 +7,6 @@ import AppContext from '../../services/context.services';
 function BaseLayout(props) {
   const { window, children } = props;
   const appContext = useContext(AppContext);
-  console.log(appContext);
   if (appContext.loginStatus === 'LOGGED_OUT') {
     return <Redirect to='/login' />;
   }

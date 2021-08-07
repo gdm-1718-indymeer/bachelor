@@ -50,44 +50,46 @@ const Login = (props) => {
   };
 
   return (
-    <main class='d-flex align-items-center min-vh-100 py-3 py-md-0'>
-      <div class='container'>
-        <div class='card login-card'>
-          <div class='row no-gutters'>
-            <div class='col-md-5'>
-              <img src={MedicineImg} alt='login' class='login-card-img' />
+    <main className='d-flex align-items-center min-vh-100 py-3 py-md-0'>
+      <div className='container'>
+        <div className='card login-card'>
+          <div className='row no-gutters'>
+            <div className='col-md-5'>
+              <img src={MedicineImg} alt='login' className='login-card-img' />
             </div>
-            <div class='col-md-7'>
-              <div class='card-body'>
-                <p class='login-card-description'>Login into your account</p>
+            <div className='col-md-7'>
+              <div className='card-body'>
+                <p className='login-card-description'>
+                  Login into your account
+                </p>
                 <form action='#!'>
                   {message.error && (
                     <p className='alert alert-danger'>{message.error}</p>
                   )}
 
-                  <div class='form-group'>
-                    <label for='email' class='sr-only'>
+                  <div className='form-group'>
+                    <label htmlFor='email' className='sr-only'>
                       Email
                     </label>
                     <input
                       type='email'
                       name='email'
                       id='email'
-                      class='form-control'
+                      className='form-control'
                       placeholder='Email address'
                       onChange={onChange}
                     />
                   </div>
 
-                  <div class='form-group mb-4'>
-                    <label for='password' class='sr-only'>
+                  <div className='form-group mb-4'>
+                    <label htmlFor='password' className='sr-only'>
                       Password
                     </label>
                     <input
                       type='password'
                       name='password'
                       id='password'
-                      class='form-control'
+                      className='form-control'
                       placeholder='***********'
                       onChange={onChange}
                     />
@@ -96,7 +98,7 @@ const Login = (props) => {
                   <input
                     name='register'
                     id='register'
-                    class='btn btn-block login-btn mb-4'
+                    className='btn btn-block login-btn mb-4'
                     type='button'
                     value='Login'
                     onClick={onSubmit}
@@ -107,9 +109,9 @@ const Login = (props) => {
                   <h5 className='providers-login__title'>Or Sign in with </h5>
                   <button
                     type='button'
-                    class='google-button'
+                    className='google-button'
                     onClick={signInWithGoogle}>
-                    <span class='google-button__icon'>
+                    <span className='google-button__icon'>
                       <svg
                         viewBox='0 0 366 372'
                         xmlns='http://www.w3.org/2000/svg'>
@@ -134,17 +136,19 @@ const Login = (props) => {
                         />
                       </svg>
                     </span>
-                    <span class='google-button__text'>Sign in with Google</span>
+                    <span className='google-button__text'>
+                      Sign in with Google
+                    </span>
                   </button>
                 </div>
 
-                <p class='login-card-footer-text'>
+                <p className='login-card-footer-text'>
                   Don't have an account?{' '}
-                  <a href='/register' class='text-reset'>
+                  <a href='/register' className='text-reset'>
                     Signup here
                   </a>
                 </p>
-                <nav class='login-card-footer-nav'>
+                <nav className='login-card-footer-nav'>
                   <a href='#!'>Terms of use.</a>
                   <a href='#!'>Privacy policy</a>
                 </nav>

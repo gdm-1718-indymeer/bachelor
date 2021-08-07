@@ -150,7 +150,7 @@ export const getNextData = async (uid, time) => {
         data = childSnapshot.val();
       });
     });
-  return [data, key];
+  return [data, key].filter((i) => i);
 };
 
 // GET TYPE
