@@ -1,64 +1,175 @@
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  AddMedicine,
+  Calender,
+  Description,
+  Home,
+  Invite,
+  Login,
+  Profile,
+  Register,
+  Settings,
+  Timer,
+  Webcam,
+  Welcome,
+} from './pages';
+import { Clients, Create, Medication } from './admin';
 
-import { AddMedicine, Calender, Description, Home, Invite, Login, Profile, Register, Settings, Timer, Webcam, Welcome } from './pages'
-import { Clients, Create, Medication } from './admin'
+import {
+  BaseLayout,
+  DashboardLayout,
+  SettingsLayout,
+  AuthLayout,
+} from './components/layout';
 
-import { BaseLayout, DashboardLayout, SettingsLayout, AuthLayout } from './components/layout'
-
-import * as Routes from './routes'
+import * as Routes from './routes';
 import './_sass/app.scss';
+import { AppProvider } from './services/context.services';
+import firebase from 'firebase';
 
 function App() {
+  const [appState, setAppState] = useState({ loginStatus: 'PENDING' });
+  /* useEffect => ComponentDidMount and ComponentUpdate but with the second argument ("[]") it's ComponentDidMount
+     The empty array is important to not run this every update!
+  */
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        localStorage.setItem('firebase:currentUser', JSON.stringify(user));
+        setAppState({ loginStatus: 'LOGGED_IN' });
+      } else {
+        localStorage.removeItem('firebase:currentUser');
+        setAppState({ loginStatus: 'LOGGED_OUT' });
+      }
+    });
+  }, []);
+  if (appState.loginStatus === 'PENDING') return <></>;
   return (
-    <Router>
-      <Switch>
-        <RouteWrapper path={Routes.HOME} layout={BaseLayout} component={Home} exact />
-        <RouteWrapper path={Routes.WELCOME} layout={SettingsLayout} component={Welcome} exact />
-        <RouteWrapper path={Routes.ADD} layout={BaseLayout} component={AddMedicine} exact />
-        <RouteWrapper path={Routes.LOGIN} layout={AuthLayout} component={Login} exact />
-        <RouteWrapper path={Routes.REGISTER} layout={AuthLayout} component={Register} exact />
-        <RouteWrapper path={Routes.NOW} layout={BaseLayout} component={Timer} exact />
-        <RouteWrapper path={Routes.CAMERA} layout={BaseLayout} component={Webcam} exact />
-        <RouteWrapper path={Routes.NEXT} layout={SettingsLayout} component={Description} exact />
-        <RouteWrapper path={Routes.DESCRIPTION} layout={SettingsLayout} component={Description} exact />
+    <AppProvider value={{ ...appState, updateContext: setAppState }}>
+      <Router>
+        <Switch>
+          <RouteWrapper
+            path={Routes.HOME}
+            layout={BaseLayout}
+            component={Home}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.WELCOME}
+            layout={SettingsLayout}
+            component={Welcome}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.ADD}
+            layout={BaseLayout}
+            component={AddMedicine}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.LOGIN}
+            layout={AuthLayout}
+            component={Login}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.REGISTER}
+            layout={AuthLayout}
+            component={Register}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.NOW}
+            layout={BaseLayout}
+            component={Timer}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.CAMERA}
+            layout={BaseLayout}
+            component={Webcam}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.NEXT}
+            layout={SettingsLayout}
+            component={Description}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.DESCRIPTION}
+            layout={SettingsLayout}
+            component={Description}
+            exact
+          />
 
+          {/* settings */}
+          <RouteWrapper
+            path={Routes.SETTINGS}
+            layout={BaseLayout}
+            component={Settings}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.PROFILE}
+            layout={SettingsLayout}
+            component={Profile}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.CALENDAR}
+            layout={SettingsLayout}
+            component={Calender}
+            exact
+          />
 
-        {/* settings */}
-        <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
-        <RouteWrapper path={Routes.PROFILE} layout={SettingsLayout} component={Profile} exact />
-        <RouteWrapper path={Routes.CALENDAR} layout={SettingsLayout} component={Calender} exact />
+          {/* Dahboard */}
+          <RouteWrapper
+            path={Routes.DASHBOARD}
+            layout={DashboardLayout}
+            component={Clients}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.DASHMEDICATION}
+            layout={DashboardLayout}
+            component={Medication}
+            exact
+          />
+          <RouteWrapper
+            path={Routes.CREATEMED}
+            layout={DashboardLayout}
+            component={Create}
+            exact
+          />
 
-
-        {/* Dahboard */}
-        <RouteWrapper path={Routes.DASHBOARD} layout={DashboardLayout} component={Clients} exact />
-        <RouteWrapper path={Routes.DASHMEDICATION} layout={DashboardLayout} component={Medication} exact />
-        <RouteWrapper path={Routes.CREATEMED} layout={DashboardLayout} component={Create} exact />
-
-
-        {/* Admin */}
-        <RouteWrapper path={Routes.INVITE} layout={SettingsLayout} component={Invite} exact />
-
-
-
-      </Switch>
-    </Router>
+          {/* Admin */}
+          <RouteWrapper
+            path={Routes.INVITE}
+            layout={SettingsLayout}
+            component={Invite}
+            exact
+          />
+        </Switch>
+      </Router>
+    </AppProvider>
   );
 }
 
-function RouteWrapper({
-  component: Component,
-  layout: Layout,
-  ...rest
-}) {
+function RouteWrapper({ component: Component, layout: Layout, ...rest }) {
   return (
-    <Route {...rest} render={(props) =>
-      <Layout {...props}>
-        <Component {...props} />
-      </Layout>
-    } />
-  )
+    <Route
+      {...rest}
+      render={(props) => (
+        <Layout {...props}>
+          <Component {...props} />
+        </Layout>
+      )}
+    />
+  );
 }
 
 export default App;

@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Navigation } from './index';
 import firebase from '../../config/firebaseConfig';
+import AppContext from '../../services/context.services';
 
 function BaseLayout(props) {
   const { window, children } = props;
-
-  /*if (!firebase.auth().currentUser) {
-    return < Redirect to='/login' />
+  const appContext = useContext(AppContext);
+  console.log(appContext);
+  if (appContext.loginStatus === 'LOGGED_OUT') {
+    return <Redirect to='/login' />;
   }
-*/
+
   return (
     <div>
       {children}
