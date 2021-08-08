@@ -128,7 +128,6 @@ const AddMedicine = () => {
     const uid = currentUser.uid;
 
     if (state.before || state.during || (state.after && selectedDay)) {
-      const targetDate = `${selectedDay.day}/${selectedDay.month}/${selectedDay.year}`;
 
       let time = state.time;
       var a = time.split(':'); // split it at the colons
@@ -148,6 +147,7 @@ const AddMedicine = () => {
           second
         );
         date.setDate(date.getDate() + i);
+        const targetDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
         let newDate = toTimestamp(date);
         data[uid] = {
