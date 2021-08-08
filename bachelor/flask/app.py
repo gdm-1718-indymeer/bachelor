@@ -1,8 +1,12 @@
+from datetime import date, datetime, timedelta
 from flask import Flask, render_template, request
 from flask_cors import CORS, cross_origin
 import base64
 import six
 import uuid
+import threading
+import time
+import pyrebase
 import imghdr
 import io
 import boto3
@@ -20,12 +24,69 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
 dotenv_path = Path('./.env')
-
+is_running=True
 load_dotenv(dotenv_path=dotenv_path)
-
 app = Flask(__name__)
 CORS(app)
+config = {
+        "apiKey": os.getenv("API_KEY"),
+        "authDomain": os.getenv("AUTH_DOMAIN"),
+        "databaseURL": os.getenv("DATABASE_URL"),
+        "projectId": os.getenv("PROJECT_ID"),
+        "storageBucket": os.getenv("STORAGE_BUCKET"),
+        "messagingSenderId": os.getenv("MESSAGING_SENDER_ID"),
+        "appId": os.getenv("APP_ID")
+    }
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+def is_too_late(event,isAdmin =False):
+    current_date = datetime.now().timestamp()
+    firstOffset = timedelta(minutes=10)
+    first_email_date = (datetime.fromtimestamp(event['timeStamp'])+firstOffset).timestamp()
+    if "isTaken" in event.keys():
+        if  not event['isTaken'] and first_email_date < current_date:
+            offset = timedelta(minutes=20)
+            email_date = (datetime.fromtimestamp(event['timeStamp'])+offset).timestamp()
+            if isAdmin and email_date < current_date and not event['sendAdminReminder']:
+                return True
+            if(not event['sendFirstReminder'] or (not event['sendAdminReminder'] and not isAdmin)):
+                return True
+    return False
+events=[]
+def handle_stream(message):
+    global events
+    events = db.child("event").get().val()
 
+def background_timer_checker():
+    global events
+    db.child('event').stream(handle_stream)
+    #get all events
+    events = db.child("event").get().val()
+    while is_running:
+        print(events['TApKLtbM0MaoCO0ezmZjumF2H343']['adf5c318-3a61-486f-b671-1d2ae9ff9b1e'])
+        print()
+        eventlist = []
+        for userid in events:
+            for eventid in events[userid]:
+                if(is_too_late(events[userid][eventid])):
+                    eventlist.append({userid:{eventid: events[userid][eventid]}})
+        for event in eventlist:
+            for userid in event:
+                for eventid in event[userid]:
+                    if not event[userid][eventid]['sendFirstReminder']:
+                        #send email to normal client
+                        event[userid][eventid]['sendFirstReminder'] = True
+                        db.child('event').child(userid).child(eventid).update(event[userid][eventid])
+                    elif is_too_late(event[userid][eventid],True):
+
+                        #send email to admin
+
+                        event[userid][eventid]['sendAdminReminder'] = True
+                        db.child('event').child(userid).child(eventid).update(event[userid][eventid])
+        time.sleep(15)
+
+thread = threading.Thread(target=background_timer_checker, daemon=True)
+thread.start()
 # function to get latest iteration in loop
 
 
