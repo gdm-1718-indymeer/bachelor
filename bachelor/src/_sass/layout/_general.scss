@@ -87,6 +87,16 @@ button {
   margin-left: 2%;
   cursor: pointer;
   width: 180px;
+  transition: transform .2s ease-in;
+
+  svg {
+    transition: transform .2s ease-in;
+  }
+
+  &:hover svg {
+    transform: translateX(10px);
+  }
+
 }
 /*
   // loading animation ----------------------------------------------------------------------------------------
