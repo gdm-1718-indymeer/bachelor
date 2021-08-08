@@ -183,14 +183,9 @@ export const getCurrentUser = async () => {
 
 export const getUserData = async (uid) => {
   let data;
-  await db
-    .ref()
-    .child('user')
-    .child(uid)
-    .once('value')
-    .then((userSnap) => {
-      data = userSnap.val();
-    });
+  await db.ref().child('user').child(uid).once('value').then((userSnap) => {
+    data = userSnap.val();
+  });
   return data;
 };
 
@@ -246,52 +241,38 @@ export const logoutUser = async () => {
 };
 
 // UPDATE PERSONAL AND PROFESSIONEL INFORMATION
-export const updatePersonalInformation = async (
-  uid,
-  firstname,
-  lastname,
-  email,
-  tel,
-  userType,
-  typeId,
-  name,
-  vat,
-  account_number,
-  picture
-) => {
+export const updatePersonalInformation = async (uid, displayName, email, phone, photo) => {
   await db.ref(`user/${uid}`).update({
-    firstname,
-    lastname,
-    tel,
+    displayName: displayName,
+    email: email,
+    phoneNumber: phone,
+    profilePicture: photo
+
   });
 
   const currentUser = auth.currentUser;
   await currentUser.updateProfile({
-    displayName: firstname,
+    displayName: displayName,
+    profilePicture: photo
   });
 
-  await db.ref(`${userType}/${typeId}`).update({
-    name,
-    vat,
-    account_number,
-  });
 
   return true;
 };
 
-export const uploadProfilePicture = async (typeId, picture) => {
-  let pictureUrl = '';
-  const fileName = picture.name.replace(/\s+/g, '-').toLowerCase();
-  const storageRef = firebase.storage().ref(`images/${typeId}/${fileName}`);
-  let imagePath = '';
-  let storeImage = '';
+export const uploadProfilePicture = async (file) => {
+  let pictureUrl;
 
-  await storageRef.put(picture).then(() => {
-    imagePath = `images/${typeId}/${fileName}`;
-  });
+  // Get current username
+  var user = firebase.auth().currentUser;
 
-  storeImage = firebase.storage().ref(imagePath);
-  await storeImage.getDownloadURL().then((url) => {
+  // Create a Storage Ref w/ username
+  var storageRef = firebase.storage().ref(user.uid + '/profilePicture/' + file.name);
+
+  // Upload file
+  await storageRef.put(file)
+
+  await storageRef.getDownloadURL().then(url => {
     pictureUrl = url;
   });
 

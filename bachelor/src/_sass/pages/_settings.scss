@@ -137,3 +137,27 @@
     max-width: 48%;
   }
 }
+
+
+.profile {
+  .img-wrapper {
+    margin-bottom: 3em;
+  }
+
+  .form-group {
+    margin-bottom: 1em;
+  }
+  
+  .btn {
+    width: 216px;
+    margin: 1em 0;
+  }
+
+  .picture {
+    width: 130px;  
+  }
+
+  .react-tel-input .form-control {
+     width: 100%; 
+  }
+}
