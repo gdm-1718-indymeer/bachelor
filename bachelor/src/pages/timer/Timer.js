@@ -38,20 +38,6 @@ const Timer = () => {
       }
 
       const remainingTime = endTime - startTime;
-      console.log(startTime);
-      console.log(endTime);
-
-      /* let prev;
-      const dateObjectNext = new Date(next[0].timeStamp * 1000); // convert back from epoch
-      let time = (dateObjectNext.getTime() - new Date().getTime()) / 1000;
-      if (previous) {
-        const dateObjectPrev = new Date(previous.timeStamp * 1000); // convert back from epoch
-        prev = (dateObjectPrev.getTime() - dateObjectNext.getTime()) / 1000;
-      } else {
-        prev = new Date().getTime();
-      }
-      console.log(dateObjectNext);
-      console.log(prev);*/
       setTime({
         time: remainingTime,
         prev: remainingTime,
