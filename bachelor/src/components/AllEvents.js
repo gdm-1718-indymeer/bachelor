@@ -50,7 +50,7 @@ const AllEvents = (props) => {
         })
 
         setTasks(timeOfTheDay)
-    }, [props.date]);
+    }, [props.date, props.events]);
 
 
     function Task({ task, index, completeTask, removeTask }) {
@@ -105,7 +105,6 @@ const AllEvents = (props) => {
         newTasks.splice(index, 1);
         setTasks(newTasks);
     };
-    console.log(tasks)
     return (
         <div className="container">
             {/* <div className="header">Remaining items {tasksRemaining}</div> */}
