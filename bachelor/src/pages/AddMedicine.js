@@ -49,11 +49,11 @@ const CustomSelectOption = (props) => (
 const CustomName = (props) => <div>{props.data.label}</div>;
 
 const CustomAmount = (props) => <div>{props.data.label}</div>;
-
-const toTimestamp = (year, month, day, hour, minute, second) => {
-  return Math.floor(
-    new Date(year, month - 1, day, hour, minute, second).getTime() / 1000
-  );
+const toDate = (year, month, day, hour, minute, second) => {
+  return new Date(year, month - 1, day, hour, minute, second);
+};
+const toTimestamp = (date) => {
+  return Math.floor(date.getTime() / 1000);
 };
 
 const AddMedicine = () => {
@@ -138,7 +138,7 @@ const AddMedicine = () => {
       let data = {};
       for (let i = 0; i < state.days; i++) {
         let uid = uuidv4();
-        let newDate = toTimestamp(
+        const date = toDate(
           selectedDay.year,
           selectedDay.month,
           selectedDay.day,
@@ -146,7 +146,9 @@ const AddMedicine = () => {
           minute,
           second
         );
+        date.setDate(date.getDate() + i);
 
+        let newDate = toTimestamp(date);
         data[uid] = {
           medicineName: state.medicine,
           targetDate: targetDate,
