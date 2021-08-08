@@ -160,6 +160,9 @@ const AddMedicine = () => {
           afterDinner: state.after,
           notification: state.notificationTime,
           timeStamp: newDate,
+          isTaken: false,
+          sendFirstReminder: false,
+          sendAdminReminder: false,
         };
 
         const input = {
