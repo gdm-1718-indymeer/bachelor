@@ -23,7 +23,7 @@
     .pill {
       border-radius: 25px;
       background-color: $white;
-      max-width: 52px;
+      max-width: 58px;
       min-width: 44px;
       align-items: center;
       text-align: center;
@@ -36,7 +36,7 @@
 
     .cell {
       position: relative;
-      height: 5em;
+      height: 7em;
       overflow: hidden;
       cursor: pointer;
       transition: 0.25s ease-out;

@@ -60,7 +60,7 @@ const Home = (props) => {
         <div className='container'>
           <div className='row'>
             <div className='col-12'>
-              <h3 className='overview__activity'>Today</h3>
+              <h3 className='overview__activity'>Reminders van de dag</h3>
               {dateProp && <Reminder handleDate={dateProp} uid={uid} />}
             </div>
           </div>
