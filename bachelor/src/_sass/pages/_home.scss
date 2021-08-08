@@ -4,6 +4,17 @@
   padding: 3em;
   min-height: 400px;
   max-width: 100%;
+
+  .introduction {
+    padding-bottom: 4em;
+    
+    span {
+      font-size: $fontSize28;
+    }
+    p {
+      text-align: left;
+    }
+  }
 }
 
 .white {

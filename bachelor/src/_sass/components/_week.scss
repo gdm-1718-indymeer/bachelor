@@ -4,21 +4,19 @@
   display: block;
   position: relative;
   width: 100%;
-  background: var(--neutral-color);
-  border: 1px solid var(--border-color);
   margin-top: 2%;
 
   &__view {
     justify-content: space-between;
+    overflow-x: auto;
+    flex-wrap: nowrap;
   }
 
   .days {
     text-transform: uppercase;
     font-weight: 400;
-    color: var(--text-color-light);
     font-size: 70%;
     padding: 0.75em 0;
-    border-bottom: 1px solid var(--border-color);
   }
 
   .body {
@@ -39,10 +37,10 @@
     .cell {
       position: relative;
       height: 5em;
-      border-right: 1px solid var(--border-color);
       overflow: hidden;
       cursor: pointer;
       transition: 0.25s ease-out;
+      margin-right: 3em;
 
       &:hover {
         background: var(--bg-color);
@@ -51,7 +49,7 @@
     }
 
     .selected {
-      background-color: $clrBlue;
+      background-color: $yellow;
     }
 
     .row {
@@ -101,7 +99,7 @@
     .col {
       flex-grow: 0;
       flex-basis: calc(100% / 7);
-      width: calc(100% / 7);
+      // width: calc(100% / 7);
     }
   }
 }

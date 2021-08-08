@@ -18,11 +18,11 @@ const Home = (props) => {
     let curHr = today.getHours();
 
     if (curHr < 12) {
-      return 'Good morning ';
+      return 'Goedemorgen ';
     } else if (curHr < 18) {
-      return 'Good afternoon ';
+      return 'Goedemiddag ';
     } else {
-      return 'Good evening ';
+      return 'Goedenavond ';
     }
   };
 
@@ -43,13 +43,13 @@ const Home = (props) => {
         </ul>
         <div className='container-fluid home'>
           <div className='row'>
-            <div className='col-12'>
-              <h1 className='h1-style pt-50'>
-                <CheckMorning />
+            <div className='col-12 introduction'>
+              <h1 className='h1-style pt-50 '>
+                <span><CheckMorning /></span>
                 <br />
                 {currentUser.displayName ? currentUser.displayName : ''}
               </h1>
-              <p> Hieronder zie je dagelijkse overzicht </p>
+              <p> Hieronder zie je jouw dagelijkse overzicht </p>
             </div>
             <Week handleSetDate={handleSetDate} />
           </div>

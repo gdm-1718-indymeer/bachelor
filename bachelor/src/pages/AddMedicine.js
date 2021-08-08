@@ -191,8 +191,7 @@ const AddMedicine = () => {
         //   });
       }
 
-      const result = 'W';
-      await setSchedule(uid, data);
+      const result = await setSchedule(uid, data);
 
       if (!result.message) {
         setMessage({
