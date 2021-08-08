@@ -173,14 +173,14 @@ const AddMedicine = () => {
           limit: 10,
           lastId: 1,
         };
-        api
-          .getAllOutboundMessages(opts)
-          .then(function (data) {
-            console.log(data);
-          })
-          .catch(function (err) {
-            console.error(err);
-          });
+        // api
+        //   .getAllOutboundMessages(opts)
+        //   .then(function (data) {
+        //     console.log(data);
+        //   })
+        //   .catch(function (err) {
+        //     console.error(err);
+        //   });
         // api
         //   .sendMessage(input)
         //   .then(function (data) {
@@ -191,7 +191,8 @@ const AddMedicine = () => {
         //   });
       }
 
-      const result = 'W'; //await setSchedule(uid, data)
+      const result = 'W';
+      await setSchedule(uid, data);
 
       if (!result.message) {
         setMessage({

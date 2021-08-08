@@ -47,7 +47,6 @@ const Timer = () => {
       const nextDate = await getNextData(uid, time);
       setNext(nextDate);
 
-      console.log(next);
       calculateTime(previousDate, nextDate);
     } catch (e) {
       console.error(e);
@@ -79,7 +78,6 @@ const Timer = () => {
     let h = Math.floor((remainingTime % (3600 * 24)) / 3600);
     let m = Math.floor((remainingTime % 3600) / 60);
     let s = Math.floor(remainingTime % 60);
-
     return (
       <div className='inner'>
         <svg
@@ -98,10 +96,10 @@ const Timer = () => {
                 transform='translate(0.075 0.463)'
                 fill='none'
                 stroke='#205072'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-miterlimit='10'
-                stroke-width='3'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeMiterlimit='10'
+                strokeWidth='3'
               />
               <path
                 id='Path-2'
@@ -110,10 +108,10 @@ const Timer = () => {
                 transform='translate(9 11)'
                 fill='none'
                 stroke='#205072'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-miterlimit='10'
-                stroke-width='3'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeMiterlimit='10'
+                strokeWidth='3'
               />
             </g>
           </g>
