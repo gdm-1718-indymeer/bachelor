@@ -101,6 +101,12 @@
 }
 
 .events {
+  &__list {
+    &__time {
+      font-size: $fontSize20 !important;
+      margin: 3em 0 1em;
+    }
+  }
   &__tag {
     background: $blue;
     border: 2px solid $item-border;

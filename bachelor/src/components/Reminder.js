@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getScheduleByDate } from "../services/auth.services";
+import { Link } from 'react-router-dom';
 
 const Reminder = (props) => {
 
-    const [tasks, setTasks] = useState({});
+    const [tasks, setTasks] = useState({ Noon: [], Morning: [], Evening: [] });
 
 
     const getEvents = useCallback(async (uid, date) => {
@@ -12,36 +13,26 @@ const Reminder = (props) => {
             let item = { Noon: [], Morning: [], Evening: [] }
 
             if (response) {
-                [response].forEach(item => {
-                    console.log(item)
-                    console.log('e')
 
-                    let hour = Number(item.targetTime.split(':')[0])
+                Object.entries(response).forEach(([key, val]) => {
+                    let obj = {}
+                    let hour = Number(val.targetTime.split(':')[0])
+                    obj = val
+                    Object.assign(obj, { eventID: key })
+
                     if (hour <= 12) {
-                        item.Morning = { ...item.Morning, item }
-
+                        item.Morning.push(obj)
+                    } else if (hour <= 18) {
+                        item.Noon.push(obj)
+                    } else if (hour => 18) {
+                        item.Evening.push(obj)
                     }
+
                 })
-                // Object.entries(response).forEach(([key, val]) => {
 
-                //     let obj = {}
-                //     let hour = Number(val.targetTime.split(':')[0])
-
-                //     obj[key] = val
-                //     if (hour <= 12) {
-                //         item.Morning = { ...item.Morning, obj }
-
-                //     }
-
-                // })
+                setTasks(item)
             }
-            console.log(item)
 
-            // foreach( blabla){
-            // if(ismorning) item.morning.push(item);
-            // }
-            setTasks(response)
-            console.log(tasks)
 
         } catch (e) {
             console.error(e);
@@ -56,7 +47,8 @@ const Reminder = (props) => {
 
     function Task({ task, index, completeTask, removeTask }) {
         return (
-            <div
+            <Link
+                to={`/reminder/${task.eventID}`}
                 className=" mb-3"
                 style={{ textDecoration: task.completed ? "line-through" : "" }}>
 
@@ -89,7 +81,7 @@ const Reminder = (props) => {
 
 
 
-            </div>
+            </Link>
         );
     }
 
@@ -113,17 +105,55 @@ const Reminder = (props) => {
             <div className="tasks">
                 <ul className="events__list">
                     {tasks !== null ? <>
-                        {Object.keys(tasks).map(key => (
+
+                        {tasks.Morning.length !== 0 &&
                             <>
-                                <Task
-                                    task={tasks[key]}
-                                    index={key}
-                                    completeTask={completeTask}
-                                    removeTask={removeTask}
-                                    key={key}
-                                />
-                            </>
-                        ))}
+                                <h3 className='events__list__time'>Ochtend</h3>
+                                {Object.keys(tasks.Morning).map(key => (
+                                    <>
+                                        <Task
+                                            task={tasks.Morning[key]}
+                                            index={key}
+                                            completeTask={completeTask}
+                                            removeTask={removeTask}
+                                            key={key}
+                                        />
+                                    </>
+                                ))}
+                            </>}
+
+                        {tasks.Noon.length !== 0 &&
+                            <>
+                                <h3 className='events__list__time'>Middag</h3>
+                                {Object.keys(tasks.Noon).map(key => (
+                                    <>
+                                        <Task
+                                            task={tasks.Noon[key]}
+                                            index={key}
+                                            completeTask={completeTask}
+                                            removeTask={removeTask}
+                                            key={key}
+                                        />
+                                    </>
+                                ))}
+                            </>}
+
+
+                        {tasks.Evening.length !== 0 &&
+                            <>
+                                <h3 className='events__list__time'>Avond</h3>
+                                {Object.keys(tasks.Evening).map(key => (
+                                    <>
+                                        <Task
+                                            task={tasks.Evening[key]}
+                                            index={key}
+                                            completeTask={completeTask}
+                                            removeTask={removeTask}
+                                            key={key}
+                                        />
+                                    </>
+                                ))}
+                            </>}
                     </> : <p>Geen data gepland</p>}
                 </ul>
             </div>
