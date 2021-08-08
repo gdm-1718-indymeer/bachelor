@@ -99,6 +99,16 @@ export const getCurrentData = async (uid, id) => {
   return data;
 };
 
+// GET ALL DATA
+
+export const getAllData = async (uid) => {
+  let data;
+  await db.ref().child(`event/${uid}/`).once('value').then((snapshot) => {
+    data = snapshot.val();
+  });
+  return data;
+};
+
 // GET SCHEDULE FROM DATE
 
 export const getScheduleByDate = async (uid, date) => {

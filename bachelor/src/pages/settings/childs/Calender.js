@@ -1,22 +1,68 @@
-import React, { useState } from "react";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar } from "react-modern-calendar-datepicker";
+import React, { useState, useEffect, useCallback } from 'react';
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
+import { Calendar } from '@hassanmojab/react-modern-calendar-datepicker';
+import { getAllData } from '../../../services/auth.services';
+import AllEvents from '../../../components/AllEvents';
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
+
 
 const Calender = () => {
-    const defaultValue = {
-        year: 2019,
-        month: 10,
-        day: 5,
-      };
-    
-      const [selectedDay, setSelectedDay] = useState(defaultValue);
-      return (
-        <Calendar
-          value={selectedDay}
-          onChange={setSelectedDay}
-          shouldHighlightWeekends
-        />
-      );
+  const [state, setState] = useState({});
+  const [events, setEvents] = useState({});
+  const [selectedDay, setSelectedDay] = useState(null);
+
+
+  const getAll = useCallback(async (uid) => {
+    try {
+      const response = await getAllData(uid);
+      if (response) {
+        let dates = []
+        Object.entries(response).forEach(([key, val]) => {
+
+          let date = val.targetDate.split('/')
+          let day = Number(date[0])
+          let month = Number(date[1])
+          let year = Number(date[2])
+          let obj = { year: year, month: month, day: day, className: 'orangeDay' }
+          dates.push(obj)
+        })
+
+        setState(dates)
+        setEvents(response)
+
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
+  useEffect(() => {
+    let uid = currentUser.uid;
+    getAll(uid);
+  }, []);
+
+
+
+  return (
+    <>
+      <div className="all-calendar">
+        <h1>Overzicht van alle evenementen</h1>
+        {Object.keys(state) !== 0 && Object.keys(events) !== 0
+          &&
+          <>
+            <Calendar
+              value={selectedDay}
+              onChange={setSelectedDay}
+              shouldHighlightWeekends
+            // customDaysClassName={state}
+            />
+            <AllEvents events={events} date={selectedDay} />
+          </>
+        }
+      </div>
+    </>
+
+  );
 }
 
 export default Calender

@@ -1,0 +1,20 @@
+.all-calendar{
+    .Calendar {
+        font-size: 14px;
+        width: 100vw;
+        max-width: 100vw;
+        border-radius: 0%;
+    }
+
+    .Calendar__day.-selected {
+        border-radius: 5%;
+    }
+
+    .Calendar__day:not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween):not(.-selected):hover {
+        border-radius: 5%;
+    }
+
+    .orangeDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+        border: 2px solid rgba(219, 145, 60, 0.7) !important;
+      }
+}

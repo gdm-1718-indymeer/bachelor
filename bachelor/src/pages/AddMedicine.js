@@ -12,8 +12,9 @@ import {
   faUtensils,
 } from '@fortawesome/free-solid-svg-icons';
 
-import 'react-modern-calendar-datepicker/lib/DatePicker.css';
-import DatePicker from 'react-modern-calendar-datepicker';
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
+import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
+
 
 import 'rc-time-picker/assets/index.css';
 const textmagicClient = require('textmagic-client');
