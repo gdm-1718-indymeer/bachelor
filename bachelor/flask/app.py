@@ -1,7 +1,10 @@
 from datetime import date, datetime, timedelta
+import json
+from re import T
 from flask import Flask, render_template, request
 from flask_cors import CORS, cross_origin
 import base64
+import requests
 import six
 import uuid
 import threading
@@ -23,11 +26,15 @@ from json2table import convert
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
-dotenv_path = Path('./.env')
+dotenv_path = Path('./../.env')
 is_running=True
 load_dotenv(dotenv_path=dotenv_path)
 app = Flask(__name__)
 CORS(app)
+def noquote(s):
+    return s
+pyrebase.pyrebase.quote = noquote
+
 config = {
         "apiKey": os.getenv("API_KEY"),
         "authDomain": os.getenv("AUTH_DOMAIN"),
@@ -58,13 +65,17 @@ def handle_stream(message):
     events = db.child("event").get().val()
 
 def background_timer_checker():
+    mail_url= os.getenv("EMAIL_URL")
+    mail_service_id= os.getenv("EMAIL_SERVICE_ID")
+    mail_userId= os.getenv("EMAIL_USER_ID")
+    mail_admin_templateId= os.getenv("EMAIL_ADMIN_TEMPLATE_ID")
+    mail_client_templateId = os.getenv("EMAIL_CLIENT_TEMPLATE_ID")
+    mail_access_token = os.getenv("EMAIL_ACCESS_TOKEN")
     global events
     db.child('event').stream(handle_stream)
     #get all events
     events = db.child("event").get().val()
     while is_running:
-        print(events['TApKLtbM0MaoCO0ezmZjumF2H343']['adf5c318-3a61-486f-b671-1d2ae9ff9b1e'])
-        print()
         eventlist = []
         for userid in events:
             for eventid in events[userid]:
@@ -73,16 +84,70 @@ def background_timer_checker():
         for event in eventlist:
             for userid in event:
                 for eventid in event[userid]:
+                    client = db.child('user').order_by_key().equal_to(userid).limit_to_first(1).get().val()[userid]
                     if not event[userid][eventid]['sendFirstReminder']:
                         #send email to normal client
-                        event[userid][eventid]['sendFirstReminder'] = True
-                        db.child('event').child(userid).child(eventid).update(event[userid][eventid])
+                        if "displayName" in client:
+                            clientName= client['displayName']
+                        else:
+                            clientName = client['firstname']+" "+client['lastname']
+                        email =  client['email']
+                        data = {
+                                "service_id":mail_service_id,
+                                "template_id":mail_client_templateId,
+                                "user_id":mail_userId,
+                                "accessToken": mail_access_token,
+                                "template_params":{
+                                        "to": email,
+                                        "name": clientName,
+                                }
+                            }
+                        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+                        result = requests.post(mail_url,json= data, headers=headers)
+                        time.sleep(1)
+                        if(result.status_code != 200):
+                            print(result.text)
+                        else:
+                            event[userid][eventid]['sendFirstReminder'] = True
+                            db.child('event').child(userid).child(eventid).update(event[userid][eventid])
+
                     elif is_too_late(event[userid][eventid],True):
-
-                        #send email to admin
-
-                        event[userid][eventid]['sendAdminReminder'] = True
-                        db.child('event').child(userid).child(eventid).update(event[userid][eventid])
+                        response = db.child('acces').order_by_child("clientId").equal_to(userid).limit_to_first(1).get()
+                        if len(response.each()) > 0:
+                            adminId = response.val()[1]['adminId']
+                            adminResponse = db.child('user').order_by_key().equal_to(adminId).limit_to_first(1).get()
+                            adminUser=adminResponse.val()[adminId]
+                            email = adminUser['email']
+                            if "displayName" in client:
+                                clientName= client['displayName']
+                            else:
+                                clientName = client['firstname']+" "+client['lastname']
+                            if "displayName" in adminUser:
+                                adminName= adminUser['displayName']
+                            else:
+                                adminName = adminUser['firstname']+" "+adminUser['lastname']
+                            data = {
+                                "service_id":mail_service_id,
+                                "template_id":mail_admin_templateId,
+                                "user_id":mail_userId,
+                                "accessToken": mail_access_token,
+                                "template_params":{
+                                        "to": email,
+                                        "name": adminName,
+                                        "client_name": clientName
+                                }
+                            }
+                            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+                            result = requests.post(mail_url,json= data, headers=headers)
+                            if(result.status_code != 200):
+                                print(result.text)   
+                            else:
+                                event[userid][eventid]['sendAdminReminder'] = True
+                                db.child('event').child(userid).child(eventid).update(event[userid][eventid])                                 
+                            time.sleep(1)
+                        else:
+                            event[userid][eventid]['sendAdminReminder'] = True
+                            db.child('event').child(userid).child(eventid).update(event[userid][eventid])
         time.sleep(15)
 
 thread = threading.Thread(target=background_timer_checker, daemon=True)
