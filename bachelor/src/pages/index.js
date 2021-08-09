@@ -10,6 +10,7 @@ import Webcam from './webcam/Webcam'
 import Profile from './settings/childs/Profile'
 import Calender from './settings/childs/Calender'
 import Invite from './invite/Invite'
+import SmartPill from './settings/childs/smartPill/SmartPill'
 
 
 export {
@@ -24,5 +25,6 @@ export {
     Calender,
     Description,
     Webcam,
-    Invite
+    Invite,
+    SmartPill
 }

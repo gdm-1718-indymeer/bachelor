@@ -13,6 +13,8 @@ export const NEXT = '/reminder/:id'
 export const SETTINGS = '/settings'
 export const PROFILE = '/settings/profile'
 export const CALENDAR = '/settings/calendar'
+export const PILLFILL = '/settings/pillendoos'
+
 
 export const DASHBOARD = '/dashboard'
 export const DASHMEDICATION = '/dashboard/medication'

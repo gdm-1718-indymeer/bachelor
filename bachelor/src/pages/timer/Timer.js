@@ -30,17 +30,20 @@ const Timer = () => {
 
   const calculateTime = (previous, next) => {
     if (next.length > 0) {
-      let startTime = new Date().getTime() / 1000;
-      const endTime = next[0].timeStamp;
+      let dateObjectPrev = new Date(); // convert back from epoch
 
       if (previous) {
-        startTime = previous.timeStamp;
+        dateObjectPrev = new Date(previous.timeStamp * 1000); // convert back from epoch
       }
 
-      const remainingTime = endTime - startTime;
+      const dateObjectNext = new Date(next[0].timeStamp * 1000); // convert back from epoch
+      let time = (dateObjectNext.getTime() - new Date().getTime()) / 1000;
+      let prev = (dateObjectPrev.getTime() - dateObjectNext.getTime()) / 1000;
+
+      // const remainingTime = endTime - startTime;
       setTime({
-        time: remainingTime,
-        prev: remainingTime,
+        time: time,
+        prev: prev,
       });
     }
   };

@@ -3,6 +3,8 @@ import Week from '../components/Week';
 import Reminder from '../components/Reminder';
 import Lottie from 'react-lottie';
 import plants from '../assets/lotties/plants.json';
+import Fade from '../components/Fade'
+
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
 const Home = (props) => {
@@ -61,7 +63,9 @@ const Home = (props) => {
           <div className='row'>
             <div className='col-12'>
               <h3 className='overview__activity'>Reminders van de dag</h3>
-              {dateProp && <Reminder handleDate={dateProp} uid={uid} />}
+              {dateProp &&
+                <Reminder handleDate={dateProp} uid={uid} />
+              }
             </div>
           </div>
         </div>

@@ -54,7 +54,7 @@ const Calender = () => {
               value={selectedDay}
               onChange={setSelectedDay}
               shouldHighlightWeekends
-            // customDaysClassName={state}
+              customDaysClassName={state}
             />
             <AllEvents events={events} date={selectedDay} />
           </>

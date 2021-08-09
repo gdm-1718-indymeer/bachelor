@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Reminder = (props) => {
 
-    const [tasks, setTasks] = useState({ Noon: [], Morning: [], Evening: [] });
+    const [tasks, setTasks] = useState({});
 
 
     const getEvents = useCallback(async (uid, date) => {
@@ -30,8 +30,9 @@ const Reminder = (props) => {
 
                 })
 
-                setTasks(item)
+
             }
+            setTasks(item)
 
 
         } catch (e) {
@@ -79,8 +80,6 @@ const Reminder = (props) => {
                     <span class="events__tag">{task.targetTime}</span>
                 </li>
 
-
-
             </Link>
         );
     }
@@ -104,9 +103,9 @@ const Reminder = (props) => {
 
             <div className="tasks">
                 <ul className="events__list">
-                    {tasks !== null ? <>
+                    {tasks ? <>
 
-                        {tasks.Morning.length !== 0 &&
+                        {tasks.Morning && tasks.Morning.length > 0 ?
                             <>
                                 <h3 className='events__list__time'>Ochtend</h3>
                                 {Object.keys(tasks.Morning).map(key => (
@@ -120,9 +119,9 @@ const Reminder = (props) => {
                                         />
                                     </>
                                 ))}
-                            </>}
+                            </> : null}
 
-                        {tasks.Noon.length !== 0 &&
+                        {tasks.Noon && tasks.Noon.length > 0 ?
                             <>
                                 <h3 className='events__list__time'>Middag</h3>
                                 {Object.keys(tasks.Noon).map(key => (
@@ -136,10 +135,10 @@ const Reminder = (props) => {
                                         />
                                     </>
                                 ))}
-                            </>}
+                            </> : null}
 
 
-                        {tasks.Evening.length !== 0 &&
+                        {tasks.Evening && tasks.Evening.length > 0 ?
                             <>
                                 <h3 className='events__list__time'>Avond</h3>
                                 {Object.keys(tasks.Evening).map(key => (
@@ -153,7 +152,7 @@ const Reminder = (props) => {
                                         />
                                     </>
                                 ))}
-                            </>}
+                            </> : null}
                     </> : <p>Geen data gepland</p>}
                 </ul>
             </div>

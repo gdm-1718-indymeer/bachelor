@@ -11,6 +11,7 @@ import {
   Profile,
   Register,
   Settings,
+  SmartPill,
   Timer,
   Webcam,
   Welcome,
@@ -55,108 +56,30 @@ function App() {
     <AppProvider value={{ ...appState, updateContext: setAppState }}>
       <Router>
         <Switch>
-          <RouteWrapper
-            path={Routes.HOME}
-            layout={BaseLayout}
-            component={Home}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.WELCOME}
-            layout={SettingsLayout}
-            component={Welcome}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.ADD}
-            layout={BaseLayout}
-            component={AddMedicine}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.LOGIN}
-            layout={AuthLayout}
-            component={Login}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.REGISTER}
-            layout={AuthLayout}
-            component={Register}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.NOW}
-            layout={BaseLayout}
-            component={Timer}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.CAMERA}
-            layout={BaseLayout}
-            component={Webcam}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.NEXT}
-            layout={SettingsLayout}
-            component={Description}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.DESCRIPTION}
-            layout={SettingsLayout}
-            component={Description}
-            exact
-          />
+          <RouteWrapper path={Routes.HOME} layout={BaseLayout} component={Home} exact />
+          <RouteWrapper path={Routes.WELCOME} layout={SettingsLayout} component={Welcome} exact />
+          <RouteWrapper path={Routes.ADD} layout={BaseLayout} component={AddMedicine} exact />
+          <RouteWrapper path={Routes.LOGIN} layout={AuthLayout} component={Login} exact />
+          <RouteWrapper path={Routes.REGISTER} layout={AuthLayout} component={Register} exact />
+          <RouteWrapper path={Routes.NOW} layout={BaseLayout} component={Timer} exact />
+          <RouteWrapper path={Routes.CAMERA} layout={BaseLayout} component={Webcam} exact />
+          <RouteWrapper path={Routes.NEXT} layout={SettingsLayout} component={Description} exact />
+          <RouteWrapper path={Routes.DESCRIPTION} layout={SettingsLayout} component={Description} exact />
 
           {/* settings */}
-          <RouteWrapper
-            path={Routes.SETTINGS}
-            layout={BaseLayout}
-            component={Settings}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.PROFILE}
-            layout={SettingsLayout}
-            component={Profile}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.CALENDAR}
-            layout={SettingsLayout}
-            component={Calender}
-            exact
-          />
+          <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
+          <RouteWrapper path={Routes.PROFILE} layout={SettingsLayout} component={Profile} exact />
+          <RouteWrapper path={Routes.CALENDAR} layout={SettingsLayout} component={Calender} exact />
+          <RouteWrapper path={Routes.PILLFILL} layout={SettingsLayout} component={SmartPill} exact />
+
 
           {/* Dahboard */}
-          <RouteWrapper
-            path={Routes.DASHBOARD}
-            layout={DashboardLayout}
-            component={Clients}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.DASHMEDICATION}
-            layout={DashboardLayout}
-            component={Medication}
-            exact
-          />
-          <RouteWrapper
-            path={Routes.CREATEMED}
-            layout={DashboardLayout}
-            component={Create}
-            exact
-          />
+          <RouteWrapper path={Routes.DASHBOARD} layout={DashboardLayout} component={Clients} exact />
+          <RouteWrapper path={Routes.DASHMEDICATION} layout={DashboardLayout} component={Medication} exact />
+          <RouteWrapper path={Routes.CREATEMED} layout={DashboardLayout} component={Create} exact />
 
           {/* Admin */}
-          <RouteWrapper
-            path={Routes.INVITE}
-            layout={SettingsLayout}
-            component={Invite}
-            exact
-          />
+          <RouteWrapper path={Routes.INVITE} layout={SettingsLayout} component={Invite} exact />
         </Switch>
       </Router>
     </AppProvider>

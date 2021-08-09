@@ -23,14 +23,18 @@ const AllEvents = (props) => {
         }
 
         Object.entries(data).forEach(([key, val]) => {
-            let obj = {}
-            obj = val
-            Object.assign(obj, { eventID: key })
 
             if (val.targetDate === date) {
-                items.push(obj)
+                let rawData = val
+                rawData['eventID'] = key
+                // let added = { ...rawData, eventID: key }
+                // Object.assign(rawData, { eventID: key })
+                items.push(rawData)
             }
         })
+
+        console.log(items)
+
 
 
         Object.entries(items).forEach(([key, val]) => {
@@ -84,7 +88,7 @@ const AllEvents = (props) => {
                                 <p> {task.notification}min <span className='food btn--action'> na het eten</span></p>
                             }</span>
                     </div>
-                    <span class="events__tag">{task.targetTime}</span>
+                    <span className="events__tag">{task.targetTime}</span>
                 </li>
 
 
