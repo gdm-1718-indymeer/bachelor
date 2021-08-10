@@ -4,7 +4,8 @@ import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { setSchedule, uuidv4 } from '../services/auth.services';
 import { getAllMedicineData } from '../services/auth.services';
-
+import AOS from 'aos';
+import "aos/dist/aos.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBreadSlice,
@@ -90,6 +91,10 @@ const AddMedicine = () => {
 
   useEffect(() => {
     getNames();
+    AOS.init({
+      duration: 1000
+  });
+  AOS.refresh();
   }, []);
 
   let months = [
@@ -243,7 +248,7 @@ const AddMedicine = () => {
           <li></li>
         </ul>
 
-        <div className='container add-medicine pb-100'>
+        <div className='container add-medicine pb-100' data-aos="fade-down">
           <div className='row'>
             <div className='col-12'>
               <h2 className='h2-style'>Voeg een planning toe</h2>

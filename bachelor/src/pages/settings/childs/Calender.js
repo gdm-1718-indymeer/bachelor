@@ -7,7 +7,7 @@ let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
 
 const Calender = () => {
-  const [state, setState] = useState({});
+  const [state, setState] = useState([]);
   const [events, setEvents] = useState({});
   const [selectedDay, setSelectedDay] = useState(null);
 
@@ -54,7 +54,7 @@ const Calender = () => {
               value={selectedDay}
               onChange={setSelectedDay}
               shouldHighlightWeekends
-              customDaysClassName={state}
+              customDaysClassName={state ?? {}}
             />
             <AllEvents events={events} date={selectedDay} />
           </>

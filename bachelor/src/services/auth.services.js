@@ -9,7 +9,6 @@ export const signInWithEmailAndPassword = async (email, password) => {
   try {
     const result = await auth.signInWithEmailAndPassword(email, password);
     const userId = result.user.uid;
-    await getType(userId);
     return true;
   } catch (error) {
     return error;
@@ -40,7 +39,6 @@ export const createUserWithEmailAndPassword = async (
     });
 
     let result = createUser;
-    await getType(createUser.user.uid);
     return true;
   } catch (error) {
     return error;
@@ -163,20 +161,7 @@ export const getNextData = async (uid, time) => {
   return [data, key].filter((i) => i);
 };
 
-// GET TYPE
-export const getType = async (userId) => {
-  await db.ref(`user/${userId}`).once('value', (snapshot) => {
-    localStorage.setItem('firebase:currentUserType', snapshot.val().type);
-    return snapshot.val().type;
-  });
-};
 
-// SIGN OUT
-
-export const signOut = async () => {
-  localStorage.removeItem('firebase:currentUser');
-  return await auth.signOut();
-};
 
 // GET USER
 
@@ -224,42 +209,7 @@ export const getAllMedicineData = async () => {
   return data;
 };
 
-// GET USER (AGENCY/ARTIST) INFORMATION BY UID
-export const getTypeInformation = async (type, uid) => {
-  let data, key;
-  await db
-    .ref()
-    .child(type)
-    .orderByChild('uid')
-    .equalTo(uid)
-    .once('value')
-    .then((userSnap) => {
-      userSnap.forEach((childSnap) => {
-        key = childSnap.key;
-        data = JSON.stringify(childSnap.val());
-      });
-    });
-  return [data, key];
-};
 
-// GET USER (AGENCY/ARTIST) INFORMATION BY TYPE KEY
-export const getTypeInformationByKey = async (type, key) => {
-  let data;
-  await db
-    .ref()
-    .child(type)
-    .child(key)
-    .once('value')
-    .then((userSnap) => {
-      data = userSnap.val();
-    });
-  return data;
-};
-
-// LOGOUT
-export const logoutUser = async () => {
-  await auth.signOut();
-};
 
 // UPDATE PERSONAL AND PROFESSIONEL INFORMATION
 export const updatePersonalInformation = async (uid, displayName, email, phone, photo) => {
@@ -298,4 +248,30 @@ export const uploadProfilePicture = async (file) => {
   });
 
   return pictureUrl;
+};
+
+// CHECK IF MEDBOX KEY EXIST
+
+export const checkIfExist = async (key) => {
+  try {
+    let c
+   const check = await db.ref().child('pillbox').once('value').then((snapshot) => {
+      c = snapshot.child(key).exists(); // true
+    });
+  return c
+  }catch (error) {
+    return error;
+  }
+};
+
+// SIGN OUT
+
+export const signOut = async () => {
+  localStorage.removeItem('firebase:currentUser');
+  return await auth.signOut();
+};
+
+// LOGOUT
+export const logoutUser = async () => {
+  await auth.signOut();
 };
