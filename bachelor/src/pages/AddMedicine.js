@@ -3,7 +3,7 @@ import Select, { components } from 'react-select';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { setSchedule, uuidv4 } from '../services/auth.services';
-import { getMedicines } from '../services/medication.services';
+import { getAllMedicineData } from '../services/auth.services';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -62,17 +62,16 @@ const AddMedicine = () => {
   const [message, setMessage] = useState(false);
   const [medicines, setMedicines] = useState({});
 
-  const renameKey = (obj, oldKey, newKey) => {
-    obj[newKey] = obj[oldKey];
-    obj['label'] = obj[newKey];
-    delete obj[oldKey];
-  };
-
   const getNames = useCallback(async () => {
     try {
-      let data = await getMedicines();
-      data.forEach((obj) => renameKey(obj, 'term', 'value'));
-      setMedicines(data);
+      let data = await getAllMedicineData();
+      console.log(data)
+      let names = []
+      Object.entries(data).forEach(([key, val]) => {
+        let obj = { name: val.name, label: val.label, value: val.value}
+        names.push(obj)
+      })
+      setMedicines(names);
     } catch (e) {
       console.error(e);
     }
@@ -152,6 +151,7 @@ const AddMedicine = () => {
         let newDate = toTimestamp(date);
         data[uid] = {
           medicineName: state.medicine,
+          medicineValue: state.value,
           targetDate: targetDate,
           numberOfDays: state.days,
           targetTime: state.time,
@@ -265,7 +265,7 @@ const AddMedicine = () => {
                       SingleValue: CustomName,
                     }}
                     onChange={(obj) =>
-                      setValue({ ...state, medicine: obj.value })
+                      setValue({ ...state, medicine: obj.label, value:obj.value })
                     }
                   />
                 )}

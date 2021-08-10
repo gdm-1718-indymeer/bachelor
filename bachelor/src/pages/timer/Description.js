@@ -21,10 +21,8 @@ const Description = (props) => {
         try {
             console.log(props.match.params.id)
             const currentData = await getCurrentData(uid, props.match.params.id)
-            const result = await getMedicineDetails(currentData.medicineName);
+            const result = await getMedicineDetails(currentData.medicineValue);
             setState([result, currentData])
-            console.log(state)
-            console.log(state)
 
 
         } catch (e) {

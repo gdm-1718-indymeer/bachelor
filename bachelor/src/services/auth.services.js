@@ -199,6 +199,17 @@ export const getUserData = async (uid) => {
   return data;
 };
 
+// PUSH MEDICINES DATA
+
+export const addMedication = async (data) => {
+  try {
+    await db.ref().child(`medicine/${data.name}`).update(data);
+    return true;
+  }catch (error) {
+    return error;
+  }
+};
+
 // GET MEDICINES DATA
 
 export const getAllMedicineData = async () => {
