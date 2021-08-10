@@ -112,7 +112,7 @@ def background_timer_checker():
                             db.child('event').child(userid).child(eventid).update(event[userid][eventid])
 
                     elif is_too_late(event[userid][eventid],True):
-                        response = db.child('acces').order_by_child("clientId").equal_to(userid).limit_to_first(1).get()
+                        response = db.child('access').order_by_child("clientId").equal_to(userid).limit_to_first(1).get()
                         if len(response.each()) > 0:
                             adminId = response.val()[1]['adminId']
                             adminResponse = db.child('user').order_by_key().equal_to(adminId).limit_to_first(1).get()

@@ -5,30 +5,29 @@ import Users from '../components/users';
 
 function Clients() {
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: sitting,
-        rendererSettings: {
-          preserveAspectRatio: "xMidYMid slice"
-        }
-      };
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: sitting,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
 
-    return (
-        <>
-        <div className='dashboard-intro'>
-            <Lottie 
-                options={defaultOptions}
-                height={'40%'}
-                width={'20%'}
-                className={'test'}
-                />
-                
-        </div>
+  return (
+    <>
+      <div className='dashboard-intro'>
+        <Lottie
+          options={defaultOptions}
+          height={'40%'}
+          width={'20%'}
+          className={'test'}
+        />
+      </div>
 
-        <Users />
-        </>
-    )
+      <Users />
+    </>
+  )
 }
 
 export default Clients

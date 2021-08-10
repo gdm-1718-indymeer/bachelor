@@ -29,6 +29,7 @@ import * as Routes from './routes';
 import './_sass/app.scss';
 import { AppProvider } from './services/context.services';
 import firebase from 'firebase';
+import Invitation from './pages/invite/Invitation';
 
 function App() {
   const [appState, setAppState] = useState({ loginStatus: 'PENDING' });
@@ -65,7 +66,7 @@ function App() {
           <RouteWrapper path={Routes.CAMERA} layout={BaseLayout} component={Webcam} exact />
           <RouteWrapper path={Routes.NEXT} layout={SettingsLayout} component={Description} exact />
           <RouteWrapper path={Routes.DESCRIPTION} layout={SettingsLayout} component={Description} exact />
-
+          <RouteWrapper path={Routes.INVITATION} layout={SettingsLayout} component={Invitation} exact />
           {/* settings */}
           <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
           <RouteWrapper path={Routes.PROFILE} layout={SettingsLayout} component={Profile} exact />
