@@ -36,13 +36,13 @@ def noquote(s):
 pyrebase.pyrebase.quote = noquote
 
 config = {
-        "apiKey": os.getenv("API_KEY"),
-        "authDomain": os.getenv("AUTH_DOMAIN"),
-        "databaseURL": os.getenv("DATABASE_URL"),
-        "projectId": os.getenv("PROJECT_ID"),
-        "storageBucket": os.getenv("STORAGE_BUCKET"),
-        "messagingSenderId": os.getenv("MESSAGING_SENDER_ID"),
-        "appId": os.getenv("APP_ID")
+        "apiKey": os.getenv("REACT_APP_API_KEY"),
+        "authDomain": os.getenv("REACT_APP_AUTH_DOMAIN"),
+        "databaseURL": os.getenv("REACT_APP_DATABASE_URL"),
+        "projectId": os.getenv("REACT_APP_PROJECT_ID"),
+        "storageBucket": os.getenv("REACT_APP_STORAGE_BUCKET"),
+        "messagingSenderId": os.getenv("REACT_APP_MESSAGING_SENDER_ID"),
+        "appId": os.getenv("REACT_APP_APP_ID")
     }
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
@@ -65,12 +65,12 @@ def handle_stream(message):
     events = db.child("event").get().val()
 
 def background_timer_checker():
-    mail_url= os.getenv("EMAIL_URL")
-    mail_service_id= os.getenv("EMAIL_SERVICE_ID")
-    mail_userId= os.getenv("EMAIL_USER_ID")
-    mail_admin_templateId= os.getenv("EMAIL_ADMIN_TEMPLATE_ID")
-    mail_client_templateId = os.getenv("EMAIL_CLIENT_TEMPLATE_ID")
-    mail_access_token = os.getenv("EMAIL_ACCESS_TOKEN")
+    mail_url= os.getenv("REACT_APP_EMAIL_URL")
+    mail_service_id= os.getenv("REACT_APP_EMAIL_SERVICE_ID")
+    mail_userId= os.getenv("REACT_APP_EMAIL_USER_ID")
+    mail_admin_templateId= os.getenv("REACT_APP_EMAIL_ADMIN_TEMPLATE_ID")
+    mail_client_templateId = os.getenv("REACT_APP_EMAIL_CLIENT_TEMPLATE_ID")
+    mail_access_token = os.getenv("REACT_APP_EMAIL_ACCESS_TOKEN")
     global events
     db.child('event').stream(handle_stream)
     #get all events
@@ -242,7 +242,7 @@ def main():
     file.seek(0)
 
     # prettier-ignore
-    s3 = boto3.client('s3',region_name='eu-west-2', aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
+    s3 = boto3.client('s3',region_name=os.getenv('FLASK_AWS_ZONE'), aws_access_key_id=os.getenv('FLASK_AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('FLASK_AWS_SECRET_KEY'))
 
     bucket = 'bachelorpill'
     s3.upload_fileobj(
@@ -252,7 +252,7 @@ def main():
     )
     #s3.upload_file(photo, bucket, photo)
 
-    client = boto3.client('rekognition',region_name='eu-west-2', aws_access_key_id=os.getenv('AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
+    client = boto3.client('rekognition',region_name=os.getenv('FLASK_AWS_ZONE'), aws_access_key_id=os.getenv('FLASK_AWS_ACCESS_ID'),aws_secret_access_key=os.getenv('FLASK_AWS_SECRET_KEY'))
     response = client.detect_text(Image={'S3Object': {'Bucket': 'bachelorpill', 'Name': file_name}})
 
     textDetections = response['TextDetections']
