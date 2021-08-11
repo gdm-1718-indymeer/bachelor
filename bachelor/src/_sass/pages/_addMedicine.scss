@@ -1,5 +1,5 @@
 .area {
-  background: #43af9b;
+  background: #f5f9f5;
   background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
   width: 100%;
   height: 100%;
@@ -21,7 +21,7 @@
   list-style: none;
   width: 20px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(226, 226, 226, 0.65);
   animation: animate 25s linear infinite;
   bottom: -150px;
 }
@@ -118,7 +118,7 @@
   max-width: 550px;
   width: 100%;
   margin: 0 auto !important;
-  padding-top: 3em;
+  padding: 3em 0 7em;
 
   .btn {
     width: 312px;
@@ -139,10 +139,15 @@
 
   &__name {
     margin: 3em 0;
+    z-index: 2;
+
+    .css-26l3qy-menu {
+      z-index: 2;
+    }
   }
 
   &__time {
-    background-color: $yellow;
+    background-color: $yellow !important;
     display: flex;
     align-items: center;
 
@@ -175,6 +180,7 @@
       font-weight: bold !important;
       margin-bottom: 1em;
     }
+
     .datePicker {
       text-align: center;
       padding: 0.5rem 1.5rem;
@@ -182,7 +188,7 @@
       border: 0;
       color: $clrDarkBlue;
       outline: none;
-      background-color: $clrBlueLight;
+      background-color: $yellow;
       width: 11ch;
       padding: 10px;
       overflow-y: hidden;
@@ -325,5 +331,5 @@
 }
 
 .DatePicker {
-  z-index: 0;
+  z-index: 1;
 }

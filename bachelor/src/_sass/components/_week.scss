@@ -53,11 +53,7 @@
     }
 
     .row {
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .row:last-child {
-      border-bottom: none;
+      padding-bottom: 3em;
     }
 
     .cell:last-child {

@@ -3,6 +3,27 @@
         max-width: 500px;
         height: 417px;
     }
+    &__intro {
+        align-items: center;
+
+        h3{
+            margin-bottom: 2em;
+        }
+
+        .otp-wrapper {
+            margin-bottom: 2em;
+
+            .error {
+                border: 1px solid $red !important;
+            }
+        }
+
+        .otp {
+            input {
+                box-shadow: 8px 1px 13px rgba($color: #000000, $alpha: 0.13);
+            }
+        }
+    }
 }
 
 .day {
