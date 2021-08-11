@@ -182,11 +182,13 @@ const Webcam = (props) => {
                       handleCameraStop();
                     }}
                   />
-                  <button
-                    className='countdown-wrapper__button btn'
-                    onClick={() => setUpload(false)}>
-                    Bestand Uploaden?
-                  </button>
+                  <div className='upload-wrapper'>
+                    <button
+                      className='countdown-wrapper__button btn'
+                      onClick={() => setUpload(false)}>
+                      Bestand Uploaden?
+                    </button>
+                  </div>
                 </>
               ) : (
                 <div className='container'>

@@ -92,7 +92,7 @@ const AddMedicine = () => {
   useEffect(() => {
     getNames();
     AOS.init({
-      duration: 1000
+      duration: 1500
   });
   AOS.refresh();
   }, []);
@@ -248,7 +248,7 @@ const AddMedicine = () => {
           <li></li>
         </ul>
 
-        <div className='container add-medicine pb-100' data-aos="fade-down">
+        <div className='container add-medicine pb-100' data-aos="fade">
           <div className='row'>
             <div className='col-12'>
               <h2 className='h2-style'>Voeg een planning toe</h2>

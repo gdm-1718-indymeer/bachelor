@@ -3,3 +3,17 @@
     border-radius: 21px;
     box-shadow: 0 5px 10px rgba(#000, 0.1);
 }
+
+.react-html5-camera-photo>.display-error {
+    width: 768px;
+    margin: 6em auto 0;
+}
+
+.react-html5-camera-photo>.display-error ~ .react-html5-camera-photo>video {
+    height: 100px;
+}
+
+.upload-wrapper {
+    display: flex;
+    justify-content: center;
+}
