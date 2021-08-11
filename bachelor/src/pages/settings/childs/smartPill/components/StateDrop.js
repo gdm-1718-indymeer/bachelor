@@ -1,32 +1,32 @@
-import React , {useEffect, useCallback, useState}from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import Select, { components } from 'react-select';
-import {getAllMedicineData} from '../../../../../services/auth.services'
+import { getAllMedicineData } from '../../../../../services/auth.services'
 const { Option } = components;
 
 const StateDrop = (props, { label, ...others }) => {
     const [medicines, setMedicines] = useState({});
 
     const options = [];
-        for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 100; i += 1) {
         const option = {
             value: `${i}`,
             label: `${i}`,
         };
         options.push(option);
-        }
+    }
 
     const getNames = useCallback(async () => {
         try {
-        let data = await getAllMedicineData();
-        console.log(data)
-        let names = []
-        Object.entries(data).forEach(([key, val]) => {
-            let obj = { name: val.name, label: val.label, value: val.value}
-            names.push(obj)
-        })
-        setMedicines(names);
+            let data = await getAllMedicineData();
+            console.log(data)
+            let names = []
+            Object.entries(data).forEach(([key, val]) => {
+                let obj = { name: val.name, label: val.label, value: val.value }
+                names.push(obj)
+            })
+            setMedicines(names);
         } catch (e) {
-        console.error(e);
+            console.error(e);
         }
     });
 
@@ -34,16 +34,24 @@ const StateDrop = (props, { label, ...others }) => {
         getNames();
     }, []);
 
-    
-   return( <>
+    const handleChange = (event) => {
+        props.sendToParent(event.name);
+        props.onChange({
+            target: {
+                name: props.name,
+                value: event.name
+            }
+        });
+    }
+    return (<>
         <Select
             defaultValue={medicines[0]}
             options={medicines}
-            onChange={(obj) => {props.sendToParent(obj.name)}} 
+            onChange={handleChange}
             {...others}
         />
     </>
-   )
+    )
 };
 
 export default StateDrop;

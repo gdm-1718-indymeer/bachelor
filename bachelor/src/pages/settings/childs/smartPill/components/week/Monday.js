@@ -12,10 +12,10 @@ const Monday = ({ setForm, formData, navigation }) => {
 
 
 
-  const handleUser = (target ) => {
-       mondayName = target
-      console.log(formData)
-  }
+    const handleUser = (target) => {
+        mondayName = target
+        console.log(formData)
+    }
 
     return (
         <div className="form day " data-aos="fade-left" data-aos-offset="500" data-aos-duration="500" data-aos-easing="ease-out-cubic">
@@ -26,7 +26,7 @@ const Monday = ({ setForm, formData, navigation }) => {
             </div>
 
             <h4 className='pt-50 pb-30'>Medicijnnaam</h4>
-            <StateDrop name="mondayName" value={mondayName} sendToParent={handleUser} onChange={console.log('changed')} />
+            <StateDrop name="mondayName" value={mondayName} sendToParent={handleUser} onChange={setForm} />
 
             <h4 className='pt-50 pb-30'>Kies de tijd</h4>
             <ItemForm
