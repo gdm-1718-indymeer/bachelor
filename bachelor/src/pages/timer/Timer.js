@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getPreviousData, getNextData } from '../../services/auth.services';
-import {
-  CountdownCircleTimer,
-  remainingTime,
-} from 'react-countdown-circle-timer';
+import { CountdownCircleTimer,remainingTime,} from 'react-countdown-circle-timer';
 import Lottie from 'react-lottie';
 import confetti from '../../assets/lotties/confetti.json';
 import { Link } from 'react-router-dom';
+import AOS from 'aos';
+import "aos/dist/aos.css"
 
 const Timer = () => {
   const [previous, setPrevious] = useState({});
@@ -73,6 +72,11 @@ const Timer = () => {
       d.getSeconds()
     );
 
+    AOS.init({
+      duration: 1000
+      });
+      AOS.refresh();
+
     getEvents(uid, time);
   }, []);
 
@@ -133,16 +137,27 @@ const Timer = () => {
   return (
     <div className='timer-background'>
       <div className='wave'>
+      {next.length > 0 ? (
+<div data-aos="fade">
         <div className='wave__overlay'></div>
-        <Lottie
-          options={defaultOptions}
-          height={'100%'}
-          width={'100%'}
-          className='test'
-        />
+
+          <Lottie
+            options={defaultOptions}
+            height={'100%'}
+            width={'100%'}
+            className='test'
+          />
+       </div> ):(<div className='countdown-wrapper' data-aos="fade">
+        <h3 className='white pb-50'>Oeps! Het lijkt alsof je nog geen datums hebt toegevoegd</h3>
+        <Link
+          className='btn btn-white pb-50'
+          to={`/add`}>
+         Voeg nu data toe
+        </Link>
+      </div>)}
       </div>
       {next.length > 0 ? (
-        <div className='countdown-wrapper'>
+        <div className='countdown-wrapper' data-aos="fade">
           <h2 className='white pb-50'>Je volgende pil</h2>
           <div className='pillName'>
             <h3 className='pillName__title'>{next && next[0].medicineName}</h3>
@@ -173,7 +188,7 @@ const Timer = () => {
           </Link>
         </div>
       ) : (
-        <div>There are no pills to take!</div>
+        ''
       )}
     </div>
   );
