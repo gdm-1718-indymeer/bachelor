@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCalendar,
@@ -10,6 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { Redirect } from 'react-router-dom';
+import AppContext from '../../services/context.services';
 
 const menuItems = {
   Dashboard: {
@@ -35,8 +37,7 @@ const menuItems = {
 };
 
 const BaseLayout = (props) => {
-  const { window, children } = props;
-
+  const { children } = props;
   const [sideBarReduced, setSideBarReduced] = useState(true);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
 
@@ -52,9 +53,8 @@ const BaseLayout = (props) => {
           <li
             key={index}
             onClick={menuChangeActive(index)}
-            className={`c-menu__item ${
-              index === activeMenuItem && 'is-active'
-            }`}>
+            className={`c-menu__item ${index === activeMenuItem && 'is-active'
+              }`}>
             <div className='c-menu__item__inner'>
               <FontAwesomeIcon className='icon' icon={el.icon} />
               <div className='c-menu-item__title'>
@@ -69,9 +69,8 @@ const BaseLayout = (props) => {
             overlay={<Tooltip style={{ marginLeft: 5 }}>{el.title}</Tooltip>}>
             <li
               onClick={menuChangeActive(index)}
-              className={`c-menu__item ${
-                index === activeMenuItem && 'is-active'
-              }`}>
+              className={`c-menu__item ${index === activeMenuItem && 'is-active'
+                }`}>
               <div className='c-menu__item__inner'>
                 <FontAwesomeIcon className='icon' icon={el.icon} />
 
@@ -86,7 +85,10 @@ const BaseLayout = (props) => {
     });
     return menuItemsComponentArray;
   }, [activeMenuItem, sideBarReduced]);
-
+  const appContext = useContext(AppContext);
+  if (appContext.loginStatus === 'LOGGED_OUT') {
+    return <Redirect to={`/login?callback=${window.location.origin}${props.location.pathname}${props.location.search}`} />;
+  }
   const sidebarChangeWidth = () => {
     setSideBarReduced((prevState) => !prevState);
   };

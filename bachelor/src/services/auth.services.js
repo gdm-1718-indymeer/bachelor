@@ -190,7 +190,7 @@ export const addMedication = async (data) => {
   try {
     await db.ref().child(`medicine/${data.name}`).update(data);
     return true;
-  }catch (error) {
+  } catch (error) {
     return error;
   }
 };
@@ -249,6 +249,26 @@ export const uploadProfilePicture = async (file) => {
 
   return pictureUrl;
 };
+//PUSH INVITATION DATA
+export const pushInvitationData = async (clientId, invitationId, data) => {
+  await db.ref().child(`invitations/${clientId}`).child(invitationId).push(data)
+}
+//GET INVITATION DATA
+export const getInvitationsById = async (userId, invitationID) => {
+  let data =
+    await db.ref().child(`invitations`).child(userId).child(invitationID).once('value')
+  return data.val()
+}
+
+//DELETE INVITATION DATA
+export const deleteInvitationById = async (invitationId) => {
+  await db.ref().child('invitations').child(invitationId).remove();
+}
+
+//PUSH ACCESS
+export const pushAccess = async ({ adminId, clientId }) => {
+  await db.ref().child('access').push({ adminId, clientId })
+}
 
 // CHECK IF MEDBOX KEY EXIST
 

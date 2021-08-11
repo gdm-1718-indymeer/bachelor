@@ -4,11 +4,12 @@ import {
   signInWithGoogle,
   signInWithEmailAndPassword,
 } from '../../services/auth.services';
+import queryString from 'query-string';
 
 const Login = (props) => {
+  const queryParams = queryString.parse(props.location.search)
   const [state, setValue] = useState({});
   const [message, setMessage] = useState(false);
-
   const onChange = (e) => {
     const {
       target: { name, value },
@@ -35,7 +36,7 @@ const Login = (props) => {
         state.password
       );
       if (!result.message) {
-        window.location = '/settings';
+        window.location = queryParams.callback ? queryParams.callback : '/settings';
       } else if (result.message) {
         setMessage({
           error: result.message,
