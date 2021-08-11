@@ -1,14 +1,17 @@
 import firebase from '../config/firebaseConfig';
+import emailJs from 'emailjs-com'
 
 export const auth = firebase.auth();
 export const db = firebase.database();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 
+emailJs.init(process.env.REACT_APP_EMAIL_USER_ID)
+const serviceId = process.env.REACT_APP_EMAIL_SERVICE_ID;
+
 // SIGN IN
 export const signInWithEmailAndPassword = async (email, password) => {
   try {
     const result = await auth.signInWithEmailAndPassword(email, password);
-    const userId = result.user.uid;
     return true;
   } catch (error) {
     return error;
@@ -47,7 +50,7 @@ export const createUserWithEmailAndPassword = async (
 
 // SIGN UP Google
 
-export const signInWithGoogle = () => {
+export const signInWithGoogle = (url) => {
   auth
     .signInWithPopup(googleProvider)
     .then((res) => {
@@ -58,7 +61,7 @@ export const signInWithGoogle = () => {
         tel: user.phoneNumber,
         profilePicture: user.photoURL,
       });
-      window.location = '/settings';
+      window.location = url;
     })
     .catch((error) => {
       console.log(error.message);
@@ -250,13 +253,15 @@ export const uploadProfilePicture = async (file) => {
   return pictureUrl;
 };
 //PUSH INVITATION DATA
-export const pushInvitationData = async (clientId, invitationId, data) => {
-  await db.ref().child(`invitations/${clientId}`).child(invitationId).push(data)
+export const pushInvitationData = async (invitationId, data) => {
+  getCurrentUser().then((user) => {
+    db.ref().child(`invitations`).child(invitationId).set({ ...data, adminId: user.uid })
+  });
 }
 //GET INVITATION DATA
 export const getInvitationsById = async (userId, invitationID) => {
   let data =
-    await db.ref().child(`invitations`).child(userId).child(invitationID).once('value')
+    await db.ref().child(`invitations`).child(invitationID).once('value')
   return data.val()
 }
 
@@ -268,6 +273,15 @@ export const deleteInvitationById = async (invitationId) => {
 //PUSH ACCESS
 export const pushAccess = async ({ adminId, clientId }) => {
   await db.ref().child('access').push({ adminId, clientId })
+}
+//SEND INVITE
+export const sendInvite = (email, inviteId) => {
+  const templateId = process.env.REACT_APP_EMAIL_INVITE_TEMPLATE_ID;
+  getCurrentUser().then((user) => {
+    const username = user.displayName || user.firstname + " " + user.lastname;
+    emailJs.send(serviceId, templateId, { adminName: username, inviteId, to: email }, process.env.REACT_APP_EMAIL_USER_ID)
+
+  })
 }
 
 // CHECK IF MEDBOX KEY EXIST
@@ -281,7 +295,7 @@ export const checkIfExist = async (key) => {
       c = snapshot.child(key).exists(); // true
     });
 
-    if(c){
+    if (c) {
       await db.ref().child(`pillbox/${key}`).child(user.uid).set({
         welcome: true
       })
@@ -290,8 +304,8 @@ export const checkIfExist = async (key) => {
         pillBoxId: key
       })
     }
-  return c
-  }catch (error) {
+    return c
+  } catch (error) {
     return error;
   }
 };

@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory, Redirect } from "react-router-dom";
 import firebase from '../../config/firebaseConfig'
+import AppContext from '../../services/context.services';
 
 
 function BaseLayout(props) {
-  const { window, children } = props
+  const { children } = props
   let history = useHistory();
+  const appContext = useContext(AppContext);
+  console.log(appContext)
+
+  if (appContext.loginStatus === 'LOGGED_OUT') {
+    return <Redirect to={`/login?callback=${window.location.origin}${props.location.pathname}${props.location.search}`} />;
+  }
 
   if (!firebase.auth().currentUser) {
     return < Redirect to='/login' />

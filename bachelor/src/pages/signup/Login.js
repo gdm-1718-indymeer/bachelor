@@ -19,7 +19,9 @@ const Login = (props) => {
 
     setValue(stateValue);
   };
-
+  const loginWithGoogle = () => {
+    signInWithGoogle(queryParams.callback || '/settings')
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,7 +113,7 @@ const Login = (props) => {
                   <button
                     type='button'
                     className='google-button'
-                    onClick={signInWithGoogle}>
+                    onClick={loginWithGoogle}>
                     <span className='google-button__icon'>
                       <svg
                         viewBox='0 0 366 372'
@@ -145,7 +147,7 @@ const Login = (props) => {
 
                 <p className='login-card-footer-text'>
                   Don't have an account?{' '}
-                  <a href='/register' className='text-reset'>
+                  <a href={`/register?callback=${queryParams.callback}`} className='text-reset'>
                     Signup here
                   </a>
                 </p>
