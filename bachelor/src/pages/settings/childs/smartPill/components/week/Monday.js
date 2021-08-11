@@ -3,8 +3,8 @@ import React from "react";
 import ItemForm from "../ItemForm";
 import StateDrop from "../StateDrop";
 
-const Address = ({ setForm, formData, navigation }) => {
-    const { address, city, state, zip } = formData;
+const Monday = ({ setForm, formData, navigation }) => {
+    const { mondayName, mondayTime } = formData;
 
     const { previous, next } = navigation;
 
@@ -15,16 +15,18 @@ const Address = ({ setForm, formData, navigation }) => {
                 <p> Vul hieronder de gegevens in van Maandag. <br />(Er is maar mogelijkheid tot het toevoegen van 1 medicijn) </p>
                 <p></p>
             </div>
+
+            <h4 className='pt-50 pb-30'>Medicijnnaam</h4>
+            <StateDrop name="mondayName" value={mondayName} onChange={setForm} />
+
+            <h4 className='pt-50 pb-30'>Kies de tijd</h4>
             <ItemForm
-                label="Address"
-                name="address"
-                value={address}
+                label="mondayTime"
+                name="mondayTime"
+                value={mondayTime}
                 onChange={setForm}
             />
-            <ItemForm label="City" name="city" value={city} onChange={setForm} />
-            <StateDrop label="State" name="state" value={state} onChange={setForm} />
-            <ItemForm label="Zip" name="zip" value={zip} onChange={setForm} />
-            <div>
+            <div className='pt-50'>
                 <button className='btn' onClick={previous}>Vorige</button>
                 <button className='btn' onClick={next}>Volgende</button>
             </div>
@@ -32,4 +34,4 @@ const Address = ({ setForm, formData, navigation }) => {
     );
 };
 
-export default Address;
+export default Monday;

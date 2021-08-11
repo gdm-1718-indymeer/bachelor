@@ -13,25 +13,7 @@ const Fill = ({ setForm, formData, navigation }) => {
         >
             <Pill className="smartbox__image" />
 
-            {/* <ItemForm
-                label="First Name"
-                name="firstName"
-                value={firstName}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="Last Name"
-                name="lastName"
-                value={lastName}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="Nick Name"
-                name="nickName"
-                value={nickName}
-                onChange={setForm}
-            /> */}
-            <div>
+            <div className='d-flex justify-content-center'>
                 <button className='btn' onClick={next}>Click om de pilldoos te vullen</button>
 
             </div>

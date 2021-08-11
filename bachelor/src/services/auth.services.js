@@ -255,9 +255,21 @@ export const uploadProfilePicture = async (file) => {
 export const checkIfExist = async (key) => {
   try {
     let c
-   const check = await db.ref().child('pillbox').once('value').then((snapshot) => {
+    let user = firebase.auth().currentUser;
+
+    await db.ref().child('pillbox').once('value').then((snapshot) => {
       c = snapshot.child(key).exists(); // true
     });
+
+    if(c){
+      await db.ref().child(`pillbox/${key}`).child(user.uid).set({
+        welcome: true
+      })
+      await db.ref('user').child(user.uid).update({
+        havePillbox: true,
+        pillBoxId: key
+      })
+    }
   return c
   }catch (error) {
     return error;

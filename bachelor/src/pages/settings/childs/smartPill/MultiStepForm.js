@@ -30,8 +30,8 @@ const steps = [
 ];
 
 const defaultData = {
-    firstName: "Jane",
-    lastName: "Doe",
+    mondayName: "Jane",
+    mondayTime: "Doe",
     nickName: "Jan",
     address: "200 South Main St",
     city: "Anytown",
