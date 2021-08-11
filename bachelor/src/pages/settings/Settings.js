@@ -7,7 +7,7 @@ import "aos/dist/aos.css"
 const Settings = () => {
   useEffect(() => {
     AOS.init({
-    duration: 1000
+    duration: 400
     });
     AOS.refresh();
 }, []);

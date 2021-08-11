@@ -3,7 +3,7 @@ import Select, { components } from 'react-select';
 import {getAllMedicineData} from '../../../../../services/auth.services'
 const { Option } = components;
 
-const StateDrop = ({ label, ...others }) => {
+const StateDrop = (props, { label, ...others }) => {
     const [medicines, setMedicines] = useState({});
 
     const options = [];
@@ -29,24 +29,18 @@ const StateDrop = ({ label, ...others }) => {
         console.error(e);
         }
     });
-    const CustomName = (props) => <div>{props.data.label}</div>;
-    const CustomSelectOption = (props) => (
-        <Option {...props}>{props.data.label}</Option>
-    );
 
     useEffect(() => {
         getNames();
     }, []);
+
     
    return( <>
         <Select
             defaultValue={medicines[0]}
             options={medicines}
-            components={{
-                Option: CustomSelectOption,
-                SingleValue: CustomName,
-            }}
-           
+            onChange={(obj) => {props.sendToParent(obj.name)}} 
+            {...others}
         />
     </>
    )
