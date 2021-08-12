@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useStep } from "react-hooks-helper";
 import AOS from 'aos';
 import "aos/dist/aos.css"
+import moment from 'moment';
 
 import Fill from "./components/Fill";
 import Monday from "./components/week/Monday";
@@ -11,10 +12,12 @@ import Thursday from "./components/week/Thursday";
 import Friday from "./components/week/Friday";
 import Saturday from "./components/week/Saturday";
 import Sunday from "./components/week/Sunday";
+import {format} from 'date-fns'
 
 import Review from "./components/Review";
 import Submit from "./components/Submit";
 
+let date = new Date; // get current date
 
 const steps = [
     { id: "fill" },
@@ -30,53 +33,71 @@ const steps = [
 ];
 
 const defaultData = {
-    mondayName: "Jane",
-    mondayTime: "Doe",
-    nickName: "Jan",
-    address: "200 South Main St",
-    city: "Anytown",
-    state: "CA",
-    zip: "90505",
-    email: "email@domain.com",
-    phone: "+61 4252 454 332"
+    mondayName: "Ibuprofen",
+    mondayTime: moment().format('HH:mm:ss'),
+    mondayDate: format(date.setDate(date.getDate() + (1-date.getDay())), 'dd/MM/yyyy'),
+
+    tuesdayName: "Ibuprofen",
+    tuesdayTime: moment().format('HH:mm:ss'),
+    tuesdayDate: format(date.setDate(date.getDate() + (2-date.getDay())), 'dd/MM/yyyy'),
+
+    wednesdayName: "Ibuprofen",
+    wednesdayTime: moment().format('HH:mm:ss'),
+    wednesdayDate: format(date.setDate(date.getDate() + (3-date.getDay())), 'dd/MM/yyyy'),
+
+    thursdayName: "Ibuprofen",
+    thursdayTime: moment().format('HH:mm:ss'),
+    thursdayDate: format(date.setDate(date.getDate() + (4-date.getDay())), 'dd/MM/yyyy'),
+
+    fridayName: "Ibuprofen",
+    fridayTime: moment().format('HH:mm:ss'),
+    fridayDate: format(date.setDate(date.getDate() + (5-date.getDay())), 'dd/MM/yyyy'),
+
+    saturdayName: "Ibuprofen",
+    saturdayTime: moment().format('HH:mm:ss'),
+    saturdayDate: format(date.setDate(date.getDate() + (6-date.getDay())), 'dd/MM/yyyy'),
+
+    sundayName: "Ibuprofen",
+    sundayTime: moment().format('HH:mm:ss'),
+    sundayDate: format(date.setDate(date.getDate() + (7-date.getDay())), 'dd/MM/yyyy'),
+
 };
 
 const MultiStepForm = ({ images }) => {
     const [formData, setForm] = useForm(defaultData);
+    const [boxkey, setKey] = useState({});
+
     const { step, navigation } = useStep({ initialStep: 0, steps });
     const { id } = step;
-
-    const props = { formData, setForm, navigation };
+    const props = { formData, setForm, navigation, boxkey, setKey };
 
     useEffect(() => {
         AOS.init({
             duration: 2000
         });
-        AOS.refresh();
-
     }, []);
 
     switch (id) {
         case "fill":
-            return <Fill {...props} key={Math.random()} />;
+            return <Fill {...props} key={1} />;
         case "monday":
-            return <Monday {...props} key={Math.random()} />;
+            return <Monday {...props} key={2} />;
         case "tuesday":
-            return <Tuesday {...props} key={Math.random()} />;
+            return <Tuesday {...props} key={3} />;
         case "wednesday":
-            return <Wednesday {...props} key={Math.random()} />;
+            return <Wednesday {...props} key={4} />;
         case "thursday":
-            return <Thursday {...props} key={Math.random()} />;
+            return <Thursday {...props} key={5} />;
         case "friday":
-            return <Friday {...props} key={Math.random()} />;
+            return <Friday {...props} key={6} />;
         case "saturday":
-            return <Saturday {...props} key={Math.random()} />;
+            return <Saturday {...props} key={7} />;
         case "sunday":
-            return <Sunday {...props} key={Math.random()} />;
+            return <Sunday {...props} key={8} />;
         case "review":
-            return <Review {...props} key={Math.random()} />;
+            return <Review {...props} key={9} />;
         case "submit":
-            return <Submit {...props} key={Math.random()} />;
+            return <Submit {...props} key={10} />;
         default:
             return null;
     }

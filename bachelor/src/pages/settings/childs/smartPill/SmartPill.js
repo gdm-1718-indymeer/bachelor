@@ -15,9 +15,6 @@ const SmartPill = () => {
     const [error, setError] = useState(false);
     const [check, setCheck] = useState(false);
 
-
-
-
     const defaultOptions = {
         loop: false,
         autoplay: true,
@@ -45,9 +42,8 @@ const SmartPill = () => {
         try {
             const response = await getUserData(uid);
             if(response.havePillbox){
-
+                setCheck(true);
             }
-            setCheck(true);
         } catch (e) {
             console.error(e);
         }
@@ -56,10 +52,7 @@ const SmartPill = () => {
     useEffect(() => {
         let uid = currentUser.uid;
         getData(uid);
-        AOS.init({
-        duration: 1000
-        });
-        AOS.refresh();
+
     }, []);
 
     return (

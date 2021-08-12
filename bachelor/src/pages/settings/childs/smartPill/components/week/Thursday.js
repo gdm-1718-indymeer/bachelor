@@ -1,29 +1,37 @@
 import React from "react";
-
+import {startOfWeek , format} from 'date-fns'
 import ItemForm from "../ItemForm";
 import StateDrop from "../StateDrop";
 
 const Thursday = ({ setForm, formData, navigation }) => {
-    const { address, city, state, zip } = formData;
+    let { thursdayName, thursdayTime , thursdayDate} = formData;
 
     const { previous, next } = navigation;
+
+    const handleUser = (target) => {
+        thursdayName = target
+    }
+
+    const handleTime = (target) => {
+        thursdayTime = target
+    }
 
     return (
         <div className="form day " data-aos="fade-left" data-aos-offset="500" data-aos-duration="500" data-aos-easing="ease-out-cubic">
             <div className='day__header day__header__thursday'>
-                <h2>Donderday</h2>
+                <h2>Donderdag {thursdayDate}</h2>
                 <p> Vul hieronder de gegevens in van Donderdag. <br />(Er is maar mogelijkheid tot het toevoegen van 1 medicijn) </p>
                 <p></p>
             </div>
             
             <h4 className='pt-50 pb-30'>Medicijnnaam</h4>
-            <StateDrop name="state" value={state} onChange={setForm} />
+            <StateDrop name="thursdayName" value={thursdayName} sendToParent={handleUser} onChange={setForm} />
 
             <h4 className='pt-50 pb-30'>Kies de tijd</h4>
             <ItemForm
-                label="Address"
-                name="address"
-                value={address}
+                name="thursdayTime"
+                value={thursdayTime}
+                sendToParent={handleTime}
                 onChange={setForm}
             />
             <div className='pt-50'>

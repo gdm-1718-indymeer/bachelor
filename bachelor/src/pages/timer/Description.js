@@ -10,10 +10,6 @@ import { ReactComponent as Syringe} from '../../assets/images/medicines/syringe.
 import { ReactComponent as Inhaler} from '../../assets/images/medicines/inhaler.svg'
 
 
-
-
-
-
 const Description = (props) => {
     const [state, setState] = useState(false);
 
@@ -21,6 +17,7 @@ const Description = (props) => {
         try {
             console.log(props.match.params.id)
             const currentData = await getCurrentData(uid, props.match.params.id)
+            console.log(currentData)
             const result = await getMedicineDetails(currentData.medicineValue);
             setState([result, currentData])
 
@@ -91,6 +88,7 @@ const Description = (props) => {
             <div className="label container">
                 <div className="labelHead">
                     <h4>Inname</h4>
+                    <span>( Gelieve voor een accurate raadpleging de huisarts of dokter te contacteren )</span>
                 </div>
                 <div className="imgLabel">
                 <Lottie 

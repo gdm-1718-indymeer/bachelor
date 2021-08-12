@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getScheduleByDate } from "../services/auth.services";
 import { Link } from 'react-router-dom';
+import AOS from 'aos';
+import "aos/dist/aos.css"
 
 const Reminder = (props) => {
 
@@ -44,6 +46,11 @@ const Reminder = (props) => {
         let date = props.handleDate;
         let uid = props.uid
         getEvents(uid, date);
+         
+        AOS.refresh();
+        AOS.init({
+            duration: 1000
+       });
     }, [props.handleDate]);
 
     function Task({ task, index, completeTask, removeTask }) {
@@ -51,7 +58,7 @@ const Reminder = (props) => {
             <Link
                 to={`/reminder/${task.eventID}`}
                 className=" mb-3"
-                style={{ textDecoration: task.completed ? "line-through" : "" }}>
+                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={Math.random()}>
 
                 <li className="events__item">
                     <div className="events__item--left">
@@ -102,7 +109,7 @@ const Reminder = (props) => {
             {/* <div className="header">Remaining items {tasksRemaining}</div> */}
 
             <div className="tasks">
-                <ul className="events__list">
+                <ul className="events__list" data-aos="fade-up" key={Math.random()}>
                     {tasks ? <>
 
                         {tasks.Morning && tasks.Morning.length > 0 ?

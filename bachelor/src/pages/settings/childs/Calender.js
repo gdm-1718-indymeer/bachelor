@@ -3,6 +3,8 @@ import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar } from '@hassanmojab/react-modern-calendar-datepicker';
 import { getAllData } from '../../../services/auth.services';
 import AllEvents from '../../../components/AllEvents';
+import AOS from 'aos';
+import "aos/dist/aos.css"
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
 
@@ -38,6 +40,7 @@ const Calender = () => {
 
   useEffect(() => {
     let uid = currentUser.uid;
+    
     getAll(uid);
   }, []);
 
@@ -46,7 +49,13 @@ const Calender = () => {
   return (
     <>
       <div className="all-calendar">
-        <h1>Overzicht van alle evenementen</h1>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-12'>
+                <h1 className='pb-50'>Overzicht van alle evenementen</h1>
+            </div>
+          </div>
+        </div>
         {Object.keys(state) !== 0 && Object.keys(events) !== 0
           &&
           <>

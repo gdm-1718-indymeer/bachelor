@@ -2,12 +2,16 @@
     &__image {
         max-width: 500px;
         height: 417px;
+        justify-content: center;
+        display: flex;
+        margin: auto;
     }
+    
     &__intro {
         align-items: center;
 
         h3{
-            margin-bottom: 2em;
+            margin-bottom: 1em;
         }
 
         .otp-wrapper {

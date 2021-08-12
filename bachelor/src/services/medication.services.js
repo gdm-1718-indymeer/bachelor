@@ -17,9 +17,11 @@ export const getMedicines = async () => {
 
 export const getMedicineDetails = async (name) => {
   let data
-  console.log(name)
+  let lowercase = name.toLowerCase()
+  console.log(lowercase)
+
   //await axios.get(medicineApi + `/drug/label.json?search=${name}`)
-  await axios.get(wikiPedia + `&titles=${name}`, {
+  await axios.get(wikiPedia + `&titles=${lowercase}`, {
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }

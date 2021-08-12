@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import AOS from 'aos';
+import "aos/dist/aos.css"
 
 const AllEvents = (props) => {
 
     const [tasks, setTasks] = useState({});
 
-
     useEffect(() => {
         let date = props.date;
         let data = props.events
+  
+        AOS.refresh();
+        AOS.init({
+            duration: 1000
+       });
+    
         let items = []
         let timeOfTheDay = { Noon: [], Morning: [], Evening: [] }
 
@@ -26,23 +33,18 @@ const AllEvents = (props) => {
 
             if (val.targetDate === date) {
                 let rawData = val
-                rawData['eventID'] = key
-                // let added = { ...rawData, eventID: key }
-                // Object.assign(rawData, { eventID: key })
+
+                let added = { ...rawData, eventID: key }
+                Object.assign(rawData, { eventID: key })
                 items.push(rawData)
             }
         })
-
-        console.log(items)
-
 
 
         Object.entries(items).forEach(([key, val]) => {
             let obj = {}
             let hour = Number(val.targetTime.split(':')[0])
             obj = val
-            Object.assign(obj, { eventID: key })
-
             if (hour <= 12) {
                 timeOfTheDay.Morning.push(obj)
             } else if (hour <= 18) {
@@ -53,18 +55,22 @@ const AllEvents = (props) => {
 
         })
 
+
+
         setTasks(timeOfTheDay)
+
     }, [props.date, props.events]);
 
 
     function Task({ task, index, completeTask, removeTask }) {
+
         return (
             <Link key="index"
                 to={`/reminder/${task.eventID}`}
                 className=" mb-3"
-                style={{ textDecoration: task.completed ? "line-through" : "" }}>
+                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={Math.random()}>
 
-                <li className="events__item">
+                <li className="events__item" key={Math.random()}>
                     <div className="events__item--left">
                         <div className="pill-image position-relative col-md-4">
                             <span className="position-absolute start-100 translate-middle badge rounded-pill btn-primary">
@@ -114,7 +120,7 @@ const AllEvents = (props) => {
             {/* <div className="header">Remaining items {tasksRemaining}</div> */}
 
             <div className="tasks">
-                <ul className="events__list">
+                <ul className="events__list" data-aos="fade-up" key={Math.random()}>
                     {tasks ? <>
                         {tasks.Morning && tasks.Morning.length > 0 ? <>
                             <div>

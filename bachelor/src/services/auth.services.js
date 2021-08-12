@@ -164,8 +164,6 @@ export const getNextData = async (uid, time) => {
   return [data, key].filter((i) => i);
 };
 
-
-
 // GET USER
 
 export const getCurrentUser = async () => {
@@ -212,9 +210,8 @@ export const getAllMedicineData = async () => {
   return data;
 };
 
-
-
 // UPDATE PERSONAL AND PROFESSIONEL INFORMATION
+
 export const updatePersonalInformation = async (uid, displayName, email, phone, photo) => {
   await db.ref(`user/${uid}`).update({
     displayName: displayName,
@@ -229,7 +226,6 @@ export const updatePersonalInformation = async (uid, displayName, email, phone, 
     displayName: displayName,
     profilePicture: photo
   });
-
 
   return true;
 };
@@ -252,13 +248,17 @@ export const uploadProfilePicture = async (file) => {
 
   return pictureUrl;
 };
+
 //PUSH INVITATION DATA
+
 export const pushInvitationData = async (invitationId, data) => {
   getCurrentUser().then((user) => {
     db.ref().child(`invitations`).child(invitationId).set({ ...data, adminId: user.uid })
   });
 }
+
 //GET INVITATION DATA
+
 export const getInvitationsById = async (userId, invitationID) => {
   let data =
     await db.ref().child(`invitations`).child(invitationID).once('value')
@@ -266,15 +266,19 @@ export const getInvitationsById = async (userId, invitationID) => {
 }
 
 //DELETE INVITATION DATA
+
 export const deleteInvitationById = async (invitationId) => {
   await db.ref().child('invitations').child(invitationId).remove();
 }
 
 //PUSH ACCESS
+
 export const pushAccess = async ({ adminId, clientId }) => {
   await db.ref().child('access').push({ adminId, clientId })
 }
+
 //SEND INVITE
+
 export const sendInvite = (email, inviteId) => {
   const templateId = process.env.REACT_APP_EMAIL_INVITE_TEMPLATE_ID;
   getCurrentUser().then((user) => {
@@ -305,6 +309,35 @@ export const checkIfExist = async (key) => {
       })
     }
     return c
+  } catch (error) {
+    return error;
+  }
+};
+
+
+// ADD CHECK FOR FILLING PILLBOX
+
+export const fillMedbox = async (key, uid) => {
+  try {
+
+    await db.ref().child(`pillbox/${key}/${uid}`).set({
+      fill: true
+    });
+    
+    return true
+  } catch (error) {
+    return error;
+  }
+};
+
+// ADD DATA TO PILLBOX
+
+export const addDataMedBox = async (key, uid, data) => {
+  try {
+
+    await db.ref().child(`pillbox/${key}/${uid}`).update({data});
+    
+    return true
   } catch (error) {
     return error;
   }
