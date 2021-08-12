@@ -320,7 +320,7 @@ export const checkIfExist = async (key) => {
 export const fillMedbox = async (key, uid) => {
   try {
 
-    await db.ref().child(`pillbox/${key}/${uid}`).set({
+    await db.ref().child(`pillbox/${key}/${uid}`).update({
       fill: true
     });
     
@@ -332,10 +332,10 @@ export const fillMedbox = async (key, uid) => {
 
 // ADD DATA TO PILLBOX
 
-export const addDataMedBox = async (key, uid, data) => {
+export const addDataMedBox = async (key, uid, events) => {
   try {
 
-    await db.ref().child(`pillbox/${key}/${uid}`).update({data});
+    await db.ref().child(`pillbox/${key}/${uid}`).update({events});
     
     return true
   } catch (error) {

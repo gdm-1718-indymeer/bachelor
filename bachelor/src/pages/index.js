@@ -1,5 +1,5 @@
 import Home from './Home'
-import Welcome from './Welcome'
+import Welcome from './welcome/Welcome'
 import AddMedicine from './AddMedicine'
 import Settings from './settings'
 import Login from './signup/Login'

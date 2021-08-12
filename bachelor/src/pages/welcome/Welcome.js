@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Register from "./signup/Signup";
+import Multistep from "./Multistep";
 
 const Welcome = () => {
     return (
       <>
-        <Register></Register>
+        <Multistep />
         
       </>
     )

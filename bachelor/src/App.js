@@ -58,7 +58,7 @@ function App() {
       <Router>
         <Switch>
           <RouteWrapper path={Routes.HOME} layout={BaseLayout} component={Home} exact />
-          <RouteWrapper path={Routes.WELCOME} layout={SettingsLayout} component={Welcome} exact />
+          <RouteWrapper path={Routes.WELCOME} layout={AuthLayout} component={Welcome} exact />
           <RouteWrapper path={Routes.ADD} layout={BaseLayout} component={AddMedicine} exact />
           <RouteWrapper path={Routes.LOGIN} layout={AuthLayout} component={Login} exact />
           <RouteWrapper path={Routes.REGISTER} layout={AuthLayout} component={Register} exact />
