@@ -68,6 +68,12 @@ export const signInWithGoogle = (url) => {
     });
 };
 
+// RESET PASSWORD
+
+export const forgotPassword = (Email) => {
+  firebase.auth().sendPasswordResetEmail(Email)
+  return 
+}
 // CREATE CUSTOM UID
 
 export const uuidv4 = () => {

@@ -4,6 +4,14 @@
   padding: 50px 20px 15px;
   display: flex;
   flex-direction: column;
+
+  p {
+    text-align: center !important;
+    font-size: $fontSize20;
+    line-height: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
 }
 
 .onboarding-slides {

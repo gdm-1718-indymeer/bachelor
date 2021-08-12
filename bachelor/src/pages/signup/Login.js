@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import MedicineImg from '../../assets/images/medicine.jpg';
-import {
-  signInWithGoogle,
-  signInWithEmailAndPassword,
-} from '../../services/auth.services';
+import {signInWithGoogle,signInWithEmailAndPassword,forgotPassword} from '../../services/auth.services';
 import queryString from 'query-string';
 
 const Login = (props) => {
   const queryParams = queryString.parse(props.location.search)
   const [state, setValue] = useState({});
   const [message, setMessage] = useState(false);
+  const [passwordReset, setPasswordReset] = useState(false);
+  const [emailValue, setEmailValue] = useState(false);
+
+
   const onChange = (e) => {
     const {
       target: { name, value },
@@ -19,26 +20,67 @@ const Login = (props) => {
 
     setValue(stateValue);
   };
+  
   const loginWithGoogle = () => {
     signInWithGoogle(queryParams.callback || '/settings')
   }
+  
+  const onSubmitReset = async () => {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!emailValue.email) {
+      setMessage({
+        error: 'Er is geen email ingevuld',
+      });
+      return;
+    }else if(! re.test(emailValue.email) ){
+      setMessage({
+        error: 'Ongeldig email adres',
+      });
+      setTimeout(() => {
+        setMessage({});
+      }, 3000);
+    }else {
+      await forgotPassword(emailValue.email)
+      setMessage({
+        error: 'Er is een email verstuurd naar het geschreven email-adres',
+      });
+      setTimeout(() => {
+        setMessage({});
+        setPasswordReset(false)
+
+      }, 3000);
+    }
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 
     if (!state.password) {
       setMessage({
-        error: 'Please Fill in a password',
+        error: 'Gelieve een wachtwoord in te vullen',
       });
       return;
     }
 
     if (state.email && state.password) {
+       if(! re.test(state.email) ){
+        setMessage({
+          error: 'Ongeldig email adres',
+        });
+        setTimeout(() => {
+          setMessage({});
+        }, 3000);
+        return
+      }
       const result = await signInWithEmailAndPassword(
         state.email,
         state.password
       );
       if (!result.message) {
-        window.location = queryParams.callback ? queryParams.callback : '/settings';
+        window.location = queryParams.callback ? queryParams.callback : '/';
       } else if (result.message) {
         setMessage({
           error: result.message,
@@ -46,14 +88,14 @@ const Login = (props) => {
       }
     } else {
       setMessage({
-        error: "Password doesn't match",
+        error: "Wachtwoorden zijn niet gelijkaardig",
       });
       return;
     }
   };
 
   return (
-    <main className='d-flex align-items-center min-vh-100 py-3 py-md-0'>
+    <main className='d-flex align-items-center min-vh-100 py-3 py-md-0 login'>
       <div className='container'>
         <div className='card login-card'>
           <div className='row no-gutters'>
@@ -62,9 +104,11 @@ const Login = (props) => {
             </div>
             <div className='col-md-7'>
               <div className='card-body'>
+              {!passwordReset ? <>
                 <p className='login-card-description'>
-                  Login into your account
+                  Inloggen op jouw account
                 </p>
+       
                 <form action='#!'>
                   {message.error && (
                     <p className='alert alert-danger'>{message.error}</p>
@@ -86,7 +130,7 @@ const Login = (props) => {
 
                   <div className='form-group mb-4'>
                     <label htmlFor='password' className='sr-only'>
-                      Password
+                      Wachtwoord
                     </label>
                     <input
                       type='password'
@@ -106,10 +150,13 @@ const Login = (props) => {
                     value='Login'
                     onClick={onSubmit}
                   />
+                   <nav className='login-card-footer-nav'>
+                    <a href='#!' onClick={() => {setPasswordReset(true)}}>Wachtwoord vergeten?</a>
+                  </nav>
                 </form>
 
                 <div className='providers-login'>
-                  <h5 className='providers-login__title'>Or Sign in with </h5>
+                  <h5 className='providers-login__title'>Of log in met </h5>
                   <button
                     type='button'
                     className='google-button'
@@ -140,17 +187,46 @@ const Login = (props) => {
                       </svg>
                     </span>
                     <span className='google-button__text'>
-                      Sign in with Google
+                      Inloggen met Google
                     </span>
                   </button>
                 </div>
 
                 <p className='login-card-footer-text'>
-                  Don't have an account?{' '}
+                  Heb je geen account?{' '}
                   <a href={`/register?callback=${queryParams.callback}`} className='text-reset'>
-                    Signup here
+                    Registreer dan hier
                   </a>
                 </p>
+                </> : <>
+                  <p className='login-card-description'>
+                    Wachtwoord herstellen
+                  </p>
+                 <div className='form-group'>
+                 {message.error && (
+                    <p className='alert alert-secondary'>{message.error}</p>
+                  )}
+                 <label htmlFor='email' className='sr-only'>
+                   Email
+                 </label>
+                 <input
+                   type='email'
+                   name='email'
+                   id='email'
+                   className='form-control'
+                   placeholder='Email address'
+                   onChange={(obj) => setEmailValue({email: obj.target.value})}
+                 />
+                  
+                  <input
+                    name='register'
+                    id='register'
+                    className='btn btn-block login-btn mb-4'
+                    type='button'
+                    value='Versturen'
+                    onClick={onSubmitReset}
+                  />
+               </div></>}
                 <nav className='login-card-footer-nav'>
                   <a href='#!'>Terms of use.</a>
                   <a href='#!'>Privacy policy</a>
