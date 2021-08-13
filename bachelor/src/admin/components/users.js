@@ -1,22 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Users = () => {
-  return (
-    <div className='container'>
-      <div className='user-cards'>
+const Users = (props) => {
+  console.log(props.mapUsers)
+  
+  return props.mapUsers.map((value, i) => (
+      <Link to={`/dashboard/`} key={i} className='user-cards' >
         <div className='user-card'>
           <i className='fas fa-ellipsis-v'></i>
           <div className='image-wrapper'>
-            <img src='https://source.unsplash.com/H982yXJ7vOk/120x120' />
+            <img src={value.profilePicture} alt='user' />
           </div>
-          <p className='user-name'>Henry Paulista</p>
-          <p className='user-mail'>henry.p@gmail.com</p>
+          <p className='user-name'>{value.displayName}</p>
+          <p className='user-mail'>{value.phoneNumber}</p>
+          <p className='user-mail'>{value.email}</p>
 
-          <p className='user-role'>SENIOR CREATIVE DIRECTOR</p>
+          <p className='user-role'>Client</p>
         </div>
-      </div>
-    </div>
-  );
+      </Link>
+  ));
 };
 
 export default Users;

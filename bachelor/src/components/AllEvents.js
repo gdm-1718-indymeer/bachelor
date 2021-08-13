@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import "aos/dist/aos.css"
@@ -19,7 +19,7 @@ const AllEvents = (props) => {
         let items = []
         let timeOfTheDay = { Noon: [], Morning: [], Evening: [] }
 
-        if (date == undefined) {
+        if (date === undefined) {
             let currentDate = new Date();
             let day = currentDate.getDate()
             let month = currentDate.getMonth() + 1
@@ -34,7 +34,6 @@ const AllEvents = (props) => {
             if (val.targetDate === date) {
                 let rawData = val
 
-                let added = { ...rawData, eventID: key }
                 Object.assign(rawData, { eventID: key })
                 items.push(rawData)
             }
@@ -55,14 +54,12 @@ const AllEvents = (props) => {
 
         })
 
-
-
         setTasks(timeOfTheDay)
 
     }, [props.date, props.events]);
 
 
-    function Task({ task, index, completeTask, removeTask }) {
+    function Task({ task}) {
 
         return (
             <Link key="index"
@@ -103,18 +100,6 @@ const AllEvents = (props) => {
         );
     }
 
-
-    const completeTask = index => {
-        const newTasks = [...tasks];
-        newTasks[index].completed = true;
-        setTasks(newTasks);
-    };
-
-    const removeTask = index => {
-        const newTasks = [...tasks];
-        newTasks.splice(index, 1);
-        setTasks(newTasks);
-    };
     return (
         <div className="container">
             {/* <div className="header">Remaining items {tasksRemaining}</div> */}
@@ -130,8 +115,6 @@ const AllEvents = (props) => {
                                         <Task
                                             task={tasks.Morning[key]}
                                             index={key}
-                                            completeTask={completeTask}
-                                            removeTask={removeTask}
                                             key={key}
                                         />
                                     </>
@@ -146,8 +129,6 @@ const AllEvents = (props) => {
                                         <Task
                                             task={tasks.Noon[key]}
                                             index={key}
-                                            completeTask={completeTask}
-                                            removeTask={removeTask}
                                             key={key}
                                         />
                                     </>))}
@@ -162,8 +143,6 @@ const AllEvents = (props) => {
                                     <Task
                                         task={tasks.Evening[key]}
                                         index={key}
-                                        completeTask={completeTask}
-                                        removeTask={removeTask}
                                         key={key}
                                     />
                                 </>

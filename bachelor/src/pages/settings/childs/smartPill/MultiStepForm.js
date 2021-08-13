@@ -17,7 +17,7 @@ import {format} from 'date-fns'
 import Review from "./components/Review";
 import Submit from "./components/Submit";
 
-let date = new Date; // get current date
+let date = new Date(); // get current date
 
 const steps = [
     { id: "fill" },

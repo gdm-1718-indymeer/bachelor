@@ -1,15 +1,6 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCalendar,
-  faChartBar,
-  faCog,
-  faHome,
-  faMedkit,
-  faPowerOff,
-  faTachometerAlt,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import {faCalendar,faChartBar,faCog,faHome,faMedkit,faPowerOff,faTachometerAlt,faUser,} from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Redirect } from 'react-router-dom';
