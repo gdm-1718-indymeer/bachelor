@@ -1,9 +1,10 @@
 from datetime import date, datetime, timedelta
 import json
 from re import T
-from flask import Flask, render_template, request
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import base64
+from pyasn1.type.univ import Null
 import requests
 import six
 import uuid
@@ -113,41 +114,42 @@ def background_timer_checker():
 
                     elif is_too_late(event[userid][eventid],True):
                         response = db.child('access').order_by_child("clientId").equal_to(userid).limit_to_first(1).get()
-                        if len(response.each()) > 0:
-                            adminId = response.val()[1]['adminId']
-                            adminResponse = db.child('user').order_by_key().equal_to(adminId).limit_to_first(1).get()
-                            adminUser=adminResponse.val()[adminId]
-                            email = adminUser['email']
-                            if "displayName" in client:
-                                clientName= client['displayName']
-                            else:
-                                clientName = client['firstname']+" "+client['lastname']
-                            if "displayName" in adminUser:
-                                adminName= adminUser['displayName']
-                            else:
-                                adminName = adminUser['firstname']+" "+adminUser['lastname']
-                            data = {
-                                "service_id":mail_service_id,
-                                "template_id":mail_admin_templateId,
-                                "user_id":mail_userId,
-                                "accessToken": mail_access_token,
-                                "template_params":{
-                                        "to": email,
-                                        "name": adminName,
-                                        "client_name": clientName
+                        if response.each() != None:
+                            if len(response.each()) > 0:
+                                adminId = response.each()[0].val()['adminId']
+                                adminResponse = db.child('user').order_by_key().equal_to(adminId).limit_to_first(1).get()
+                                adminUser=adminResponse.val()[adminId]
+                                email = adminUser['email']
+                                if "displayName" in client:
+                                    clientName= client['displayName']
+                                else:
+                                    clientName = client['firstname']+" "+client['lastname']
+                                if "displayName" in adminUser:
+                                    adminName= adminUser['displayName']
+                                else:
+                                    adminName = adminUser['firstname']+" "+adminUser['lastname']
+                                data = {
+                                    "service_id":mail_service_id,
+                                    "template_id":mail_admin_templateId,
+                                    "user_id":mail_userId,
+                                    "accessToken": mail_access_token,
+                                    "template_params":{
+                                            "to": email,
+                                            "name": adminName,
+                                            "client_name": clientName
+                                    }
                                 }
-                            }
-                            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-                            result = requests.post(mail_url,json= data, headers=headers)
-                            if(result.status_code != 200):
-                                print(result.text)   
+                                headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+                                result = requests.post(mail_url,json= data, headers=headers)
+                                if(result.status_code != 200):
+                                    print(result.text)   
+                                else:
+                                    event[userid][eventid]['sendAdminReminder'] = True
+                                    db.child('event').child(userid).child(eventid).update(event[userid][eventid])                                 
+                                time.sleep(1)
                             else:
                                 event[userid][eventid]['sendAdminReminder'] = True
-                                db.child('event').child(userid).child(eventid).update(event[userid][eventid])                                 
-                            time.sleep(1)
-                        else:
-                            event[userid][eventid]['sendAdminReminder'] = True
-                            db.child('event').child(userid).child(eventid).update(event[userid][eventid])
+                                db.child('event').child(userid).child(eventid).update(event[userid][eventid])
         time.sleep(15)
 
 thread = threading.Thread(target=background_timer_checker, daemon=True)
@@ -193,13 +195,6 @@ def decode_base64_file(data):
         complete_file_name = "%s.%s" % (file_name, file_extension,)
 
         return io.BytesIO(decoded_file), complete_file_name
-
-
-@app.route('/')
-@cross_origin()
-def index():
-    return render_template('template.html')
-
 
 def color(file):
     colors = colorgram.extract(file, 2)
@@ -410,4 +405,7 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = os.getenv('PORT')
+    if port is None:
+        port = 80
+    app.run(debug=True,host="0.0.0.0" ,port= port)

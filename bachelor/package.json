@@ -103,7 +103,9 @@
     "start": "node scripts/start.js",
     "start-api": "cd flask &&  flask run --no-debugger",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "build-flask": "build-flask.cmd",
+    "deploy-flask": "deploy-flask.cmd"
   },
   "eslintConfig": {
     "extends": [
