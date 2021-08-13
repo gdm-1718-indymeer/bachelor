@@ -1,3 +1,1 @@
-git add --all
-git commit -m "deploy heroku"
-git push heroku master
+heroku git:remote -a medcarepython && git add --all && git commit -m "deploy heroku" && git push heroku master
