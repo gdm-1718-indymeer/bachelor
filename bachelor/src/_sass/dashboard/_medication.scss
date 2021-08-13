@@ -1,7 +1,12 @@
 .medicine-form{
   &__input{
     margin: 1em 0;
+    
+    select option:disabled {
+      color: #ccc;
+    }
   }
+
 }
 
 .table-wrapper {

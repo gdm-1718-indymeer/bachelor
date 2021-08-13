@@ -1,7 +1,6 @@
 //https://github.com/bezkoder/react-table-crud-example/blob/master/src/components/TutorialsList.js
 
 import React, { useState, useEffect , useCallback} from 'react';
-
 import { Container , Table, Form, Row, Col, Button} from 'react-bootstrap';
 
 import { getAllMedicineData } from "../../services/auth.services";
@@ -49,45 +48,58 @@ const Medication = (props) => {
     const onSubmit = async (e) => {
       let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
       const uid = currentUser.uid;
-  
+
       console.log(formdata)
-      if (formdata.name ) {
-        let value = formdata.value; 
+      if(formdata.name, formdata.type, formdata.inname, formdata.description, formdata.warn){
+        if (formdata.name ) {
+          let value = formdata.value; 
 
-        if(!formdata.value) {
-          value = formdata.name
-        }
-        let data = {
-          name: formdata.name,
-          value: value,
-          label: formdata.name,
-        }
+          if(!formdata.value) {
+            value = formdata.name
+          }
+          let data = {
+            name: formdata.name,
+            value: value,
+            label: formdata.name,
+            type: formdata.type,
+            inname: formdata.inname,
+            description: formdata.description,
+            warn: formdata.warn
+          }
+          
+          const result = await addMedication(data);
+          const medicine = await getAllMedicineData();
+          setState(medicine)
 
-        console.log(data)
-        
-        const result = await addMedication(data);
-        const medicine = await getAllMedicineData();
-        setState(medicine)
-
-        if (!result.message) {
+          if (!result.message) {
+            setMessage({
+              succeed: 'De data is succesvol toegevoegd.',
+            });
+            setFormdata({name: "", value: "", type: "", inname: "", description: "", warn: ""})
+            setTimeout(() => {
+              setMessage({});
+            }, 3000);
+          } else if (result.message) {
+            setMessage({
+              error: result.message,
+            });
+          }
+        } else {
           setMessage({
-            succeed: 'De data is succesvol toegevoegd.',
+            error: 'Medicijnnaam niet ingevuld',
           });
-          setFormdata({name: "", value: ""})
-          setTimeout(() => {
-            setMessage({});
-          }, 3000);
-        } else if (result.message) {
-          setMessage({
-            error: result.message,
-          });
+          return;
         }
-      } else {
+      }else {
         setMessage({
-          error: 'Medicijnnaam niet ingevuld',
+          error: 'Niet alle velden zijn ingevuld',
         });
-        return;
+        setTimeout(() => {
+          setMessage({});
+        }, 3000);
+        return
       }
+
     };
     return (
         <>
@@ -120,10 +132,50 @@ const Medication = (props) => {
                 <p className='alert alert-success'>{message.succeed}</p>
               )}
             <Col className='medicine-form__input'>
+              <Form.Label>Medicijnnaam</Form.Label>
               <Form.Control placeholder="Medicijn naam" name='name' id='name' value={formdata.name} onChange={onChange}/>
             </Col>
             <Col className='medicine-form__input'>
+              <Form.Label>Hoofdmedicijn (laat leeg indien dit de hoofdmedicijn is)</Form.Label>
               <Form.Control placeholder="Medicijn 2e waarde" name='value' id='value' value={formdata.value} onChange={onChange}/>
+            </Col>
+
+            <Col className='medicine-form__input'>
+              <Form.Label>Medicijn type</Form.Label>
+              <Form.Control as="select"  value={formdata.type}
+              onChange={e => { setFormdata({...formdata, type: e.target.value })}}>
+                <option  disabled selected>Medicijn type</option>
+                <option value="zalf">Zalf</option>
+                <option value="tablet">Tablet</option>
+                <option value="capsule">Capsule</option>
+                <option value="inhaler">Inhaler</option>
+                <option value="spray">Spray</option>
+              </Form.Control>
+            </Col>
+
+            <Col className='medicine-form__input'>
+              <Form.Label>Medicijn Inname</Form.Label>
+              <Form.Control as="select"  value={formdata.inname}
+                onChange={e => { setFormdata({...formdata, inname: e.target.value })}}>
+                <option  disabled selected>Inname</option>
+                <option value="oor">In het oor</option>
+                <option value="oog">In het oog</option>
+                <option value="oraal">Oraal</option>
+                <option value="oraalsmelten">Oraal Smelten</option>
+                <option value="dermaal">Dermaal (op de huid)</option>
+                <option value="spuiten">Spuiten</option>
+                <option value="injectie">Injectie</option>
+              </Form.Control>
+            </Col>
+
+            <Col className='medicine-form__input'>
+              <Form.Label>Uitleg</Form.Label>
+              <Form.Control  as="textarea" rows={3} placeholder="description" name='description' id='value' value={formdata.description} onChange={onChange}/>
+            </Col>
+
+            <Col className='medicine-form__input'>
+              <Form.Label>Bijsluiters (bv. max 4uur tussen)</Form.Label>
+              <Form.Control as="textarea" rows={3} placeholder="warn" name='warn' id='value' value={formdata.warn} onChange={onChange}/>
             </Col>
             
           </Form.Row>
