@@ -234,7 +234,7 @@ export const deleteMedication = async (id) => {
   }
 };
 
-// UPDATE PERSONAL AND PROFESSIONEL INFORMATION
+// UPDATE PERSONAL  INFORMATION
 
 export const updatePersonalInformation = async (uid, displayName, email, phone, photo) => {
   await db.ref(`user/${uid}`).update({
@@ -294,6 +294,13 @@ export const getInvitationsById = async (userId, invitationID) => {
 export const deleteInvitationById = async (invitationId) => {
   await db.ref().child('invitations').child(invitationId).remove();
 }
+
+//ADD ADMIN ROLE
+
+export const setAdminProfile = async (id) => {
+  await db.ref().child('user').child(id).update({isAdmin: true});
+}
+
 
 //PUSH ACCESS
 

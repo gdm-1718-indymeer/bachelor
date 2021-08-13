@@ -28,7 +28,7 @@ const List = (props) => {
       <td>{i + 1}</td>
       <td>{props.rows[obj].name}</td>
       <td>{props.rows[obj].value}</td>
-      <td><Link className='btn white' to={{ pathname: '/dashboard/medication/create', state: props.rows[obj] }}>Update</Link> <Button variant="danger" onClick={togglePopup}>Verwijderen</Button>
+      <td><Link className='btn white' to={{ pathname: '/dashboard/medication/create', state: props.rows[obj] }}>Update</Link> <Button className='btn-red' onClick={togglePopup}>Verwijderen</Button>
       </td>
       {isOpen &&
         <Popup

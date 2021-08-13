@@ -84,7 +84,7 @@ const Reminder = (props) => {
                                 <p> {task.notification}min <span className='food btn--action'> na het eten</span></p>
                             }</span>
                     </div>
-                    <span class="events__tag">{task.targetTime}</span>
+                    <span className="events__tag">{task.targetTime}</span>
                 </li>
 
             </Link>
