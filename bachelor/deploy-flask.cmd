@@ -1,3 +1,3 @@
 git add --all
 git commit -m "deploy heroku"
-git push heroku dev
+git push heroku master
