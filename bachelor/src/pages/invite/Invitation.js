@@ -13,9 +13,16 @@ const Invitation = (props) => {
             getInvitationsById(user.uid, queryParams.inviteId).then(invitationRes => {
                 getUserData(invitationRes.adminId).then(res => setAdminInfo(res))
                 setinvitationInfo(invitationRes);
+                console.log(adminInfo)
+                console.log(adminInfo)
+
+                console.log(adminInfo)
+
+                console.log(adminInfo)
+
+
             })
         });
-        console.log(adminInfo)
     }, [])
     if (!queryParams.inviteId) {
         return <Redirect to="/" />
@@ -36,8 +43,12 @@ const Invitation = (props) => {
     return (
         <>
             {adminInfo ? <>
-                <h1>Wilt u {adminInfo.displayName || `${adminInfo.firstname} ${adminInfo.lastname}`} toegang geven tot uw informatie?</h1>
-                <button onClick={handleConfirm}>Ja</button>
+                <div className='container'>
+                    <div className='row'>
+                        <h1>Wilt u {adminInfo.displayName || `${adminInfo.firstname} ${adminInfo.lastname}`} toegang geven tot uw informatie?</h1>
+                        <button onClick={handleConfirm}>Ja</button>
+                    </div>
+                </div>
             </>
                 : null}
         </>
