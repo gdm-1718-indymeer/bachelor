@@ -1,7 +1,8 @@
 import React,  { useState, useEffect, useCallback } from 'react'
 import { Button} from 'react-bootstrap';
+import { deleteMedication } from '../../services/auth.services';
 import Popup from '../components/popup';
-
+import { Link } from 'react-router-dom';
 
 const List = (props) => {
 
@@ -11,14 +12,14 @@ const List = (props) => {
       setIsOpen(!isOpen);
     }
 
-    const check = () => {
-        console.log('ree')
-      }
+    const deleteItems = (id) => async () => {
+        await deleteMedication(id)
+        togglePopup()
+        props.update()
+    }
   
 
     useEffect(() => {
-        console.log(props.rows)
-
     }, [props.rows]);
 
     return Object.keys(props.rows).map((obj, i) => (
@@ -26,17 +27,18 @@ const List = (props) => {
             <td>{i+1}</td>
             <td>{props.rows[obj].name}</td>
             <td>{props.rows[obj].value}</td>
-            <td><Button>Update</Button> <Button variant="danger" onClick={togglePopup}>Delete</Button>
+            <td><Link className='btn white' to={{ pathname: '/dashboard/medication/create', state: props.rows[obj] }}>Update</Link> <Button variant="danger" onClick={togglePopup}>Verwijderen</Button>
             </td>
-            {isOpen && <Popup
-      content={<div className='popup-content'>
-            <h1>Verwijder de medicatie</h1>
-            <p>Ben je zeker dat je deze medicatie wilt verwijderen?</p>
-            
-            <div class="clearfix">
-                <button type="button"  onClick={check} class="cancelbtn">Cancel</button>
-                <button type="button"  class="deletebtn">Delete</button>
-            </div>
+            {isOpen && 
+            <Popup
+            content={<div className='popup-content'>
+                  <h1>Verwijder de medicatie</h1>
+                  <p>Ben je zeker dat je deze medicatie wilt verwijderen?</p>
+                  
+                  <div class="clearfix">
+                      <button type="button"  onClick={togglePopup} class="cancelbtn">Cancel</button>
+                      <button type="button"  class="deletebtn" onClick={deleteItems(props.rows[obj].name)}>Verwijderen</button>
+                  </div>
       </div>}
       handleClose={togglePopup}
     />}

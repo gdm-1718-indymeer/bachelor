@@ -5,6 +5,7 @@ import {
   faChartBar,
   faCog,
   faHome,
+  faMedkit,
   faPowerOff,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -12,27 +13,38 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Redirect } from 'react-router-dom';
 import AppContext from '../../services/context.services';
+import {Link} from 'react-router-dom'
 
 const menuItems = {
   Dashboard: {
     title: 'Dashboard',
     icon: faHome,
+    link: '/'
   },
   Clients: {
     title: 'Clients',
     icon: faUser,
+    link: '/dashboard'
   },
   Statistics: {
     title: 'Statistics',
     icon: faChartBar,
+    link: '/dashboard'
   },
   Schedule: {
     title: 'schedules',
     icon: faCalendar,
+    link: '/dashboard'
   },
   Settings: {
     title: 'Settings',
     icon: faCog,
+    link: '/dashboard'
+  },
+  Medicines: {
+    title: 'Medicines',
+    icon: faMedkit,
+    link: '/dashboard/medication'
   },
 };
 
@@ -50,7 +62,7 @@ const BaseLayout = (props) => {
     Object.values(menuItems).forEach((el, index) => {
       menuItemsComponentArray.push(
         !sideBarReduced ? (
-          <li
+          <Link to={el.link}
             key={index}
             onClick={menuChangeActive(index)}
             className={`c-menu__item ${index === activeMenuItem && 'is-active'
@@ -61,13 +73,13 @@ const BaseLayout = (props) => {
                 <span>{el.title}</span>
               </div>
             </div>
-          </li>
+          </Link>
         ) : (
           <OverlayTrigger
             key={index}
             placement='right'
             overlay={<Tooltip style={{ marginLeft: 5 }}>{el.title}</Tooltip>}>
-            <li
+            <Link to={el.link}
               onClick={menuChangeActive(index)}
               className={`c-menu__item ${index === activeMenuItem && 'is-active'
                 }`}>
@@ -78,7 +90,7 @@ const BaseLayout = (props) => {
                   <span>{el.title}</span>
                 </div>
               </div>
-            </li>
+            </Link>
           </OverlayTrigger>
         )
       );

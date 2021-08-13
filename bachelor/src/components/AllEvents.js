@@ -77,7 +77,7 @@ const AllEvents = (props) => {
                                 {task.Amount}
                                 <span className="visually-hidden">unread messages</span>
                             </span>
-                            <img className='task__image mdl-badge' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
+                            <img className='task__image mdl-badge' alt='medicine' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
                         </div>
 
                         <span className="events__name">{task.medicineName}</span>

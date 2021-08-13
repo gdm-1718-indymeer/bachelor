@@ -15,27 +15,27 @@ export const getMedicines = async () => {
 }
 
 
-export const getMedicineDetails = async (name) => {
-  let data
-  let lowercase = name.toLowerCase()
-  console.log(lowercase)
+// export const getMedicineDetails = async (name) => {
+//   let data
+//   let lowercase = name.toLowerCase()
+//   console.log(lowercase)
 
-  //await axios.get(medicineApi + `/drug/label.json?search=${name}`)
-  await axios.get(wikiPedia + `&titles=${lowercase}`, {
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest'
-    }
-  })
-    .then(res => {
-      let response = res.data.query.pages;
-      Object.values(response).map(value => {
-        data = [value.extract];
-        console.log(data)
-      })
-    })
+//   //await axios.get(medicineApi + `/drug/label.json?search=${name}`)
+//   await axios.get(wikiPedia + `&titles=${lowercase}`, {
+//     headers: {
+//       'X-Requested-With': 'XMLHttpRequest'
+//     }
+//   })
+//     .then(res => {
+//       let response = res.data.query.pages;
+//       Object.values(response).map(value => {
+//         data = [value.extract];
+//         console.log(data)
+//       })
+//     })
 
-  return data
-}
+//   return data
+// }
 
 export const recognisePicture = async (picture) => {
   let data

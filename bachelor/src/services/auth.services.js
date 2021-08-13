@@ -206,14 +206,32 @@ export const addMedication = async (data) => {
 
 export const getAllMedicineData = async () => {
   let data;
-  await db
-    .ref()
-    .child('medicine')
-    .once('value')
-    .then((userSnap) => {
+  await db.ref().child('medicine').once('value').then((userSnap) => {
       data = userSnap.val();
     });
   return data;
+};
+
+// GET MEDICINES DATA
+
+export const getMedicineDetails = async (name) => {
+  let data;
+  await db.ref().child(`medicine/${name}`).once('value').then((userSnap) => {
+      data = userSnap.val();
+    });
+  return data;
+};
+
+// DELETE MEDICINES DATA
+
+export const deleteMedication = async (id) => {
+  try {
+    console.log(id)
+    await db.ref().child(`medicine/${id}`).remove();
+    return true;
+  } catch (error) {
+    return error;
+  }
 };
 
 // UPDATE PERSONAL AND PROFESSIONEL INFORMATION
