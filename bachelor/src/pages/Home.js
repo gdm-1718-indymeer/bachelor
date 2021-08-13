@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import Week from '../components/Week';
 import Reminder from '../components/Reminder';
-import Lottie from 'react-lottie';
-import plants from '../assets/lotties/plants.json';
-import Fade from '../components/Fade'
+
 
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 

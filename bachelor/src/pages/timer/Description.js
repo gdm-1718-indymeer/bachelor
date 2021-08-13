@@ -53,7 +53,7 @@ const Description = (props) => {
                         <p className=''>Aantal medicijnen: <b>{state[1].Amount}</b></p>
                         <p className=''>Innemen om: <b>{state[1].targetTime}</b></p>
                         {state[1].beforeDinner &&  <span className="tag before">{state[1].notification} min voor het eten</span>}
-                        {state[1].duringDinner &&  <span className="tag during">{state[1].notification} min tijdens het eten</span>}
+                        {state[1].duringDinner &&  <span className="tag during">tijdens het eten</span>}
                         {state[1].afterDinner &&  <span className="tag after">{state[1].notification} min na het eten</span>}
                     </div>
                 </>}

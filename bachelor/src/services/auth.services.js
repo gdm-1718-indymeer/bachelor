@@ -19,12 +19,7 @@ export const signInWithEmailAndPassword = async (email, password) => {
 };
 
 // SIGN UP
-export const createUserWithEmailAndPassword = async (
-  email,
-  password,
-  firstname,
-  lastname
-) => {
+export const createUserWithEmailAndPassword = async (email,password,firstname,lastname) => {
   try {
     const createUser = await auth.createUserWithEmailAndPassword(
       email,
@@ -234,7 +229,7 @@ export const deleteMedication = async (id) => {
   }
 };
 
-// UPDATE PERSONAL AND PROFESSIONEL INFORMATION
+// UPDATE PERSONAL  INFORMATION
 
 export const updatePersonalInformation = async (uid, displayName, email, phone, photo) => {
   await db.ref(`user/${uid}`).update({
@@ -294,6 +289,13 @@ export const getInvitationsById = async (userId, invitationID) => {
 export const deleteInvitationById = async (invitationId) => {
   await db.ref().child('invitations').child(invitationId).remove();
 }
+
+//ADD ADMIN ROLE
+
+export const setAdminProfile = async (id) => {
+  await db.ref().child('user').child(id).update({isAdmin: true});
+}
+
 
 //PUSH ACCESS
 
@@ -366,6 +368,34 @@ export const addDataMedBox = async (key, uid, events) => {
     return error;
   }
 };
+
+
+// GET USER WHERE YOU ACCES HAVE TO 
+
+export const myUsersAcces = async (id) => {
+  let keys = []
+  let data = []; 
+  await db.ref().child("access").orderByChild("adminId").equalTo(id).once("value",snapshot => {
+    if (snapshot.exists()){
+      snapshot.forEach(childSnapshot => {
+        let key = childSnapshot.val()
+        keys.push(key.clientId)
+      })
+    }
+  });
+
+  // check for duplicates in keys
+  let unique =  keys.sort().filter(function(item, pos, ary) {return !pos || item !== ary[pos - 1];});
+
+  keys.forEach(async (val) => {  
+      let user = await getUserData(val)
+
+      Object.assign(user, { id: val })
+      data.push(user)
+  })
+
+  return data
+}
 
 // SIGN OUT
 

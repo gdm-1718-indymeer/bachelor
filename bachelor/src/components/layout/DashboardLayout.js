@@ -1,14 +1,6 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCalendar,
-  faChartBar,
-  faCog,
-  faHome,
-  faMedkit,
-  faPowerOff,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import {faCalendar,faChartBar,faCog,faHome,faMedkit,faPowerOff,faTachometerAlt,faUser,} from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Redirect } from 'react-router-dom';
@@ -16,10 +8,15 @@ import AppContext from '../../services/context.services';
 import {Link} from 'react-router-dom'
 
 const menuItems = {
-  Dashboard: {
-    title: 'Dashboard',
+  Home: {
+    title: 'Terug naar de app',
     icon: faHome,
     link: '/'
+  },
+  Dashboard: {
+    title: 'Dashboard',
+    icon: faTachometerAlt,
+    link: '/dashboard'
   },
   Clients: {
     title: 'Clients',
@@ -118,16 +115,6 @@ const BaseLayout = (props) => {
               <span className='bar-top'></span>
               <span className='bar-mid' />
               <span className='bar-bot' />
-            </div>
-          </div>
-          <div className='c-header-icon has-dropdown'>
-            <span className='c-badge c-badge--red c-badge--header-icon animated swing'>
-              13
-            </span>
-            <i className='fa fa-bell'></i>
-            <div className='c-dropdown c-dropdown--notifications'>
-              <div className='c-dropdown__header'></div>
-              <div className='c-dropdown__content'></div>
             </div>
           </div>
 

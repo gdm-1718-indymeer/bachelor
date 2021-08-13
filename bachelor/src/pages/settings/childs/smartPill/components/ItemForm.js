@@ -1,5 +1,3 @@
-// https://javascript.plainenglish.io/how-to-create-a-multi-step-form-with-react-hooks-53a85efdff62
-
 import React from "react";
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';

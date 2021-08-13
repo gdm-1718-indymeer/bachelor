@@ -5,9 +5,7 @@ import AOS from 'aos';
 import "aos/dist/aos.css"
 
 const Reminder = (props) => {
-
     const [tasks, setTasks] = useState({});
-
 
     const getEvents = useCallback(async (uid, date) => {
         try {
@@ -15,7 +13,6 @@ const Reminder = (props) => {
             let item = { Noon: [], Morning: [], Evening: [] }
 
             if (response) {
-
                 Object.entries(response).forEach(([key, val]) => {
                     let obj = {}
                     let hour = Number(val.targetTime.split(':')[0])
@@ -29,14 +26,9 @@ const Reminder = (props) => {
                     } else if (hour => 18) {
                         item.Evening.push(obj)
                     }
-
                 })
-
-
             }
             setTasks(item)
-
-
         } catch (e) {
             console.error(e);
         }
@@ -53,7 +45,7 @@ const Reminder = (props) => {
        });
     }, [props.handleDate]);
 
-    function Task({ task, index, completeTask, removeTask }) {
+    function Task({ task }) {
         return (
             <Link
                 to={`/reminder/${task.eventID}`}
@@ -91,19 +83,6 @@ const Reminder = (props) => {
         );
     }
 
-
-    const completeTask = index => {
-        const newTasks = [...tasks];
-        newTasks[index].completed = true;
-        setTasks(newTasks);
-    };
-
-    const removeTask = index => {
-        const newTasks = [...tasks];
-        newTasks.splice(index, 1);
-        setTasks(newTasks);
-    };
-
     return (
         <div className="container">
             {/* <div className="header">Remaining items {tasksRemaining}</div> */}
@@ -120,8 +99,6 @@ const Reminder = (props) => {
                                         <Task
                                             task={tasks.Morning[key]}
                                             index={key}
-                                            completeTask={completeTask}
-                                            removeTask={removeTask}
                                             key={key}
                                         />
                                     </>
@@ -136,8 +113,6 @@ const Reminder = (props) => {
                                         <Task
                                             task={tasks.Noon[key]}
                                             index={key}
-                                            completeTask={completeTask}
-                                            removeTask={removeTask}
                                             key={key}
                                         />
                                     </>
@@ -153,8 +128,6 @@ const Reminder = (props) => {
                                         <Task
                                             task={tasks.Evening[key]}
                                             index={key}
-                                            completeTask={completeTask}
-                                            removeTask={removeTask}
                                             key={key}
                                         />
                                     </>
