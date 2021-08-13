@@ -15,6 +15,7 @@ const Invite = (props) => {
                 succeed: 'De data is succesvol toegevoegd.',
               });
             setTimeout(() => {
+                
                 setMessage({});
                 setEmail("")
               }, 3000);

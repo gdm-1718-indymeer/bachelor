@@ -15,6 +15,7 @@ const Invitation = (props) => {
                 setinvitationInfo(invitationRes);
             })
         });
+        console.log(adminInfo)
     }, [])
     if (!queryParams.inviteId) {
         return <Redirect to="/" />
