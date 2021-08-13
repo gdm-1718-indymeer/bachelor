@@ -157,7 +157,7 @@ const Create = (props) => {
 
           <Col className='medicine-form__input'>
             <Form.Label>Bijsluiters (bv. max 4uur tussen)</Form.Label>
-              <ReactQuill key={Math.random()} value={formdata.warn} name='warn' onChange={(html) => setFormdata({...formdata, warn: html})} />
+              <ReactQuill modules={this.modules} key={Math.random()} value={formdata.warn} name='warn' onChange={(html) => setFormdata({...formdata, warn: html})} />
           </Col>
           
         </Form.Row>
