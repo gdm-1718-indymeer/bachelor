@@ -87,6 +87,14 @@ export const setSchedule = async (uid, data) => {
   return true;
 };
 
+
+// DELETE SCHEDULE
+
+export const deleteSchedule = async (uid, id) => {
+  await db.ref().child(`event/${uid}/${id}`).remove();
+  return true;
+};
+
 // GET CURRENT DATA
 
 export const getCurrentData = async (uid, id) => {

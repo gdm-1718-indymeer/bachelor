@@ -1,9 +1,10 @@
-import React, { useState, useEffect , useCallback} from 'react'
-import {getCurrentData, getMedicineDetails} from '../../services/auth.services'
+import React, { useState, useEffect } from 'react'
+import {deleteSchedule, getCurrentData, getMedicineDetails} from '../../services/auth.services'
 import { ReactComponent as Tablet} from '../../assets/images/medicines/tablet.svg'
 import { ReactComponent as Capsule} from '../../assets/images/medicines/capsule.svg'
 import { ReactComponent as Syringe} from '../../assets/images/medicines/syringe.svg'
 import { ReactComponent as Inhaler} from '../../assets/images/medicines/inhaler.svg'
+import Popup from '../../admin/components/popup'
 import  Orale from '../../assets/images/intake/orale.png'
 import  Ear from '../../assets/images/intake/ear.png'
 import  Eye from '../../assets/images/intake/eye.png'
@@ -11,29 +12,44 @@ import  Dermaal from '../../assets/images/intake/dermaal.png'
 import  Melting  from '../../assets/images/intake/melting.png'
 import  Spray from '../../assets/images/intake/spray.png'
 import  Injection from '../../assets/images/intake/injection.png'
+import { useHistory } from 'react-router'
 
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
 
 const Description = (props) => {
     const [state, setState] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-    const getEvents = useCallback(async (name, uid) => {
+    const history = useHistory();
+
+
+    const getEvents = (async (name, uid) => {
         try {
-            console.log(props.match.params.id)
             const currentData = await getCurrentData(uid, props.match.params.id)
             const result = await getMedicineDetails(currentData.medicineName);
             setState([result, currentData])
             console.log(state)
 
-
-
         } catch (e) {
             console.error(e);
         }
     });
+
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  }
+
+  const deleteItems = () => async () => {
+    let uid = currentUser.uid
+    let id = props.match.params.id
+    await deleteSchedule(uid, id)
+    togglePopup()
+    history.push("/");
+  }
   
       
     useEffect (() => {
-      let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
       const uid = currentUser.uid
   
       getEvents('imodium', uid);
@@ -56,9 +72,25 @@ const Description = (props) => {
                         {state[1].duringDinner &&  <span className="tag during">tijdens het eten</span>}
                         {state[1].afterDinner &&  <span className="tag after">{state[1].notification} min na het eten</span>}
                     </div>
+
+                    <button className='btn-red btn' onClick={togglePopup}>Herinnering verwijderen</button>
+
+                  
                 </>}
             </div> 
+            {isOpen &&
+                        <Popup
+                        content={<div className='popup-content'>
+                            <h1>Verwijder de herinnering</h1>
+                            <p>Ben je zeker dat je deze herinnering wilt verwijderen?</p>
 
+                            <div class="clearfix">
+                            <button type="button" onClick={togglePopup} class="btn cancelbtn">Cancel</button>
+                            <button type="button" class="btn deletebtn" onClick={deleteItems()}>Verwijderen</button>
+                            </div>
+                        </div>}
+                        handleClose={togglePopup}
+                        />}
             <div className="bodyPres container">
                 <div className="addPres row">
                     <div className='pres col-6'>

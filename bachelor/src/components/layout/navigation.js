@@ -76,6 +76,10 @@ const Navigation = (props) => {
     <div className='navigation'>
     <div ref={menuRef} className="menu">
       <Link onClick={handleMenuClick(0)} ref={firstButtonRef}  to="/now" className={`menu__item ${activeItemState === 0 && 'active'}`} style={{bgColorItem: "#ff8c00"}} >
+      <span className="position-absolute start-90 translate-middle badge rounded-pill btn-primary">
+          !
+          <span className="visually-hidden">unread messages</span>
+      </span>
       <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="26" height="32" viewBox="0 0 36 42">
         <g id="Icons_beat" data-name="Icons/ beat" transform="translate(1.5)">
           <g id="Icons_beat-2" data-name="Icons/ beat">

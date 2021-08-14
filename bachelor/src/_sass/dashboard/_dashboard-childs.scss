@@ -105,12 +105,22 @@
   padding: 20px;
   border: 1px solid #999;
   overflow: auto;
+
+  @include media-breakpoint-down(md) {
+    width: 90%;
+  }
 }
 
 .popup-content {
   max-width: 800px;
   padding: 2em 0;
   margin: 0 auto;
+  text-align: center;
+
+  p {
+    text-align: center !important;
+    padding-bottom: 1em;
+  }
 }
 
 .close-icon {
@@ -128,29 +138,46 @@
   border: 1px solid #999;
   font-size: 20px;
 }
+.clearfix {
+  display: flex;
+  justify-content: center;
 
+  @include media-breakpoint-down(md) {
+    flex-direction: column-reverse;
+  }
+}
 /* Float cancel and delete buttons and add an equal width */
 .cancelbtn, .deletebtn {
   float: left;
-  width: 50%;
+  width: 40%;
   padding: 14px 20px;
-  margin: 8px 0;
+  margin: 8px 16px;
   border: none;
   cursor: pointer;
   opacity: 0.9;
   color: $white;
+  border-radius: 21px;
+  box-shadow: 15px 15px 40px rgba(50, 157, 156, 0.21);
+
+  @include media-breakpoint-down(md) {
+    width: 90%;
+  }
 
 }
 
 /* Add a color to the cancel button */
 .cancelbtn {
-  background-color: #ccc;
+  background: #ccc;
   color: black;
 }
 
 /* Add a color to the delete button */
 .deletebtn {
-  background-color: $red;
+  background: linear-gradient(
+    90deg,
+    #cf4d58,
+    #e97a67
+  );
 }
 
 .ql-container {

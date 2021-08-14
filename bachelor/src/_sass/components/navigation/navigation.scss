@@ -30,6 +30,11 @@
   padding: 0.55em 0 0.85em;
   transition: transform var(--timeOut, $transition-duration);
 
+  span {
+    left: 63%;
+    background-color: $red;
+  }
+
   svg {
     color: $clrLightGreen;
     stroke: $clrLightGreen;
