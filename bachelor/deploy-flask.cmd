@@ -1,1 +1,1 @@
-heroku git:remote -a medcarepython && git add --all && git commit -m "deploy heroku" && git push heroku master
+npm run build-flask && Xcopy "flask" "\flask" /E /H /C /I /Y && cd \flask && pip3 freeze > requirements.txt && git add --all && git commit -m "deploy heroku" && git push heroku master && cd / && rmdir flask /s /q
