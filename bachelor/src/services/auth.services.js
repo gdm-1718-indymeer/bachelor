@@ -19,7 +19,7 @@ export const signInWithEmailAndPassword = async (email, password) => {
 };
 
 // SIGN UP
-export const createUserWithEmailAndPassword = async (email,password,firstname,lastname) => {
+export const createUserWithEmailAndPassword = async (email, password, firstname, lastname) => {
   try {
     const createUser = await auth.createUserWithEmailAndPassword(
       email,
@@ -67,7 +67,7 @@ export const signInWithGoogle = (url) => {
 
 export const forgotPassword = (Email) => {
   firebase.auth().sendPasswordResetEmail(Email)
-  return 
+  return
 }
 // CREATE CUSTOM UID
 
@@ -108,6 +108,11 @@ export const getCurrentData = async (uid, id) => {
     });
   return data;
 };
+
+//SET CURRENT DATA
+export const setCurrentData = async (uid, id, data) => {
+  await db.ref().child(`event/${uid}/${id}`).set(data);
+}
 
 // GET ALL DATA
 
@@ -162,15 +167,17 @@ export const getNextData = async (uid, time) => {
     .ref(`event/${uid}/`)
     .orderByChild('timeStamp')
     .startAt(time)
-    .limitToFirst(1)
     .once('value')
     .then((snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        key = childSnapshot.key;
-        data = childSnapshot.val();
-      });
+      snapshot
+        .forEach((childSnapshot) => {
+          if (!childSnapshot.val().isTaken && !key && !data) {
+            key = childSnapshot.key;
+            data = childSnapshot.val();
+          }
+        });
     });
-  return [data, key].filter((i) => i);
+  return [data, key].filter((i) => { return i; });
 };
 
 // GET USER
@@ -210,8 +217,8 @@ export const addMedication = async (data) => {
 export const getAllMedicineData = async () => {
   let data;
   await db.ref().child('medicine').once('value').then((userSnap) => {
-      data = userSnap.val();
-    });
+    data = userSnap.val();
+  });
   return data;
 };
 
@@ -220,8 +227,8 @@ export const getAllMedicineData = async () => {
 export const getMedicineDetails = async (name) => {
   let data;
   await db.ref().child(`medicine/${name}`).once('value').then((userSnap) => {
-      data = userSnap.val();
-    });
+    data = userSnap.val();
+  });
   return data;
 };
 
@@ -301,7 +308,7 @@ export const deleteInvitationById = async (invitationId) => {
 //ADD ADMIN ROLE
 
 export const setAdminProfile = async (id) => {
-  await db.ref().child('user').child(id).update({isAdmin: true});
+  await db.ref().child('user').child(id).update({ isAdmin: true });
 }
 
 
@@ -357,7 +364,7 @@ export const fillMedbox = async (key, uid) => {
     await db.ref().child(`pillbox/${key}/${uid}`).update({
       fill: true
     });
-    
+
     return true
   } catch (error) {
     return error;
@@ -369,8 +376,8 @@ export const fillMedbox = async (key, uid) => {
 export const addDataMedBox = async (key, uid, events) => {
   try {
 
-    await db.ref().child(`pillbox/${key}/${uid}`).update({events});
-    
+    await db.ref().child(`pillbox/${key}/${uid}`).update({ events });
+
     return true
   } catch (error) {
     return error;
@@ -382,9 +389,9 @@ export const addDataMedBox = async (key, uid, events) => {
 
 export const myUsersAcces = async (id) => {
   let keys = []
-  let data = []; 
-  await db.ref().child("access").orderByChild("adminId").equalTo(id).once("value",snapshot => {
-    if (snapshot.exists()){
+  let data = [];
+  await db.ref().child("access").orderByChild("adminId").equalTo(id).once("value", snapshot => {
+    if (snapshot.exists()) {
       snapshot.forEach(childSnapshot => {
         let key = childSnapshot.val()
         keys.push(key.clientId)
@@ -393,13 +400,13 @@ export const myUsersAcces = async (id) => {
   });
 
   // check for duplicates in keys
-  let unique = keys.sort().filter(function(item, pos, ary) {return !pos || item !== ary[pos - 1];});
+  let unique = keys.sort().filter(function (item, pos, ary) { return !pos || item !== ary[pos - 1]; });
 
-  unique.forEach(async (val) => {  
-      let user = await getUserData(val)
+  unique.forEach(async (val) => {
+    let user = await getUserData(val)
 
-      Object.assign(user, { id: val })
-      data.push(user)
+    Object.assign(user, { id: val })
+    data.push(user)
   })
 
   return data

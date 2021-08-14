@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { getPreviousData, getNextData } from '../../services/auth.services';
-import { CountdownCircleTimer,remainingTime,} from 'react-countdown-circle-timer';
+import { getPreviousData, getNextData, setCurrentData } from '../../services/auth.services';
+import { CountdownCircleTimer, remainingTime, } from 'react-countdown-circle-timer';
 import Lottie from 'react-lottie';
 import confetti from '../../assets/lotties/confetti.json';
 import { Link } from 'react-router-dom';
@@ -39,7 +39,6 @@ const Timer = () => {
       const dateObjectNext = next[0].timeStamp;
       let time = dateObjectNext - today;
       let prev = (dateObjectPrev - dateObjectNext)
-
       setTime({
         time: time,
         prev: prev,
@@ -68,22 +67,36 @@ const Timer = () => {
       d.getMonth() + 1,
       d.getDate(),
       d.getHours(),
-      d.getMinutes(),
+      d.getMinutes() - 20,
       d.getSeconds()
     );
 
     AOS.init({
       duration: 1000
-      });
-      AOS.refresh();
+    });
+    AOS.refresh();
 
     getEvents(uid, time);
   }, []);
-
   if (remainingTime === 0) {
     return <div className='timer'>It's time to take your pill</div>;
   }
+  const tookMedicine = async () => {
+    // let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
+    // const uid = currentUser.uid;
+    // await setCurrentData(uid, next[1], { ...next[0], isTaken: true })
+    // var d = new Date();
+    // let time = toTimestamp(
+    //   d.getFullYear(),
+    //   d.getMonth() + 1,
+    //   d.getDate(),
+    //   d.getHours(),
+    //   d.getMinutes() - 20,
+    //   d.getSeconds()
+    // );
 
+    // await getEvents(uid, time)
+  }
   const children = ({ remainingTime }) => {
     let d = Math.floor(remainingTime / (3600 * 24));
     let h = Math.floor((remainingTime % (3600 * 24)) / 3600);
@@ -137,24 +150,24 @@ const Timer = () => {
   return (
     <div className='timer-background'>
       <div className='wave'>
-      {next.length > 0 ? (
-<div data-aos="fade">
-        <div className='wave__overlay'></div>
+        {next.length > 0 ? (
+          <div data-aos="fade">
+            <div className='wave__overlay'></div>
 
-          <Lottie
-            options={defaultOptions}
-            height={'100%'}
-            width={'100%'}
-            className='test'
-          />
-       </div> ):(<div className='countdown-wrapper' data-aos="fade">
-        <h3 className='white pb-50'>Oeps! Het lijkt alsof je nog geen datums hebt toegevoegd</h3>
-        <Link
-          className='btn btn-white pb-50'
-          to={`/add`}>
-         Voeg nu data toe
-        </Link>
-      </div>)}
+            <Lottie
+              options={defaultOptions}
+              height={'100%'}
+              width={'100%'}
+              className='test'
+            />
+          </div>) : (<div className='countdown-wrapper' data-aos="fade">
+            <h3 className='white pb-50'>Oeps! Het lijkt alsof je nog geen datums hebt toegevoegd</h3>
+            <Link
+              className='btn btn-white pb-50'
+              to={`/add`}>
+              Voeg nu data toe
+            </Link>
+          </div>)}
       </div>
       {next.length > 0 ? (
         <div className='countdown-wrapper' data-aos="fade">
@@ -180,7 +193,9 @@ const Timer = () => {
               </CountdownCircleTimer>
             )}
           </div>
-
+          {/* {time.time <= 60 * 15 ?
+            <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
+            >Ik heb mijn pil genomen!</button> : null} */}
           <Link
             className='countdown-wrapper__button btn'
             to={`reminder/${next[1]}`}>
