@@ -42,6 +42,10 @@
       transition: 0.25s ease-out;
       margin-right: 3em;
 
+      @include media-breakpoint-down(md) {
+        height: 6em;
+      }
+
       &:hover {
         background: var(--bg-color);
         transition: 0.5s ease-out;

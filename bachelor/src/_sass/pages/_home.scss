@@ -2,12 +2,26 @@
   background-color: $clrGreen;
   width: 100%;
   padding: 3em;
-  min-height: 400px;
   max-width: 100%;
+
+  @include media-breakpoint-down(md) {
+    padding: 2em;
+  }
 
   .introduction {
     padding-bottom: 4em;
     color: $white;
+
+    @include media-breakpoint-down(md) {
+      padding-bottom: 1em;
+    }
+
+    h1 {
+      @include media-breakpoint-down(md) {
+        font-size: 2rem !important;
+        line-height: 2.2rem !important;
+      }
+    }
     
     span {
       font-size: $fontSize28;
@@ -29,8 +43,14 @@
   height: 100%;
   padding-bottom: 150px;
   min-height: 50vh;
+  padding-top: 2em;
 
   &__activity {
     margin-top: 3%;
+
+    @include media-breakpoint-down(md) {
+      font-size: 1.75rem !important;
+      line-height: 0.7rem !important;
+    }
   }
 }

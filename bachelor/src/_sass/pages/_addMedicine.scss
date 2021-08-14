@@ -120,6 +120,10 @@
   margin: 0 auto !important;
   padding: 3em 0 7em;
 
+  @include media-breakpoint-down(md) {
+    padding: 2em 1em 6em 1em;
+  }
+
   .btn {
     width: 312px;
     height: 55px;

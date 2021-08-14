@@ -33,6 +33,11 @@
   span {
     left: 63%;
     background-color: $red;
+
+    @include media-breakpoint-down(md) {
+        transform: scale(0.8) !important;
+        top: 0;
+    }
   }
 
   svg {
@@ -110,6 +115,7 @@
 
 @media screen and (max-width: 50em) {
   .menu {
-    font-size: 0.8em;
+    font-size: 0.9em;
+    padding: 0;
   }
 }

@@ -44,10 +44,6 @@ const Webcam = (props) => {
   const [responseSwitch, setResponseSwitch] = useState(true);
   const [response, setResponse] = useState({});
 
-
-  useEffect(() => {
-  }, []);
-
   const handleTakePhoto = (dataUri) => {
     // Do stuff with the photo...
     console.log('takePhoto');
@@ -73,12 +69,13 @@ const Webcam = (props) => {
 
   const handleTakePhotoAnimationDone = (dataUri) => {
     // const file = new File([dataUri], "File name",{ type: "image/png" })
-    sendImage(dataUri);
     setDataUri(dataUri);
   };
 
   const sendBase64 = () => {
     setRendering(false);
+    sendImage(dataUri);
+
   };
 
   const sendImage = (async (image) => {
