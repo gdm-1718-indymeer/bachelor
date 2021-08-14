@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCalendar,faChartBar,faCog,faHome,faMedkit,faPowerOff,faTachometerAlt,faUser,} from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faChartBar, faCog, faHome, faMedkit, faPowerOff, faTachometerAlt, faUser, } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Redirect } from 'react-router-dom';
 import AppContext from '../../services/context.services';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { isAdmin } from '../../services/auth.services';
 
 const menuItems = {
   Home: {
@@ -97,6 +98,10 @@ const BaseLayout = (props) => {
   const appContext = useContext(AppContext);
   if (appContext.loginStatus === 'LOGGED_OUT') {
     return <Redirect to={`/login?callback=${window.location.origin}${props.location.pathname}${props.location.search}`} />;
+  }
+  if (!isAdmin()) {
+    return <Redirect to={`/invite`} />;
+
   }
   const sidebarChangeWidth = () => {
     setSideBarReduced((prevState) => !prevState);

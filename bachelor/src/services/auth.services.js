@@ -118,11 +118,13 @@ export const setCurrentData = async (uid, id, data) => {
 // GET ALL DATA
 
 export const getAllData = async (uid) => {
-  let data;
-  await db.ref().child(`event/${uid}/`).once('value').then((snapshot) => {
-    data = snapshot.val();
-  });
-  return data;
+  if (await canGetUserData(uid)) {
+    let data;
+    await db.ref().child(`event/${uid}/`).once('value').then((snapshot) => {
+      data = snapshot.val();
+    });
+    return data;
+  }
 };
 
 // GET SCHEDULE FROM DATE
@@ -191,15 +193,36 @@ export const getCurrentUser = async () => {
     return await currentUser;
   }
 };
-
+export const isAdmin = async () => {
+  let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
+  let data = (await db.ref().child('access').orderByChild("adminId").equalTo(currentUser.uid).once('value')).val();
+  if (Object.keys(data).length > 0) return true;
+  return false;
+}
+export const canGetUserData = async (uid) => {
+  let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
+  if (uid === currentUser.uid) {
+    return true;
+  }
+  let data = (await db.ref().child('access').orderByChild("adminId").equalTo(currentUser.uid).once('value')).val();
+  for (const i of Object.keys(data)) {
+    if (data[i].clientId === uid) {
+      return true;
+    }
+  }
+  return false;
+}
 // GET USER DATA
 
 export const getUserData = async (uid) => {
-  let data;
-  await db.ref().child('user').child(uid).once('value').then((userSnap) => {
-    data = userSnap.val();
-  });
-  return data;
+  if (await canGetUserData(uid)) {
+
+    let data;
+    await db.ref().child('user').child(uid).once('value').then((userSnap) => {
+      data = userSnap.val();
+    });
+    return data;
+  }
 };
 
 // PUSH MEDICINES DATA
