@@ -10,11 +10,6 @@ const AllEvents = (props) => {
     useEffect(() => {
         let date = props.date;
         let data = props.events
-  
-        AOS.refresh();
-        AOS.init({
-            duration: 1000
-       });
     
         let items = []
         let timeOfTheDay = { Noon: [], Morning: [], Evening: [] }
@@ -56,6 +51,12 @@ const AllEvents = (props) => {
         })
 
         setTasks(timeOfTheDay)
+        window.addEventListener('load', AOS.refresh)
+
+        AOS.refresh();
+        AOS.init({
+            duration: 1000
+       });
 
     }, [props.date, props.events]);
 
@@ -67,7 +68,7 @@ const AllEvents = (props) => {
                 to={`/reminder/${task.eventID}`}
                 className=" mb-3"
                 // eslint-disable-next-line react/jsx-no-duplicate-props
-                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={task.eventID}>
+                data-aos="fade-up" key={task.eventID}>
 
                 <li className="events__item" >
                     <div className="events__item--left">

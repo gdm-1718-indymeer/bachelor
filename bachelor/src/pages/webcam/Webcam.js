@@ -41,6 +41,7 @@ const Webcam = (props) => {
   const [upload, setUpload] = useState(true);
   const [uploadFile, setUploadFile] = useState([]);
   const [files, setFiles] = useState([]);
+  const [responseSwitch, setResponseSwitch] = useState(true);
   const [response, setResponse] = useState({});
 
 
@@ -52,6 +53,14 @@ const Webcam = (props) => {
     console.log('takePhoto');
     console.log(typeof dataUri);
   };
+
+  const clearStates = () => {
+    setRendering(true)
+    setResponseSwitch(true)
+    setResponse({})
+    setUpload(true)
+    setDataUri(false)
+  }
 
   const defaultOptions = {
     loop: true,
@@ -77,6 +86,7 @@ const Webcam = (props) => {
       const data = await recognisePicture(image);
       if(data) {
         setResponse({response: data})
+        setResponseSwitch(false)
         console.log(data)
         console.log(response)
       }
@@ -145,27 +155,31 @@ const Webcam = (props) => {
 
   return (
     <>
-      {response ?
+      {responseSwitch ?
         ( <>
             {rendering ? (
               <>
                 {dataUri ? (
                   <>
-                    <div className={'demo-image-preview '}>
-                      <img src={dataUri}  alt='preview'/>
+                  <div className='container'>
+                    <div className='row justify-content-center text-center'>
+                        <div className={'demo-image-preview '}>
+                          <img src={dataUri}  alt='preview'/>
+                        </div>
+
+                        <button
+                          className='countdown-wrapper__button btn btn-red'
+                          onClick={() => setDataUri(false)}>
+                          Opnieuw
+                        </button>
+                        
+                        <button
+                          className='countdown-wrapper__button btn'
+                          onClick={() => sendBase64()}>
+                          Verzenden
+                        </button>
+                      </div>
                     </div>
-
-                    <button
-                      className='countdown-wrapper__button btn'
-                      onClick={() => sendBase64()}>
-                      Verzenden
-                    </button>
-
-                    <button
-                      className='countdown-wrapper__button btn'
-                      onClick={() => setDataUri(false)}>
-                      Opnieuw
-                    </button>
                   </>
                 ) : (
                   <>
@@ -264,9 +278,10 @@ const Webcam = (props) => {
             }
             </>) :(<> 
         <div className='container'>
-          <div className='row'>
+          <div className='row response-wrapper'>
             <h4 className='text-center pb-50'> Hier is de data die ik vond: </h4>
-            <div dangerouslySetInnerHTML={  {__html: response.response}}></div>
+            <div className='response-wrapper__response-data' dangerouslySetInnerHTML={  {__html: response.response}}></div>
+            <button className='btn' onClick={() => {clearStates(); }}>Opnieuw?</button>
           </div>
         </div> 
         </>

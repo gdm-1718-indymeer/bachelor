@@ -3,7 +3,8 @@ import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar } from '@hassanmojab/react-modern-calendar-datepicker';
 import { getAllData } from '../../services/auth.services';
 import AllEvents from '../../components/AllEvents';
-
+import AOS from 'aos';
+import "aos/dist/aos.css"
 
 const Calender = (props) => {
   const [state, setState] = useState([]);
@@ -11,35 +12,29 @@ const Calender = (props) => {
   const [selectedDay, setSelectedDay] = useState(null);
 
 
-  const getAll = (async (uid) => {
-    try {
-      const response = await getAllData(uid);
-      if (response) {
-        let dates = []
-        Object.entries(response).forEach(([key, val]) => {
-
-          let date = val.targetDate.split('/')
-          let day = Number(date[0])
-          let month = Number(date[1])
-          let year = Number(date[2])
-          let obj = { year: year, month: month, day: day, className: 'orangeDay' }
-          dates.push(obj)
-        })
-
-        setState(dates)
-        setEvents(response)
-
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  });
-
   useEffect(() => {
     let uid = props.uid;
     
-    getAll(uid);
-  }, []);
+    let dates = []
+    Object.entries(uid).forEach(([key, val]) => {
+
+      let date = val.targetDate.split('/')
+      let day = Number(date[0])
+      let month = Number(date[1])
+      let year = Number(date[2])
+      let obj 
+      if (val.isTaken) {
+        obj = { year: year, month: month, day: day, className: 'orangeDay' }
+      }else {
+        obj = { year: year, month: month, day: day, className: 'redDay' }
+      }
+      dates.push(obj)
+    })
+
+    setState(dates)
+    setEvents(uid)
+
+  }, [props.uid]);
 
 
 

@@ -21,7 +21,7 @@ const Signup = (props) => {
         setValue(stateValue)
     }
     const loginWithGoogle = () => {
-        signInWithGoogle(queryParams.callback || '/settings')
+        signInWithGoogle(queryParams.callback || '/welcome')
     }
     const onSubmit = async (e) => {
         e.preventDefault()
