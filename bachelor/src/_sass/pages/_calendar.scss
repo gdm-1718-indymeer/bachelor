@@ -16,5 +16,9 @@
 
     .orangeDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
         border: 2px solid rgba(219, 145, 60, 0.7) !important;
+    }
+
+    .redDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+        border: 2px solid rgba(255, 39, 39, 0.7) !important;
       }
 }

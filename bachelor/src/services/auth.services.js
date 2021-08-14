@@ -50,7 +50,7 @@ export const signInWithGoogle = (url) => {
     .signInWithPopup(googleProvider)
     .then((res) => {
       let user = res.user;
-      db.ref('user').child(res.user.uid).set({
+      db.ref('user').child(res.user.uid).update({
         displayName: user.displayName,
         email: user.email,
         tel: user.phoneNumber,
@@ -69,6 +69,7 @@ export const forgotPassword = (Email) => {
   firebase.auth().sendPasswordResetEmail(Email)
   return 
 }
+
 // CREATE CUSTOM UID
 
 export const uuidv4 = () => {
