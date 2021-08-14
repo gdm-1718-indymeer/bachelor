@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,9 +17,10 @@ const Navigation = (props) => {
   const menuBorderRef = useRef(null)
 
 
-  useEffect(() => {
-    window.addEventListener("load", handleWindowResize)
 
+  useEffect(() => {
+
+    window.addEventListener("load", handleWindowResize)
     window.addEventListener("resize", handleWindowResize)
 
     const menuItems = {
@@ -46,16 +48,18 @@ const Navigation = (props) => {
 
     activeItem.current = menuItems[props.path].el
     setActiveItemState(menuItems[props.path].index)
+    handleWindowResize()
+
     return () => {
       window.removeEventListener('resize', handleWindowResize)
     }
-  }, [])
 
+  }, [props.path])
+  
   const handleWindowResize = () => {
     offsetMenuBorder(activeItem?.current, menuBorderRef.current);
-    //menuRef.current.element.style.setProperty("--timeOut", "none");
   }
-
+ 
   const offsetMenuBorder = (element, menuBorder) => {
     const offsetActiveItem = element.getBoundingClientRect();
     const left = Math.floor(offsetActiveItem.left - menuRef.current.offsetLeft - (menuBorder.offsetWidth  - offsetActiveItem.width) / 2) +  "px";

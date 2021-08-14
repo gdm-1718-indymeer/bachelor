@@ -19,7 +19,8 @@ const AllEvents = (props) => {
         let items = []
         let timeOfTheDay = { Noon: [], Morning: [], Evening: [] }
 
-        if (date === undefined) {
+        console.log(date)
+        if (date === undefined || date === null) {
             let currentDate = new Date();
             let day = currentDate.getDate()
             let month = currentDate.getMonth() + 1
@@ -65,9 +66,10 @@ const AllEvents = (props) => {
             <Link key="index"
                 to={`/reminder/${task.eventID}`}
                 className=" mb-3"
-                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={Math.random()}>
+                // eslint-disable-next-line react/jsx-no-duplicate-props
+                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={task.eventID}>
 
-                <li className="events__item" key={Math.random()}>
+                <li className="events__item" >
                     <div className="events__item--left">
                         <div className="pill-image position-relative col-md-4">
                             <span className="position-absolute start-100 translate-middle badge rounded-pill btn-primary">

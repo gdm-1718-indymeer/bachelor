@@ -1,5 +1,5 @@
-import React, { useState, useEffect , useCallback} from 'react';
-import { Container , Table, Form, Row, Col, Button} from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container , Table} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import { getAllMedicineData } from "../../services/auth.services";
 import Lottie from 'react-lottie';
@@ -11,7 +11,7 @@ const Medication = (props) => {
 
 
 
-    const getMedicine = useCallback(async () => {
+    const getMedicine = (async () => {
         try {
             const medicine = await getAllMedicineData();
             setState(medicine)

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { getUserData, logoutUser } from '../../services/auth.services';
 import AOS from 'aos';
@@ -8,7 +8,7 @@ let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 const Settings = () => {
   const [dashboard, setDashboard] = useState('/invite');
 
-  const getProfile = useCallback(async (uid) => {
+  const getProfile = (async (uid) => {
     try {
       const user = await getUserData(uid);
       if(user.isAdmin) {

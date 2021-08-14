@@ -16,7 +16,7 @@ import {
   Webcam,
   Welcome,
 } from './pages';
-import { Clients, Create, Medication } from './admin';
+import { Clients, Create, Medication, UserData } from './admin';
 
 import {
   BaseLayout,
@@ -67,17 +67,18 @@ function App() {
           <RouteWrapper path={Routes.NEXT} layout={SettingsLayout} component={Description} exact />
           <RouteWrapper path={Routes.DESCRIPTION} layout={SettingsLayout} component={Description} exact />
           <RouteWrapper path={Routes.INVITATION} layout={SettingsLayout} component={Invitation} exact />
+          
           {/* settings */}
           <RouteWrapper path={Routes.SETTINGS} layout={BaseLayout} component={Settings} exact />
           <RouteWrapper path={Routes.PROFILE} layout={SettingsLayout} component={Profile} exact />
           <RouteWrapper path={Routes.CALENDAR} layout={SettingsLayout} component={Calender} exact />
           <RouteWrapper path={Routes.PILLFILL} layout={SettingsLayout} component={SmartPill} exact />
 
-
           {/* Dahboard */}
           <RouteWrapper path={Routes.DASHBOARD} layout={DashboardLayout} component={Clients} exact />
           <RouteWrapper path={Routes.DASHMEDICATION} layout={DashboardLayout} component={Medication} exact />
           <RouteWrapper path={Routes.CREATEMED} layout={DashboardLayout} component={Create} exact />
+          <RouteWrapper path={Routes.CLIENTDATA} layout={DashboardLayout} component={UserData} exact />
 
           {/* Admin */}
           <RouteWrapper path={Routes.INVITE} layout={SettingsLayout} component={Invite} exact />

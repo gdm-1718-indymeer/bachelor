@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import { deleteMedication } from '../../services/auth.services';
 import Popup from '../components/popup';

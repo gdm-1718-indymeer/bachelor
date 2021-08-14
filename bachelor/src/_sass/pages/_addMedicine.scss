@@ -245,24 +245,24 @@
   width: 1px;
 
   &:checked + .checkbox-tile {
-    border-color: #2260ff;
+    border-color: #ffc53a;
     box-shadow: 0 5px 10px rgba(#000, 0.1);
-    color: #2260ff;
+    color: $yellow;
     &:before {
       transform: scale(1);
       opacity: 1;
-      background-color: #2260ff;
-      border-color: #2260ff;
+      background-color: $yellow;
+      border-color: $yellow;
     }
 
     .checkbox-icon,
     .checkbox-label {
-      color: #2260ff;
+      color: #fde2a3;
     }
   }
 
   &:focus + .checkbox-tile {
-    border-color: #2260ff;
+    border-color: #fde2a3;
     box-shadow: 0 5px 10px rgba(#000, 0.1), 0 0 0 4px #b5c9fc;
     &:before {
       transform: scale(1);
@@ -279,7 +279,7 @@
   width: 7rem;
   min-height: 7rem;
   border-radius: 0.5rem;
-  border: 2px solid #b5bfd9;
+  border: 2px solid #f7e3b6;
   background-color: #fff;
   box-shadow: 0 5px 10px rgba(#000, 0.1);
   transition: 0.15s ease;
@@ -307,7 +307,7 @@
   }
 
   &:hover {
-    border-color: #2260ff;
+    border-color: $yellow;
     &:before {
       transform: scale(1);
       opacity: 1;

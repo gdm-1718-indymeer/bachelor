@@ -46,11 +46,6 @@
     &:hover {
       box-shadow: 0px 3px 14px 7px lighten($black, 92);
     }
-    i {
-      align-self: flex-end;
-      cursor: pointer;
-      margin-bottom: auto;
-    }
     .image-wrapper {
       border-radius: 50%;
       height: 100px;
@@ -69,8 +64,8 @@
       font-weight: 600;
       margin-bottom: auto;
     }
-    .user-mail {
-      color: $clrGreyLight;
+    .user-text {
+      color: $gray;
       font-size: 14px;
       margin-bottom: auto;
     }
@@ -163,3 +158,5 @@
   font-size: 16px;
 
 }
+
+

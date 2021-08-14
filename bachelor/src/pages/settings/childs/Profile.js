@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import be from '../../../lang/be.json';
@@ -10,7 +10,7 @@ import {
 
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
-const Profile = (props) => {
+const Profile = () => {
     const [state, setState] = useState({});
     const [message, setMessage] = useState(false);
 
@@ -29,7 +29,7 @@ const Profile = (props) => {
         }));
     };
 
-    const getData = useCallback(async (uid) => {
+    const getData = (async (uid) => {
         try {
             const response = await getUserData(uid);
             setState({ ...response, photo: response.profilePicture });
@@ -68,7 +68,8 @@ const Profile = (props) => {
             let picture = state.photo;
 
             if (state.pictureBlob) {
-                const img = await uploadProfilePicture(state.profilePicture);
+                console.log(state)
+                const img = await uploadProfilePicture(state.pictureBlob);
                 picture = img;
             }
 
@@ -116,7 +117,7 @@ const Profile = (props) => {
 
                             <div className='img-wrapper'>
                                 <div className='d-inline'>
-                                    <img className='picture' src={state.photo} />
+                                    <img className='picture' src={state.photo} alt='profilePicture'/>
                                     <br />
                                     <input
                                         type='file'

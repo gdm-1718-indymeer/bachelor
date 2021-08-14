@@ -11,7 +11,7 @@ const Week = (props) => {
 
   useEffect(() => {
     props.handleSetDate(format(getDate.selectedDate, 'd/M/yyyy'))
-  }, []);
+  }, [props,getDate.selectedDate ]);
 
 
   const onDateClick = (day) => {

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar } from '@hassanmojab/react-modern-calendar-datepicker';
-import { getAllData } from '../../../services/auth.services';
-import AllEvents from '../../../components/AllEvents';
-
-let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
+import { getAllData } from '../../services/auth.services';
+import AllEvents from '../../components/AllEvents';
 
 
-const Calender = () => {
+const Calender = (props) => {
   const [state, setState] = useState([]);
   const [events, setEvents] = useState({});
   const [selectedDay, setSelectedDay] = useState(null);
@@ -38,7 +36,7 @@ const Calender = () => {
   });
 
   useEffect(() => {
-    let uid = currentUser.uid;
+    let uid = props.uid;
     
     getAll(uid);
   }, []);
@@ -48,13 +46,9 @@ const Calender = () => {
   return (
     <>
       <div className="all-calendar">
-        <div className='container'>
-          <div className='row'>
-            <div className='col-12'>
-                <h1 className='pb-50'>Overzicht van alle evenementen</h1>
-            </div>
-          </div>
-        </div>
+           
+        <h5 className='pb-50 text-center'>Overzicht van alle evenementen</h5>
+
         {Object.keys(state) !== 0 && Object.keys(events) !== 0
           &&
           <>

@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
+import React from "react";
 import ItemForm from "../ItemForm";
 import StateDrop from "../StateDrop";
 
 const Monday = ({ setForm, formData, navigation }) => {
     let { mondayName, mondayTime , mondayDate} = formData;
 
-    const { previous, next } = navigation;
+    const { next } = navigation;
 
     const handleUser = (target) => {
         mondayName = target
@@ -35,7 +35,7 @@ const Monday = ({ setForm, formData, navigation }) => {
                 onChange={setForm}
             />
             <div className='pt-50'>
-                <button className='btn' >Vorige</button>
+                <button className='btn' disabled >Vorige</button>
                 <button className='btn' onClick={next}>Volgende</button>
             </div>
         </div>

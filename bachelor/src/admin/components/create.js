@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Container, Form, Row, Col, Button } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Container, Form, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { addMedication } from '../../services/auth.services';
 import Lottie from 'react-lottie';
@@ -8,7 +8,6 @@ import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; // ES6
 
 const Create = (props) => {
-  const [state, setState] = useState({});
   const [formdata, setFormdata] = useState({});
   const [message, setMessage] = useState(false);
 
@@ -35,9 +34,7 @@ const Create = (props) => {
   };
 
   const onSubmit = async (e) => {
-    let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
-    const uid = currentUser.uid;
-    if (formdata.name, formdata.type, formdata.inname, formdata.description, formdata.warn) {
+    if (formdata.name & formdata.type & formdata.inname & formdata.description & formdata.warn) {
       if (formdata.name) {
 
         let data = {

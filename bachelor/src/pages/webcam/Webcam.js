@@ -1,5 +1,4 @@
-import { React, useState, useCallback, useMemo, useEffect } from 'react';
-import { ReactDOM } from 'react-dom';
+import { React, useState, useMemo, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
@@ -8,7 +7,6 @@ import { recognisePicture } from '../../services/medication.services';
 import Lottie from 'react-lottie';
 import Processing from '../../assets/lotties/processing.json';
 
-var ReactDOMServer = require('react-dom/server');
 const baseStyle = {
   flex: 1,
   display: 'flex',
@@ -107,7 +105,7 @@ const Webcam = (props) => {
   };
   
   // code for dropzone
-  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles} = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} = useDropzone({
 
     accept: 'image/*',
     multiple: false,

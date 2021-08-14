@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getScheduleByDate } from "../services/auth.services";
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
@@ -7,12 +7,13 @@ import "aos/dist/aos.css"
 const Reminder = (props) => {
     const [tasks, setTasks] = useState({});
 
-    const getEvents = useCallback(async (uid, date) => {
+    const getEvents = (async (uid, date) => {
         try {
             let response = await getScheduleByDate(uid, date);
-            let item = { Noon: [], Morning: [], Evening: [] }
+            let item 
 
             if (response) {
+                item = { Noon: [], Morning: [], Evening: [] }
                 Object.entries(response).forEach(([key, val]) => {
                     let obj = {}
                     let hour = Number(val.targetTime.split(':')[0])
@@ -43,23 +44,23 @@ const Reminder = (props) => {
         AOS.init({
             duration: 1000
        });
-    }, [props.handleDate]);
+    }, [props.handleDate, props.uid]);
 
     function Task({ task }) {
         return (
             <Link
                 to={`/reminder/${task.eventID}`}
                 className=" mb-3"
-                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={Math.random()}>
+                style={{ textDecoration: task.completed ? "line-through" : "" }} data-aos="fade-up" key={task.eventID}>
 
-                <li className="events__item">
+                <li className="events__item" key={task.eventID}>
                     <div className="events__item--left">
                         <div className="pill-image position-relative col-md-4">
                             <span className="position-absolute start-100 translate-middle badge rounded-pill btn-primary">
                                 {task.Amount}
                                 <span className="visually-hidden">unread messages</span>
                             </span>
-                            <img className='task__image mdl-badge' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
+                            <img className='task__image mdl-badge' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg' alt='img'></img>
                         </div>
 
                         <span className="events__name">{task.medicineName}</span>
@@ -76,7 +77,7 @@ const Reminder = (props) => {
                                 <p> {task.notification}min <span className='food btn--action'> na het eten</span></p>
                             }</span>
                     </div>
-                    <span class="events__tag">{task.targetTime}</span>
+                    <span className="events__tag">{task.targetTime}</span>
                 </li>
 
             </Link>
@@ -85,7 +86,6 @@ const Reminder = (props) => {
 
     return (
         <div className="container">
-            {/* <div className="header">Remaining items {tasksRemaining}</div> */}
 
             <div className="tasks">
                 <ul className="events__list" data-aos="fade-up" key={Math.random()}>

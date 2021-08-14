@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React from "react";
 import {addDataMedBox} from '../../../../../services/auth.services';
 
 const Review = ({ setForm, formData, navigation , boxkey}) => {
@@ -27,7 +27,7 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
     } = formData;
     const { go } = navigation;
 
-    const pushData = useCallback(async () => {
+    const pushData = (async () => {
 
         console.log(boxkey)
 

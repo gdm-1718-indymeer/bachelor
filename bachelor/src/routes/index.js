@@ -19,7 +19,7 @@ export const PILLFILL = '/settings/pillendoos'
 export const DASHBOARD = '/dashboard'
 export const DASHMEDICATION = '/dashboard/medication'
 export const CREATEMED = '/dashboard/medication/create'
-export const UPDATEMED = '/dashboard/medication/update/:uid'
+export const CLIENTDATA = '/dashboard/:uid'
 
 
 export const INVITE = '/invite'

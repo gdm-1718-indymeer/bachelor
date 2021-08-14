@@ -2,7 +2,7 @@ import React from 'react'
 
 
 function BaseLayout(props) {
-    const { window, children } = props
+    const { children } = props
 
     return (
         <div>
