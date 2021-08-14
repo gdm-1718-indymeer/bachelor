@@ -1,0 +1,42 @@
+{
+  "files": {
+    "main.css": "/static/css/main.303570ac.chunk.css",
+    "main.js": "/static/js/main.bdf32185.chunk.js",
+    "main.js.map": "/static/js/main.bdf32185.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4680fb27.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4680fb27.js.map",
+    "static/css/2.43da0143.chunk.css": "/static/css/2.43da0143.chunk.css",
+    "static/js/2.4ca53e97.chunk.js": "/static/js/2.4ca53e97.chunk.js",
+    "static/js/2.4ca53e97.chunk.js.map": "/static/js/2.4ca53e97.chunk.js.map",
+    "static/js/3.4ffc4e46.chunk.js": "/static/js/3.4ffc4e46.chunk.js",
+    "static/js/3.4ffc4e46.chunk.js.map": "/static/js/3.4ffc4e46.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.43da0143.chunk.css.map": "/static/css/2.43da0143.chunk.css.map",
+    "static/css/main.303570ac.chunk.css.map": "/static/css/main.303570ac.chunk.css.map",
+    "static/js/2.4ca53e97.chunk.js.LICENSE.txt": "/static/js/2.4ca53e97.chunk.js.LICENSE.txt",
+    "static/media/camera.e9eb5eb0.svg": "/static/media/camera.e9eb5eb0.svg",
+    "static/media/capsule.7e008e87.svg": "/static/media/capsule.7e008e87.svg",
+    "static/media/dashboard.c5ee8d02.svg": "/static/media/dashboard.c5ee8d02.svg",
+    "static/media/dermaal.cc9c470b.png": "/static/media/dermaal.cc9c470b.png",
+    "static/media/ear.33f8b644.png": "/static/media/ear.33f8b644.png",
+    "static/media/eye.4da474d7.png": "/static/media/eye.4da474d7.png",
+    "static/media/inhaler.b2744cb2.svg": "/static/media/inhaler.b2744cb2.svg",
+    "static/media/injection.9cc98b2f.png": "/static/media/injection.9cc98b2f.png",
+    "static/media/medicine.7b7e31ae.jpg": "/static/media/medicine.7b7e31ae.jpg",
+    "static/media/melting.00eacd7b.png": "/static/media/melting.00eacd7b.png",
+    "static/media/orale.186b2224.png": "/static/media/orale.186b2224.png",
+    "static/media/pillApp.52683b30.svg": "/static/media/pillApp.52683b30.svg",
+    "static/media/spray.d7839c8a.png": "/static/media/spray.d7839c8a.png",
+    "static/media/syringe.91cbce22.svg": "/static/media/syringe.91cbce22.svg",
+    "static/media/tablet.6b794e4f.svg": "/static/media/tablet.6b794e4f.svg",
+    "static/media/timer.ead27041.svg": "/static/media/timer.ead27041.svg",
+    "static/media/welcome.373d9545.svg": "/static/media/welcome.373d9545.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4680fb27.js",
+    "static/css/2.43da0143.chunk.css",
+    "static/js/2.4ca53e97.chunk.js",
+    "static/css/main.303570ac.chunk.css",
+    "static/js/main.bdf32185.chunk.js"
+  ]
+}

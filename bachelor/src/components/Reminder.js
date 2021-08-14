@@ -85,8 +85,6 @@ const Reminder = (props) => {
     }
 
     return (
-        <div className="container">
-
             <div className="tasks">
                 <ul className="events__list" data-aos="fade-up" key={Math.random()}>
                     {tasks ? <>
@@ -136,8 +134,6 @@ const Reminder = (props) => {
                     </> : <p>Geen data gepland</p>}
                 </ul>
             </div>
-
-        </div>
     )
 }
 

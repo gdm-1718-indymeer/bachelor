@@ -310,98 +310,146 @@ def main():
         name = str(row["Imprint"]).replace(";", "")
         if not is_nan(row["Name"]):
             if name == text2 and row["Color"] == color and row["Shape"] == shape:
-                return '''<style>
-                table, th, td {
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    padding: 5px;
-                    text-align: left;
-                }
-                b{
-                    margin-left: 43%;
-                    font-size: 20px;
-                }
-                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                  <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
-                    <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
-                    <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
-                    <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
-                    <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
-                    <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
-                    <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
-                </table>'''
+                return '''
+                <div id="explore">
+                
+                <main class="exp-main">
+                    <div class="exp-location" data-location="alamo">
+                    <div class="exp-image">
+                        <h2>Pill detail van</h2>
+                        <h4>'''+str(row["Name"])+'''</h4>
+
+                    </div>
+                    <div class="exp-details">
+                        <a href="#alamo-explore-details" class="exp-card -title">
+                        <h1 class="heading -h1">'''+str(row["Imprint"])+'''</h1>
+                        <div class="subheading">Imprint</div>
+                        </a>
+                        <div class="exp-card -info">
+                        <h1 class="heading -h2">'''+str(row["Size"])+'''</h1>
+                        <div class="subheading">Grote</div>
+                        <h1 class="heading -h2">'''+str(row["Shape"])+'''</h1>
+                        <div class="subheading">Vorm</div>
+                        <h1 class="heading -h2">'''+str(closest_name)+'''</h1>
+                        <div class="subheading">Kleur</div>
+                        </div>
+                    </div>
+                    <div class="exp-facts">
+                        <div class="heading">Extra informatie</div>
+                         <div class="heading">Ingredienten</div>
+                        <p class="paragraph">'''+str(row["Ingredients"])+'''</p>
+                
+                    </div>
+                    </div>
+                
+                    </div>
+                </main>
+                </div>'''
 
             elif name == text2 and row["Color"] == color:
-                return '''<style>
-                table, th, td {
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    padding: 5px;
-                    text-align: left;
-                }
-                b{
-                    margin-left: 43%;
-                    font-size: 20px;
-                }
-                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                  <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
-                    <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
-                    <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
-                    <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
-                    <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
-                    <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
-                    <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
-                </table>'''
+                return '''<div id="explore">
+                
+                <main class="exp-main">
+                    <div class="exp-location" data-location="alamo">
+                    <div class="exp-image">
+                        <h2>Pill detail van</h2>
+                        <h4>'''+str(row["Name"])+'''</h4>
+
+                    </div>
+                    <div class="exp-details">
+                        <a href="#alamo-explore-details" class="exp-card -title">
+                        <h1 class="heading -h1">'''+str(row["Imprint"])+'''</h1>
+                        <div class="subheading">Imprint</div>
+                        </a>
+                        <div class="exp-card -info">
+                        <h1 class="heading -h2">'''+str(row["Size"])+'''</h1>
+                        <div class="subheading">Grote</div>
+                        <h1 class="heading -h2">'''+str(row["Shape"])+'''</h1>
+                        <div class="subheading">Vorm</div>
+                        <h1 class="heading -h2">'''+str(closest_name)+'''</h1>
+                        <div class="subheading">Kleur</div>
+                        </div>
+                    </div>
+                    <div class="exp-facts">
+                        <div class="heading">Extra informatie</div>
+                         <div class="heading">Ingredienten</div>
+                        <p class="paragraph">'''+str(row["Ingredients"])+'''</p>
+                
+                    </div>
+                    </div>
+                
+                    </div>
+                </main>
+                </div>'''
 
             elif name == text2:
-                return '''<style>
-                table, th, td {
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    padding: 5px;
-                    text-align: left;
-                }
-                b{
-                    margin-left: 43%;
-                    font-size: 20px;
-                }
-                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                  <tr><th>Author</th><td>'''+str(row["Author"])+'''</td></tr>
-                    <tr><th>Name</th><td>'''+str(row["Name"])+'''</td></tr>
-                    <tr><th>Color</th><td>'''+str(closest_name)+'''</td></tr>
-                    <tr><th>Imprint</th><td>'''+str(row["Imprint"])+'''</td>
-                    <tr><th>Size</th><td>'''+str(row["Size"])+'''</td></tr>
-                    <tr><th>Shape</th><td>'''+str(row["Shape"])+'''</td></tr>
-                    <tr><th>Ingredients</th><td>'''+str(row["Ingredients"])+'''</td></tr>
-                </table>'''
+                return '''<div id="explore">
+                
+                <main class="exp-main">
+                    <div class="exp-location" data-location="alamo">
+                    <div class="exp-image">
+                        <h2>Pill detail van</h2>
+                        <h4>'''+str(row["Name"])+'''</h4>
+
+                    </div>
+                    <div class="exp-details">
+                        <a href="#alamo-explore-details" class="exp-card -title">
+                        <h1 class="heading -h1">'''+str(row["Imprint"])+'''</h1>
+                        <div class="subheading">Imprint</div>
+                        </a>
+                        <div class="exp-card -info">
+                        <h1 class="heading -h2">'''+str(row["Size"])+'''</h1>
+                        <div class="subheading">Grote</div>
+                        <h1 class="heading -h2">'''+str(row["Shape"])+'''</h1>
+                        <div class="subheading">Vorm</div>
+                        <h1 class="heading -h2">'''+str(closest_name)+'''</h1>
+                        <div class="subheading">Kleur</div>
+                        </div>
+                    </div>
+                    <div class="exp-facts">
+                        <div class="heading">Extra informatie</div>
+                         <div class="heading">Ingredienten</div>
+                        <p class="paragraph">'''+str(row["Ingredients"])+'''</p>
+                
+                    </div>
+                    </div>
+                
+                    </div>
+                </main>
+                </div>'''
 
             elif idx == dataframe.index[-1]:
-                return '''<style>
-                table, th, td {
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    padding: 5px;
-                    text-align: left;
-                }
-                b{
-                    margin-left: 43%;
-                    font-size: 20px;
-                }
-                </style><b>Pill Details</b><br><table style="width:100%; height: 80%; padding: 1px; margin: 1px"><br />
-                    <p> Could not recognise the picture correct</p>
-                    <p> The data I saw was: </p>
-                    <tr><th>Name</th><td>''' + str(text2)+'''</td></tr>
-                    <tr><th>Color</th><td>''' + str(closest_name)+'''</td></tr>
-                    <tr><th>Shape</th><td>''' + str(shape) + '''</td></tr>
-                </table>'''
+                return '''<div id="explore">
+                
+                <main class="exp-main">
+                    <div class="exp-location" data-location="alamo">
+                    <div class="exp-image">
+                        <h2>Oops.. het lijkt alsof de data niet gevonden kan worden</h2>
+
+                    </div>
+                    <div class="exp-details">
+                        <a href="#alamo-explore-details" class="exp-card -title">
+                        <h1 class="heading -h1">Dit is wat ik zag</h1>
+                        <div class="subheading">Imprint</div>
+                        </a>
+                        <div class="exp-card -info">
+                        <h1 class="heading -h2">'''+str(shape)+'''</h1>
+                        <div class="subheading">Vorm</div>
+                        <h1 class="heading -h2">'''+str(closest_name)+'''</h1>
+                        <div class="subheading">Kleur</div>
+                        </div>
+                    </div>
+                    <div class="exp-facts">
+                        <div class="heading">Extra informatie</div>
+                         <div class="heading">Dit is de herkende tekst</div>
+                        <p class="paragraph">'''+str(text2)+'''</p>
+                
+                    </div>
+                    </div>
+                
+                    </div>
+                </main>
+                </div>'''
 
 
 if __name__ == "__main__":

@@ -7,11 +7,7 @@ import { getAllMedicineData } from '../services/auth.services';
 import AOS from 'aos';
 import "aos/dist/aos.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBreadSlice,
-  faCoffee,
-  faUtensils,
-} from '@fortawesome/free-solid-svg-icons';
+import {faBreadSlice,faCoffee,faUtensils,} from '@fortawesome/free-solid-svg-icons';
 
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
@@ -277,10 +273,8 @@ const AddMedicine = () => {
               </div>
 
               <div className='option-container add-medicine__date row'>
-                {/* <h5>Amount & How long?</h5>  */}
-
                 <div className='col-6'>
-                  <h5 className='add-medicine__date__title'> From: </h5>
+                  <h5 className='add-medicine__date__title'> Datum: </h5>
                   <DatePicker
                     value={selectedDay}
                     onChange={setSelectedDay}
@@ -289,7 +283,7 @@ const AddMedicine = () => {
                   />
                 </div>
                 <div className='col-6'>
-                  <h5 className='add-medicine__date__title'> Period: </h5>
+                  <h5 className='add-medicine__date__title'> Periode: </h5>
                   <div className='rangeData'>
                     <Select
                       defaultValue={options[1]}
@@ -340,7 +334,7 @@ const AddMedicine = () => {
               </div>
 
               <div className='add-medicine__option row'>
-                <h5 className='add-medicine__date__title'>Kies je moment</h5>
+                <h5 className='add-medicine__date__title'>Moment van inname</h5>
 
                 <fieldset className='checkbox-group'>
                   <div className='checkbox'>
