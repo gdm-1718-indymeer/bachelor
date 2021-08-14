@@ -1,11 +1,11 @@
 import axios from "axios"
 
 const medicineApi = 'https://api.fda.gov';
-const recogniseUrl = 'http://localhost:5000/recognise/';
+const recogniseUrl = 'https://medcarepython.herokuapp.com/recognise/';
 const wikiPedia = 'https://cors-anywhere.herokuapp.com/https://nl.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro='
 
 export const recognisePicture = async (picture) => {
-  let data
+  let data 
 
   await axios.post(recogniseUrl, {
     method: "POST",
@@ -18,7 +18,7 @@ export const recognisePicture = async (picture) => {
     .then(res => {
       console.log(res.data)
 
-      data = res.data.results[0];
+      data = res.data;
     })
 
   return data

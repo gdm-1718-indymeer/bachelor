@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React from "react";
 import { ReactComponent as Pill } from '../../../../../assets/images/pillApp.svg';
 import {fillMedbox, getUserData} from '../../../../../services/auth.services';
 
@@ -6,7 +6,7 @@ let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
 const Fill = ({ navigation, setKey }) => {
     
-    const getData = useCallback(async () => {
+    const getData = (async () => {
         let { next } = navigation;
 
         try {
@@ -21,9 +21,7 @@ const Fill = ({ navigation, setKey }) => {
     });
 
     return (
-        <div className="smartbox " data-aos="fade-left" data-aos-offset="500" data-aos-duration="500" data-aos-easing="ease-out-cubic"
-        >
-      
+        <div className="smartbox " data-aos="fade-left" data-aos-offset="500" data-aos-duration="500" data-aos-easing="ease-out-cubic">
 
             <Pill className="smartbox__image" />
             <h3 className='text-center'> Vul de pillendoos </h3>

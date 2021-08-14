@@ -63,7 +63,7 @@ const defaultData = {
 
 };
 
-const MultiStepForm = ({ images }) => {
+const MultiStepForm = () => {
     const [formData, setForm] = useForm(defaultData);
     const [boxkey, setKey] = useState({});
 

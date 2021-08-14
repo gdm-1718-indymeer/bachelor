@@ -1,10 +1,8 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect} from 'react'
 import OtpInput from 'react-otp-input';
 import MultiStepForm from "./MultiStepForm.js";
 import Lottie from 'react-lottie';
 import Otp from '../../../../assets/lotties/otp.json';
-import AOS from 'aos';
-import "aos/dist/aos.css"
 import {checkIfExist, getUserData} from '../../../../services/auth.services'
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
@@ -38,7 +36,7 @@ const SmartPill = () => {
             }, 3000);
           }
     }
-    const getData = useCallback(async (uid) => {
+    const getData = (async (uid) => {
         try {
             const response = await getUserData(uid);
             if(response.havePillbox){

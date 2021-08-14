@@ -1,12 +1,11 @@
-import React, { useEffect, useCallback, useState } from "react";
-import Select, { components } from 'react-select';
+import React, { useEffect, useState } from "react";
+import Select from 'react-select';
 import { getAllMedicineData } from '../../../../../services/auth.services'
-const { Option } = components;
 
 const StateDrop = (props, { label, ...others }) => {
     const [medicines, setMedicines] = useState([]);
 
-    const getNames = useCallback(async () => {
+    const getNames = (async () => {
         try {
             let data = await getAllMedicineData();
             let names = []

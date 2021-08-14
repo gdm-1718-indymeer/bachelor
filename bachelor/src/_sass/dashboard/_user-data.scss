@@ -1,0 +1,56 @@
+
+
+.user-data-dashboard {
+
+    .all-calendar {
+      background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/planner_dashboard_background.jpg) no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      padding: 1em;
+    
+      .Calendar {
+        font-size: 14px;
+        width: 100%;
+        max-width: 100vw;
+        border-radius: 0%;
+      }
+    }
+
+    .header {
+        color: $clrDarkBlue;
+        font-size: 2.2em !important;
+        text-align: left;
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+    
+      .todo {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: $box-shadow;
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 35%;
+        overflow: hidden;
+        padding: 1.4em 1.4em 6em 2.2em;
+        position: relative;
+        margin: 45px 45px 0;
+        margin-left: 0;
+        
+        &::after {
+            bottom: -5px;
+            color: $clrGreyLight;
+            font-size: 7em;
+            position: absolute;
+            right: 0px;
+            transform: rotate(-30deg);
+        }
+
+        &__container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+

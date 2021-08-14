@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,9 +17,10 @@ const Navigation = (props) => {
   const menuBorderRef = useRef(null)
 
 
-  useEffect(() => {
-    window.addEventListener("load", handleWindowResize)
 
+  useEffect(() => {
+
+    window.addEventListener("load", handleWindowResize)
     window.addEventListener("resize", handleWindowResize)
 
     const menuItems = {
@@ -46,16 +48,18 @@ const Navigation = (props) => {
 
     activeItem.current = menuItems[props.path].el
     setActiveItemState(menuItems[props.path].index)
+    handleWindowResize()
+
     return () => {
       window.removeEventListener('resize', handleWindowResize)
     }
-  }, [])
 
+  }, [props.path])
+  
   const handleWindowResize = () => {
     offsetMenuBorder(activeItem?.current, menuBorderRef.current);
-    //menuRef.current.element.style.setProperty("--timeOut", "none");
   }
-
+ 
   const offsetMenuBorder = (element, menuBorder) => {
     const offsetActiveItem = element.getBoundingClientRect();
     const left = Math.floor(offsetActiveItem.left - menuRef.current.offsetLeft - (menuBorder.offsetWidth  - offsetActiveItem.width) / 2) +  "px";
@@ -72,6 +76,10 @@ const Navigation = (props) => {
     <div className='navigation'>
     <div ref={menuRef} className="menu">
       <Link onClick={handleMenuClick(0)} ref={firstButtonRef}  to="/now" className={`menu__item ${activeItemState === 0 && 'active'}`} style={{bgColorItem: "#ff8c00"}} >
+      <span className="position-absolute start-90 translate-middle badge rounded-pill btn-primary">
+          !
+          <span className="visually-hidden">unread messages</span>
+      </span>
       <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="26" height="32" viewBox="0 0 36 42">
         <g id="Icons_beat" data-name="Icons/ beat" transform="translate(1.5)">
           <g id="Icons_beat-2" data-name="Icons/ beat">

@@ -1,4 +1,5 @@
-import React, { useEffect, useCallback , useState} from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect , useState} from 'react'
 import Lottie from 'react-lottie';
 import sitting from '../../assets/lotties/sitting.json'
 import { myUsersAcces } from '../../services/auth.services';
@@ -19,9 +20,14 @@ const Clients = () => {
 
   const getUsers = (async (uid) => {
     try {
-        let response = await myUsersAcces(uid);
-        setState(response)
-        console.log(state)
+        let response =  await myUsersAcces(uid);
+        if(response) {
+          setState(response)
+          console.log(state)
+          console.log(response)
+
+        }
+
       
     } catch (e) {
         console.error(e);
@@ -35,7 +41,7 @@ const Clients = () => {
 
   return (
     <>
-     <div className='dashboard-intro'>
+     <div className='dashboard-intro container'>
           <div className='row'>
             <div className='col-4'>
               <Lottie 
@@ -51,7 +57,10 @@ const Clients = () => {
           </div>
         </div>
         <div className='container'>
-          {Object.keys(state) !== 0 ? <Users mapUsers={state} /> : <h4>Loading data</h4>}
+          {state  ? <>
+            <div className='user-cards'>
+              <Users mapUsers={state} /> 
+            </div> </> : <h4>Loading data</h4>}
       </div>
     </>
   )

@@ -87,6 +87,14 @@ export const setSchedule = async (uid, data) => {
   return true;
 };
 
+
+// DELETE SCHEDULE
+
+export const deleteSchedule = async (uid, id) => {
+  await db.ref().child(`event/${uid}/${id}`).remove();
+  return true;
+};
+
 // GET CURRENT DATA
 
 export const getCurrentData = async (uid, id) => {
@@ -385,9 +393,9 @@ export const myUsersAcces = async (id) => {
   });
 
   // check for duplicates in keys
-  let unique =  keys.sort().filter(function(item, pos, ary) {return !pos || item !== ary[pos - 1];});
+  let unique = keys.sort().filter(function(item, pos, ary) {return !pos || item !== ary[pos - 1];});
 
-  keys.forEach(async (val) => {  
+  unique.forEach(async (val) => {  
       let user = await getUserData(val)
 
       Object.assign(user, { id: val })

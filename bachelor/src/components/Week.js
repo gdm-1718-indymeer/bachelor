@@ -11,7 +11,7 @@ const Week = (props) => {
 
   useEffect(() => {
     props.handleSetDate(format(getDate.selectedDate, 'd/M/yyyy'))
-  }, []);
+  }, [props,getDate.selectedDate ]);
 
 
   const onDateClick = (day) => {
@@ -20,8 +20,9 @@ const Week = (props) => {
   };
 
   const renderCells = () => {
+    let date = new Date()
     const monthStart = startOfMonth(currentMonth);
-    const startDate = startOfWeek(currentMonth);
+    const startDate = date.setDate(date.getDate()-2)//startOfWeek(currentMonth);
     const endDate = endOfWeek(currentMonth);
 
     const dateFormat = "EE";
