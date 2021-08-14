@@ -41,13 +41,13 @@ const Webcam = (props) => {
   const [dataUri, setDataUri] = useState('');
   const [rendering, setRendering] = useState(true);
   const [upload, setUpload] = useState(true);
+  const [uploadFile, setUploadFile] = useState([]);
   const [files, setFiles] = useState([]);
+  const [response, setResponse] = useState({});
+
 
   useEffect(() => {
-    return () => {
-      setRendering(false);
-    };
-  });
+  }, []);
 
   const handleTakePhoto = (dataUri) => {
     // Do stuff with the photo...
@@ -74,14 +74,26 @@ const Webcam = (props) => {
     setRendering(false);
   };
 
-  const sendImage = useCallback(async (image) => {
+  const sendImage = (async (image) => {
     try {
-      // const data = await recognisePicture(image);
+      const data = await recognisePicture(image);
+      if(data) {
+        setResponse({response: data})
+        console.log(data)
+        console.log(response)
+      }
+      console.log(response)
+
     } catch (e) {
       console.error(e);
     }
   });
 
+  const sendUploadImg = () => {
+    setRendering(false)
+    sendImage(uploadFile)
+  }
+ 
   const handleCameraError = (error) => {
     console.log('handleCameraError', error);
   };
@@ -93,21 +105,26 @@ const Webcam = (props) => {
   const handleCameraStop = () => {
     console.log('handleCameraStop');
   };
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-    acceptedFiles,
-  } = useDropzone({
+  
+  // code for dropzone
+  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles} = useDropzone({
+
     accept: 'image/*',
     multiple: false,
+    
     onDrop: (acceptedFiles) => {
+      var file = acceptedFiles[0]
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setUploadFile(event.target.result)
+      };
+      reader.readAsDataURL(file);
+
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
+            file: file.DATURL
           })
         )
       );
@@ -130,110 +147,134 @@ const Webcam = (props) => {
 
   return (
     <>
-      {rendering ? (
-        <>
-          {dataUri ? (
-            <>
-              <div className={'demo-image-preview '}>
-                <img src={dataUri} />
-              </div>
+      {response ?
+        ( <>
+            {rendering ? (
+              <>
+                {dataUri ? (
+                  <>
+                    <div className={'demo-image-preview '}>
+                      <img src={dataUri}  alt='preview'/>
+                    </div>
 
-              <button
-                className='countdown-wrapper__button btn'
-                onClick={() => sendBase64()}>
-                Verzenden
-              </button>
-
-              <button
-                className='countdown-wrapper__button btn'
-                onClick={() => setDataUri(false)}>
-                Opnieuw
-              </button>
-            </>
-          ) : (
-            <>
-              {upload ? (
-                <>
-                  {' '}
-                  <Camera
-                    onTakePhoto={(dataUri) => {
-                      handleTakePhoto(dataUri);
-                    }}
-                    onTakePhotoAnimationDone={(dataUri) => {
-                      handleTakePhotoAnimationDone(dataUri);
-                    }}
-                    onCameraError={(error) => {
-                      handleCameraError(error);
-                    }}
-                    idealFacingMode={FACING_MODES.ENVIRONMENT}
-                    idealResolution={{ width: 640, height: 480 }}
-                    imageType={IMAGE_TYPES.JPG}
-                    imageCompression={0.57}
-                    isMaxResolution={false}
-                    isImageMirror={false}
-                    isSilentMode={false}
-                    isDisplayStartCameraError={true}
-                    isFullscreen={false}
-                    sizeFactor={1}
-                    onCameraStart={(stream) => {
-                      handleCameraStart(stream);
-                    }}
-                    onCameraStop={() => {
-                      handleCameraStop();
-                    }}
-                  />
-                  <div className='upload-wrapper'>
                     <button
                       className='countdown-wrapper__button btn'
-                      onClick={() => setUpload(false)}>
-                      Bestand Uploaden?
+                      onClick={() => sendBase64()}>
+                      Verzenden
                     </button>
-                  </div>
-                </>
-              ) : (
-                <div className='container'>
-                  <div {...getRootProps({ style })}>
-                    {files.length > 0 ? (
+
+                    <button
+                      className='countdown-wrapper__button btn'
+                      onClick={() => setDataUri(false)}>
+                      Opnieuw
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {upload ? (
                       <>
-                        <img className='dropzone-img' src={files[0].preview} />
-                        <button
-                          className='countdown-wrapper__button btn'
-                          onClick={remove}>
-                          Verwijder de afbeelding
-                        </button>
-                        <button
-                          className='countdown-wrapper__button btn'
-                          onClick={() => setDataUri(false)}>
-                          Verzenden
-                        </button>
+                        {' '}
+                        <Camera
+                          onTakePhoto={(dataUri) => {
+                            handleTakePhoto(dataUri);
+                          }}
+                          onTakePhotoAnimationDone={(dataUri) => {
+                            handleTakePhotoAnimationDone(dataUri);
+                          }}
+                          onCameraError={(error) => {
+                            handleCameraError(error);
+                          }}
+                          idealFacingMode={FACING_MODES.ENVIRONMENT}
+                          idealResolution={{ width: 640, height: 480 }}
+                          imageType={IMAGE_TYPES.JPG}
+                          imageCompression={0.57}
+                          isMaxResolution={false}
+                          isImageMirror={false}
+                          isSilentMode={false}
+                          isDisplayStartCameraError={true}
+                          isFullscreen={false}
+                          sizeFactor={1}
+                          onCameraStart={(stream) => {
+                            handleCameraStart(stream);
+                          }}
+                          onCameraStop={() => {
+                            handleCameraStop();
+                          }}
+                        />
+                        <div className='upload-wrapper'>
+                          <button
+                            className='countdown-wrapper__button btn'
+                            onClick={() => setUpload(false)}>
+                            Bestand Uploaden?
+                          </button>
+                        </div>
                       </>
                     ) : (
-                      <>
-                        <input {...getInputProps()} />
-                        <p>
-                          Drag 'n' drop some files here, or click to select
-                          files
-                        </p>
-                      </>
-                    )}
+                      <div className='container'>
+                        <div className='go-back pb-50' onClick={() => setUpload(true)}>
+                          <svg xmlns="http://www.w3.org/2000/svg" className='icon--back' viewBox="0 0 30 30"><path d="M 6.9804688 8.9902344 A 1.0001 1.0001 0 0 0 6.2929688 9.2929688 L 1.3808594 14.205078 A 1.0001 1.0001 0 0 0 1.3769531 15.792969 A 1.0001 1.0001 0 0 0 1.3828125 15.796875 L 6.2929688 20.707031 A 1.0001 1.0001 0 1 0 7.7070312 19.292969 L 4.4140625 16 L 28 16 A 1.0001 1.0001 0 1 0 28 14 L 4.4140625 14 L 7.7070312 10.707031 A 1.0001 1.0001 0 0 0 6.9804688 8.9902344 z"></path></svg>
+                          Keer terug
+                        </div>
+                        <h4 className='text-center pb-50'> Sleep je bestanden hier of klik op de grijze zone</h4>
+                        <div {...getRootProps({ style })}>
+                          {files.length > 0 ? (
+                            <>
+                              <img className='dropzone-img' src={files[0].preview} alt='dropzone'/>
+                              <div className='button-wrapper d-flex'>
+                                <button
+                                  className='countdown-wrapper__button btn btn-red'
+                                  onClick={remove}>
+                                  Verwijder de afbeelding
+                                </button>
+                                <button
+                                  className='countdown-wrapper__button btn'
+                                  onClick={sendUploadImg}>
+                                  Verzenden
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <input {...getInputProps()} />
+                              <p>
+                                Drag 'n' drop some files here, or click to select
+                                files
+                              </p>
+                            </>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                <div className='container'>
+                  <div className='row'>
+                    <h2 className='text-center'>De gegevens worden nu verwerkt</h2>
+                    <Lottie
+                      options={defaultOptions}
+                      height={'100%'}
+                      width={'100%'}
+                      className='test'
+                    />
+                    </div>
                   </div>
-                </div>
-              )}
-            </>
-          )}
+                </>
+              )
+            }
+            </>) :(<> 
+        <div className='container'>
+          <div className='row'>
+            <h4 className='text-center pb-50'> Hier is de data die ik vond: </h4>
+            <div dangerouslySetInnerHTML={  {__html: response.response}}></div>
+          </div>
+        </div> 
         </>
-      ) : (
-        <>
-          <h2>De gegevens worden nu verwerkt</h2>
-          <Lottie
-            options={defaultOptions}
-            height={'100%'}
-            width={'100%'}
-            className='test'
-          />
-        </>
-      )}
-    </>
+        )
+      }
+ </>
   );
 };
 
