@@ -70,7 +70,7 @@ const AllEvents = (props) => {
                 // eslint-disable-next-line react/jsx-no-duplicate-props
                 data-aos="fade-up" key={task.eventID}>
 
-                <li className="events__item" >
+                <li className={`events__item ${task.isTaken ? '' : 'events__item__not '}`} >
                     <div className="events__item--left">
                         <div className="pill-image position-relative col-md-4">
                             <span className="position-absolute start-100 translate-middle badge rounded-pill btn-primary">
@@ -80,19 +80,24 @@ const AllEvents = (props) => {
                             <img className='task__image mdl-badge' alt='medicine' data-badge="4" src='https://www.freevector.com/uploads/vector/preview/14314/FreeVector-Pill.jpg'></img>
                         </div>
 
-                        <span className="events__name">{task.medicineName}</span>
-                        <span className="events__date">
-                            {task.beforeDinner &&
-                                <p> {task.notification}min <span className='food btn--action'> voor het eten</span></p>
-                            }
+                        <div className='medication-wrapper'>
+                            <span className="events__name">{task.medicineName}</span>
+                            <span className="events__date">
+                                {task.beforeDinner &&
+                                    <p> <span className="tag before"> {task.notification}min voor het eten</span></p>
+                                }
 
-                            {task.duringDinner &&
-                                <p> {task.notification}min <span className='food btn--action'> tijdens het eten</span></p>
-                            }
+                                {task.duringDinner &&
+                                    <p> <span className="tag during"> tijdens het eten</span></p>
+                                }
 
-                            {task.afterDinner &&
-                                <p> {task.notification}min <span className='food btn--action'> na het eten</span></p>
-                            }</span>
+                                {task.afterDinner &&
+                                    <p> <span className="tag after"> {task.notification}min na het eten</span></p>
+                                }
+
+                                <span className='notTaken'>{task.isTaken ? '' : 'Nog niet genomen '}</span>
+                            </span>
+                        </div>
                     </div>
                     <span className="events__tag">{task.targetTime}</span>
                 </li>

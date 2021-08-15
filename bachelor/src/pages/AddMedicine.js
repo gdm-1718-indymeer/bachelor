@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Select, { components } from 'react-select';
+import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
-import { setSchedule, uuidv4 } from '../services/auth.services';
-import { getAllMedicineData } from '../services/auth.services';
+import { setSchedule, uuidv4 , getAllMedicineData, getUserData} from '../services/auth.services';
 import AOS from 'aos';
 import "aos/dist/aos.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,9 +11,9 @@ import {faBreadSlice,faCoffee,faUtensils,} from '@fortawesome/free-solid-svg-ico
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
 
-
 import 'rc-time-picker/assets/index.css';
 const textmagicClient = require('textmagic-client');
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
 
 const client = textmagicClient.ApiClient.instance;
 const auth = client.authentications['BasicAuth'];
@@ -23,7 +22,6 @@ const api = new textmagicClient.TextMagicApi();
 auth.username = process.env.REACT_APP_SMS_USERNAME;
 auth.password = 'ZAH7BlldVKUcm5Dv6kyGKPCfEqCD9C'; //process.env.REACT_APP_SMS_API;
 
-const { Option } = components;
 const showSecond = false;
 
 const pillNames = [
@@ -32,24 +30,19 @@ const pillNames = [
 ];
 
 const options = [];
-for (let i = 0; i < 100; i += 1) {
+for (let i = 1; i < 100; i += 1) {
   const option = {
-    value: `${i}`,
+    value: `${i -1}`,
     label: `${i}`,
   };
   options.push(option);
 }
 
-const CustomSelectOption = (props) => (
-  <Option {...props}>{props.data.label}</Option>
-);
-
-const CustomName = (props) => <div>{props.data.label}</div>;
-
-const CustomAmount = (props) => <div>{props.data.label}</div>;
-const toDate = (year, month, day, hour, minute, second) => {
-  return new Date(year, month - 1, day, hour, minute, second);
+// create timestamp and create date
+let toDate = (year, month, day, hour, minute) => {
+  return new Date(year, month - 1, day, hour, minute);
 };
+
 const toTimestamp = (date) => {
   return Math.floor(date.getTime() / 1000);
 };
@@ -58,11 +51,18 @@ const AddMedicine = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [message, setMessage] = useState(false);
   const [medicines, setMedicines] = useState({});
+  const [needPhone, setNeedPhone] = useState(false);
 
-  const getNames = useCallback(async () => {
+
+  const getNames = (async () => {
     try {
       let data = await getAllMedicineData();
-      console.log(data)
+      let user = await getUserData(currentUser.uid)
+
+      if (user.phoneNumber === "" || user.phoneNumber == null || user.phoneNumber === undefined){
+        setNeedPhone(true)
+      }
+
       let names = []
       Object.entries(data).forEach(([key, val]) => {
         let obj = { name: val.name, label: val.label, value: val.value}
@@ -75,9 +75,10 @@ const AddMedicine = () => {
   });
 
   const [state, setValue] = useState({
-    medicine: 'Ibuprofen',
+    medicine: pillNames[0].value,
+    value: pillNames[0].value,
     days: options[1].value,
-    time: moment().format('HH:mm:ss'),
+    time: moment().format('HH:mm'),
     pillAmount: options[1].value,
     notificationTime: options[1].value,
     before: false,
@@ -89,8 +90,8 @@ const AddMedicine = () => {
     getNames();
     AOS.init({
       duration: 1500
-  });
-  AOS.refresh();
+    });
+    AOS.refresh();
   }, []);
 
   let months = [
@@ -112,13 +113,16 @@ const AddMedicine = () => {
     <textarea
       ref={ref} // necessary
       placeholder='Datum'
+
       value={
         selectedDay
           ? ` ${selectedDay.day} ${months[selectedDay.month - 1]}`
           : ''
       }
       onChange={setSelectedDay}
-      className='datePicker' // a styling class
+      className='datePicker'
+      readOnly={true}
+      // a styling class
     />
   );
 
@@ -126,14 +130,23 @@ const AddMedicine = () => {
   const onSubmit = async (e) => {
     let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
     const uid = currentUser.uid;
+    
+    if(needPhone) {
+      setMessage({
+        error: 'Gelieve een telefoonnummer toe te voegen bij je profiel',
+      });
+      setTimeout(() => {
+        setMessage({});
+      }, 5000);
+      return;
+    }
 
-    if (state.before || state.during || (state.after && selectedDay)) {
+    if (state.before || state.during || state.after & selectedDay & state.medicine) {
 
       let time = state.time;
       var a = time.split(':'); // split it at the colons
       let hour = Number(a[0]);
       let minute = Number(a[1]);
-      let second = Number(a[2]);
 
       let data = {};
       for (let i = 0; i < state.days; i++) {
@@ -144,8 +157,8 @@ const AddMedicine = () => {
           selectedDay.day,
           hour,
           minute,
-          second
         );
+
         date.setDate(date.getDate() + i);
         const targetDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
@@ -204,10 +217,10 @@ const AddMedicine = () => {
         });
         setValue({
           medicine: pillNames[0].value,
-          days: options[1].value,
-          time: moment().format('HH:mm:ss'),
-          pillAmount: options[1].value,
-          notificationTime: options[1].value,
+          days: options[0].value,
+          time: moment().format('HH:mm'),
+          pillAmount: options[0].value,
+          notificationTime: options[0].value,
           before: false,
           during: false,
           after: false,
@@ -257,14 +270,10 @@ const AddMedicine = () => {
 
               <div className='option-container add-medicine__name'>
                 <h5>Medicijn naam</h5>
-                {medicines && (
+                {medicines.length > 0 && (
                   <Select
                     defaultValue={medicines[0]}
                     options={medicines}
-                    components={{
-                      Option: CustomSelectOption,
-                      SingleValue: CustomName,
-                    }}
                     onChange={(obj) =>
                       setValue({ ...state, medicine: obj.label, value:obj.value })
                     }
@@ -286,12 +295,8 @@ const AddMedicine = () => {
                   <h5 className='add-medicine__date__title'> Periode: </h5>
                   <div className='rangeData'>
                     <Select
-                      defaultValue={options[1]}
+                      defaultValue={options[0]}
                       options={options}
-                      components={{
-                        Option: CustomSelectOption,
-                        SingleValue: CustomAmount,
-                      }}
                       onChange={(obj) =>
                         setValue({ ...state, days: obj.value })
                       }
@@ -310,7 +315,7 @@ const AddMedicine = () => {
                     defaultValue={moment()}
                     className='add-medicine__time__timepicker'
                     onChange={(obj) =>
-                      setValue({ ...state, time: obj.format('HH:mm:ss') })
+                      setValue({ ...state, time: obj.format('HH:mm') })
                     }
                   />
                 </div>
@@ -318,12 +323,8 @@ const AddMedicine = () => {
                 <div className='col-6 stripe'>
                   <div className='rangeData'>
                     <Select
-                      defaultValue={options[1]}
+                      defaultValue={options[0]}
                       options={options}
-                      components={{
-                        Option: CustomSelectOption,
-                        SingleValue: CustomAmount,
-                      }}
                       onChange={(obj) =>
                         setValue({ ...state, pillAmount: obj.value })
                       }
@@ -406,12 +407,8 @@ const AddMedicine = () => {
                 </fieldset>
                 <div className='rangeData'>
                   <Select
-                    defaultValue={options[1]}
+                    defaultValue={options[0]}
                     options={options}
-                    components={{
-                      Option: CustomSelectOption,
-                      SingleValue: CustomAmount,
-                    }}
                     onChange={(obj) =>
                       setValue({ ...state, notificationTime: obj.value })
                     }

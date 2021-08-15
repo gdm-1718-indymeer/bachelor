@@ -51,7 +51,7 @@ const UserData = (props) => {
 
     
             <div class="row py-3">
-                <div class="col-4 order-2" id="sticky-sidebar">
+                <div class="col-md-4 col-12 order-2" id="sticky-sidebar">
                     <div class="sticky-top">
                         <div class="nav flex-column">
                            {data && <Calendar uid={data} />}

@@ -1,4 +1,4 @@
-import { React, useState, useMemo, useEffect } from 'react';
+import { React, useState, useMemo, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
@@ -78,6 +78,12 @@ const Webcam = (props) => {
 
   };
 
+
+  useEffect(() => {
+    handleCameraError('e')
+
+  }, [props]);
+
   const sendImage = (async (image) => {
     try {
       const data = await recognisePicture(image);
@@ -98,9 +104,17 @@ const Webcam = (props) => {
     setRendering(false)
     sendImage(uploadFile)
   }
- 
+  const refCamera = useRef(null);
+
   const handleCameraError = (error) => {
     console.log('handleCameraError', error);
+    if(refCamera.current.querySelector('.display-error')){
+      refCamera.current.querySelector('.display-error').innerHTML = `
+        <h2>Het lijkt er op dat je geen toegang hebt gegeven om de camera te gebruiken</h2>`
+    }
+    // nonReactLibraryFunction(refCamera.current, 'test');
+
+    // refCamera.current.querySelector('.display-error').innerHTML = 'Oepsie'
   };
 
   const handleCameraStart = (stream) => {
@@ -110,7 +124,7 @@ const Webcam = (props) => {
   const handleCameraStop = () => {
     console.log('handleCameraStop');
   };
-  
+
   // code for dropzone
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} = useDropzone({
 
@@ -183,6 +197,7 @@ const Webcam = (props) => {
                     {upload ? (
                       <>
                         {' '}
+                        <div ref={refCamera}>
                         <Camera
                           onTakePhoto={(dataUri) => {
                             handleTakePhoto(dataUri);
@@ -196,11 +211,10 @@ const Webcam = (props) => {
                           idealFacingMode={FACING_MODES.ENVIRONMENT}
                           idealResolution={{ width: 640, height: 480 }}
                           imageType={IMAGE_TYPES.JPG}
-                          imageCompression={0.57}
+                          imageCompression={0.87}
                           isMaxResolution={false}
                           isImageMirror={false}
                           isSilentMode={false}
-                          isDisplayStartCameraError={true}
                           isFullscreen={false}
                           sizeFactor={1}
                           onCameraStart={(stream) => {
@@ -210,6 +224,8 @@ const Webcam = (props) => {
                             handleCameraStop();
                           }}
                         />
+                        </div>
+
                         <div className='upload-wrapper'>
                           <button
                             className='countdown-wrapper__button btn'

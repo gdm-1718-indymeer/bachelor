@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getPreviousData, getNextData, setCurrentData } from '../../services/auth.services';
-import { CountdownCircleTimer, remainingTime, } from 'react-countdown-circle-timer';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Lottie from 'react-lottie';
 import confetti from '../../assets/lotties/confetti.json';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import "aos/dist/aos.css"
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
 const Timer = () => {
-  const [previous, setPrevious] = useState({});
+  const [load, setLoad] = useState({});
   const [next, setNext] = useState(false);
   const [time, setTime] = useState({});
 
@@ -46,7 +47,27 @@ const Timer = () => {
     }
   };
 
-  const getEvents = useCallback(async (uid, time) => {
+  const wantNext = () => {
+    const uid = currentUser.uid;
+    var d = new Date();
+    let time = toTimestamp(
+      d.getFullYear(),
+      d.getMonth() + 1,
+      d.getDate(),
+      d.getHours(),
+      d.getMinutes() - 20,
+      d.getSeconds()
+    );
+
+    AOS.init({
+      duration: 1000
+    });
+    AOS.refresh();
+
+    getEvents(uid, time);
+  } 
+
+  const getEvents = (async (uid, time) => {
     try {
       const previousDate = await getPreviousData(uid, time);
       const nextDate = await getNextData(uid, time);
@@ -59,7 +80,6 @@ const Timer = () => {
   });
 
   useEffect(() => {
-    let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
     const uid = currentUser.uid;
     var d = new Date();
     let time = toTimestamp(
@@ -78,9 +98,7 @@ const Timer = () => {
 
     getEvents(uid, time);
   }, []);
-  if (remainingTime === 0) {
-    return <div className='timer'>It's time to take your pill</div>;
-  }
+ 
   const tookMedicine = async () => {
     // let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
     // const uid = currentUser.uid;
@@ -180,8 +198,9 @@ const Timer = () => {
             {time.time && (
               <CountdownCircleTimer
                 onComplete={() => {
+                  wantNext()
                   // do your stuff here
-                  return [true, 1500]; // repeat animation in 1.5 seconds
+                  return [false, 1500]; // repeat animation in 1.5 seconds
                 }}
                 isPlaying
                 duration={time.prev}

@@ -26,6 +26,9 @@ const Description = (props) => {
     const getEvents = (async (name, uid) => {
         try {
             const currentData = await getCurrentData(uid, props.match.params.id)
+            if(currentData === null){
+                history.push('/')
+            }
             const result = await getMedicineDetails(currentData.medicineName);
             setState([result, currentData])
             console.log(state)
@@ -87,8 +90,8 @@ const Description = (props) => {
                         {state[1].duringDinner && <span className="tag during">tijdens het eten</span>}
                         {state[1].afterDinner && <span className="tag after">{state[1].notification} min na het eten</span>}
                         {!state[1].isTaken ?
-                            <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
-                            >Ik heb mijn pil genomen!</button> : null}
+                        <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
+                        >Ik heb mijn pil genomen!</button> : null}
                     </div>
 
                     <button className='btn-red btn' onClick={togglePopup}>Herinnering verwijderen</button>
@@ -175,7 +178,7 @@ const Description = (props) => {
                 </div>
             </div>
 
-            <div className="bodyPres container">
+            <div className="bodyPres container pb-100">
                 <div className="addPres row">
                     <div className='pres col-6'>
                         <h4>Waarschuwingen</h4>

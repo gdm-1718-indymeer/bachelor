@@ -19,7 +19,7 @@ export const signInWithEmailAndPassword = async (email, password) => {
 };
 
 // SIGN UP
-export const createUserWithEmailAndPassword = async (email, password, firstname, lastname) => {
+export const createUserWithEmailAndPassword = async (email, password, firstname, lastname, phone) => {
   try {
     const createUser = await auth.createUserWithEmailAndPassword(
       email,
@@ -33,7 +33,8 @@ export const createUserWithEmailAndPassword = async (email, password, firstname,
       firstname,
       lastname,
       email,
-      tel: '',
+      phoneNumber: phone,
+      profilePicture: "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
     });
 
     let result = createUser;
@@ -53,7 +54,7 @@ export const signInWithGoogle = (url) => {
       db.ref('user').child(res.user.uid).update({
         displayName: user.displayName,
         email: user.email,
-        tel: user.phoneNumber,
+        phoneNumber: user.phoneNumber,
         profilePicture: user.photoURL,
       });
       window.location = url;
@@ -394,6 +395,21 @@ export const fillMedbox = async (key, uid) => {
     return error;
   }
 };
+
+// GET DATA FILLING PILLBOX
+
+export const getMedbox = async (key, uid) => {
+  try {
+    let data
+    await db.ref().child(`pillbox/${key}/${uid}`).once('value').then((userSnap) => {
+      data = userSnap.val();
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 
 // ADD DATA TO PILLBOX
 

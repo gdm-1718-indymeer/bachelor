@@ -43,7 +43,7 @@ const Clients = () => {
     <>
      <div className='dashboard-intro container'>
           <div className='row'>
-            <div className='col-4'>
+            <div className='col-md-4 col-12'>
               <Lottie 
                   options={defaultOptions}
                   height={'100%'}
@@ -51,7 +51,7 @@ const Clients = () => {
                   className={'test'}
               />
             </div>
-            <div className='col-8 dashboard-intro__text'>
+            <div className='col-md-8 col-12 dashboard-intro__text'>
               <p>Dag {currentUser.displayName}! <br/> Hier onder zie je een overzicht van de gebruikers waar je toegang tot hebt. Klik op een profiel om de data's te bekijken.</p>
             </div>
           </div>
