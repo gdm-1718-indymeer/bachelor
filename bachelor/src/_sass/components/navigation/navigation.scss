@@ -103,13 +103,25 @@
   bottom: 99%;
   width: 10.9em;
   height: 2.4em;
-  position: absolute;
+  // position: absolute;
   clip-path: url(#menu);
   -webkit-clip-path: url(#menu);
   will-change: transform;
-  background-color: #e8e8e8;
+  background-color: #f7f8f7;
   box-shadow: 0 -5px 13px rgba(118, 134, 115, 0.28);
   transition: transform $transition-duration;
+}
+
+.menu-wrapper {
+  left: 0;
+  bottom: 99%;
+  width: 10.9em;
+  height: 2.4em;
+  position: absolute;
+  filter: drop-shadow(0 -5px 13px rgba(118, 134, 115, 0.28));
+  transition: transform $transition-duration;
+
+
 }
 
 .svg-container {

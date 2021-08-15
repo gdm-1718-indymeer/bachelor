@@ -205,6 +205,10 @@
       padding: 10px;
       overflow-y: hidden;
       resize: none;
+
+      textarea::placeholder {
+        transform: translateY(-20px);
+        }
     }
   }
 

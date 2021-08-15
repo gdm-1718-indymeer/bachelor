@@ -30,6 +30,8 @@ const Reminder = (props) => {
                 })
             }
             setTasks(item)
+            console.log(tasks)
+
         } catch (e) {
             console.error(e);
         }
@@ -47,6 +49,7 @@ const Reminder = (props) => {
     }, [props.handleDate, props.uid]);
 
     function Task({ task }) {
+        
         return (
             <Link
                 to={`/reminder/${task.eventID}`}
@@ -97,7 +100,7 @@ const Reminder = (props) => {
                         {tasks.Morning && tasks.Morning.length > 0 ?
                             <>
                                 <h3 className='events__list__time'>Ochtend</h3>
-                                {Object.keys(tasks.Morning).map(key => (
+                                {Object.keys(tasks.Morning).sort((timeA, timeB)=> { return tasks.Morning[timeB].timeStamp - tasks.Morning[timeA].timeStamp; }).map(key => (
                                     <>
                                         <Task
                                             task={tasks.Morning[key]}

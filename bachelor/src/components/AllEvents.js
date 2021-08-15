@@ -51,6 +51,7 @@ const AllEvents = (props) => {
         })
 
         setTasks(timeOfTheDay)
+
         window.addEventListener('load', AOS.refresh)
 
         AOS.refresh();
