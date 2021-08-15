@@ -9,6 +9,7 @@ const Home = (props) => {
   const [dateProp, setDateProp] = useState();
   const uid = currentUser.uid;
 
+
   const handleSetDate = (dataFromChild) => {
     setDateProp(dataFromChild);
   };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPreviousData, getNextData, setCurrentData } from '../../services/auth.services';
+import { getPreviousData, getNextData, setCurrentData} from '../../services/auth.services';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Lottie from 'react-lottie';
 import confetti from '../../assets/lotties/confetti.json';
@@ -71,6 +71,7 @@ const Timer = () => {
     try {
       const previousDate = await getPreviousData(uid, time);
       const nextDate = await getNextData(uid, time);
+
       setNext(nextDate);
 
       calculateTime(previousDate, nextDate);

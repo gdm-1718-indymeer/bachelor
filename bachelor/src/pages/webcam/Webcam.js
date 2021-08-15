@@ -108,10 +108,10 @@ const Webcam = (props) => {
 
   const handleCameraError = (error) => {
     console.log('handleCameraError', error);
-    if(refCamera.current.querySelector('.display-error')){
-      refCamera.current.querySelector('.display-error').innerHTML = `
-        <h2>Het lijkt er op dat je geen toegang hebt gegeven om de camera te gebruiken</h2>`
-    }
+    // if(refCamera.current.querySelector('.display-error') !== null){
+    //   refCamera.current.querySelector('.display-error').innerHTML = `
+    //     <h2>Het lijkt er op dat je geen toegang hebt gegeven om de camera te gebruiken</h2>`
+    // }
     // nonReactLibraryFunction(refCamera.current, 'test');
 
     // refCamera.current.querySelector('.display-error').innerHTML = 'Oepsie'
@@ -172,8 +172,9 @@ const Webcam = (props) => {
               <>
                 {dataUri ? (
                   <>
-                  <div className='container'>
+                  <div className='container pt-100'>
                     <div className='row justify-content-center text-center'>
+
                         <div className={'demo-image-preview '}>
                           <img src={dataUri}  alt='preview'/>
                         </div>
@@ -185,7 +186,7 @@ const Webcam = (props) => {
                         </button>
                         
                         <button
-                          className='countdown-wrapper__button btn'
+                          className='countdown-wrapper__button btn pb-100'
                           onClick={() => sendBase64()}>
                           Verzenden
                         </button>
@@ -198,6 +199,10 @@ const Webcam = (props) => {
                       <>
                         {' '}
                         <div ref={refCamera}>
+                        <div className='container pt-100'>
+                    <div className='row justify-content-center text-center'>
+                        <h4 className='text-center pb-50'> Upload een foto van een medicijn om het te herkennen</h4>
+
                         <Camera
                           onTakePhoto={(dataUri) => {
                             handleTakePhoto(dataUri);
@@ -226,16 +231,20 @@ const Webcam = (props) => {
                         />
                         </div>
 
-                        <div className='upload-wrapper'>
+                        <div className='upload-wrapper pb-100'>
                           <button
                             className='countdown-wrapper__button btn'
                             onClick={() => setUpload(false)}>
                             Bestand Uploaden?
                           </button>
                         </div>
+                        </div>
+
+                        </div>
+
                       </>
                     ) : (
-                      <div className='container'>
+                      <div className='container pt-100'>
                         <div className='go-back pb-50' onClick={() => setUpload(true)}>
                           <svg xmlns="http://www.w3.org/2000/svg" className='icon--back' viewBox="0 0 30 30"><path d="M 6.9804688 8.9902344 A 1.0001 1.0001 0 0 0 6.2929688 9.2929688 L 1.3808594 14.205078 A 1.0001 1.0001 0 0 0 1.3769531 15.792969 A 1.0001 1.0001 0 0 0 1.3828125 15.796875 L 6.2929688 20.707031 A 1.0001 1.0001 0 1 0 7.7070312 19.292969 L 4.4140625 16 L 28 16 A 1.0001 1.0001 0 1 0 28 14 L 4.4140625 14 L 7.7070312 10.707031 A 1.0001 1.0001 0 0 0 6.9804688 8.9902344 z"></path></svg>
                           Keer terug
@@ -275,7 +284,7 @@ const Webcam = (props) => {
                 </>
               ) : (
                 <>
-                <div className='container'>
+                <div className='container pt-100'>
                   <div className='row'>
                     <h2 className='text-center'>De gegevens worden nu verwerkt</h2>
                     <Lottie
@@ -290,11 +299,11 @@ const Webcam = (props) => {
               )
             }
             </>) :(<> 
-        <div className='container'>
-          <div className='row response-wrapper'>
+        <div className='container-fluid pt-100'>
+          <div className='row response-wrapper pb-200'>
             <h4 className='text-center pb-50'> Hier is de data die ik vond: </h4>
             <div className='response-wrapper__response-data' dangerouslySetInnerHTML={  {__html: response.response}}></div>
-            <button className='btn' onClick={() => {clearStates(); }}>Opnieuw?</button>
+            <button className='btn ' onClick={() => {clearStates(); }}>Opnieuw?</button>
           </div>
         </div> 
         </>

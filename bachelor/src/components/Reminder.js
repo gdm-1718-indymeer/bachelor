@@ -114,26 +114,30 @@ const Reminder = (props) => {
                     {tasks.Noon && tasks.Noon.length > 0 ?
                         <>
                             <h3 className='events__list__time'>Middag</h3>
-                            {Object.keys(tasks.Noon).map(key => (
-                                <Task
-                                    task={tasks.Noon[key]}
-                                    index={key}
-                                    key={key}
-                                />
-                            ))}
+                            {Object.keys(tasks.Noon).sort((timeA, timeB) => { return tasks.Noon[timeA].timeStamp - tasks.Noon[timeB].timeStamp; }).map(key => {
+                                return (
+                                    <Task
+                                        task={tasks.Noon[key]}
+                                        index={key}
+                                        key={key}
+                                    />
+                                )
+                            })}
                         </> : null}
 
 
                     {tasks.Evening && tasks.Evening.length > 0 ?
                         <>
                             <h3 className='events__list__time'>Avond</h3>
-                            {Object.keys(tasks.Evening).map(key => (
-                                <Task
-                                    task={tasks.Evening[key]}
-                                    index={key}
-                                    key={key}
-                                />
-                            ))}
+                            {Object.keys(tasks.Evening).sort((timeA, timeB) => { return tasks.Evening[timeA].timeStamp - tasks.Evening[timeB].timeStamp; }).map(key => {
+                                return (
+                                    <Task
+                                        task={tasks.Evening[key]}
+                                        index={key}
+                                        key={key}
+                                    />
+                                )
+                            })}
                         </> : null}
                 </> : <p>Geen data gepland</p>}
             </ul>

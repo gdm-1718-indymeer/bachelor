@@ -24,21 +24,6 @@ const menuItems = {
     icon: faUser,
     link: '/dashboard'
   },
-  Statistics: {
-    title: 'Statistics',
-    icon: faChartBar,
-    link: '/dashboard'
-  },
-  Schedule: {
-    title: 'schedules',
-    icon: faCalendar,
-    link: '/dashboard'
-  },
-  Settings: {
-    title: 'Settings',
-    icon: faCog,
-    link: '/dashboard'
-  },
   Medicines: {
     title: 'Medicines',
     icon: faMedkit,

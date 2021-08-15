@@ -219,6 +219,8 @@ export const canGetUserData = async (uid) => {
   }
   return false;
 }
+
+
 // GET USER DATA
 
 export const getUserData = async (uid) => {
@@ -267,7 +269,6 @@ export const getMedicineDetails = async (name) => {
 
 export const deleteMedication = async (id) => {
   try {
-    console.log(id)
     await db.ref().child(`medicine/${id}`).remove();
     return true;
   } catch (error) {

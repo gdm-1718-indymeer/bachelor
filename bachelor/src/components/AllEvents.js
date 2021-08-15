@@ -116,46 +116,47 @@ const AllEvents = (props) => {
             <div className="tasks">
                 <ul className="events__list" data-aos="fade-up" key={Math.random()}>
                     {tasks ? <>
-                        {tasks.Morning && tasks.Morning.length > 0 ? <>
-                            <div>
-                                <h3 className='events__list__time'>Ochtend</h3>
-                                {Object.keys(tasks.Morning).map(key => (
-                                    <>
-                                        <Task
-                                            task={tasks.Morning[key]}
-                                            index={key}
-                                            key={key}
-                                        />
-                                    </>
-                                ))}
-                            </div>
+                        {tasks.Morning && tasks.Morning.length > 0 ?
+                        <>
+                            <h3 className='events__list__time'>Ochtend</h3>
+                            {Object.keys(tasks.Morning).sort((timeA, timeB) => { return tasks.Morning[timeA].timeStamp - tasks.Morning[timeB].timeStamp; }).map(key => {
+                                console.log(tasks.Morning[key]); return (
+                                    <Task
+                                        task={tasks.Morning[key]}
+                                        index={key}
+                                        key={key}
+                                    />
+                                )
+                            })}
                         </> : null}
-                        {
-                            tasks.Noon && tasks.Noon.length > 0 ? <>
-                                <h3 className='events__list__time'>Middag</h3>
-                                {Object.keys(tasks.Noon).map(key => (
-                                    <>
-                                        <Task
-                                            task={tasks.Noon[key]}
-                                            index={key}
-                                            key={key}
-                                        />
-                                    </>))}
-                            </>
-                                : null
-                        }
 
-                        {tasks.Evening && tasks.Evening.length > 0 ? <>
+                    {tasks.Noon && tasks.Noon.length > 0 ?
+                        <>
+                            <h3 className='events__list__time'>Middag</h3>
+                            {Object.keys(tasks.Noon).sort((timeA, timeB) => { return tasks.Noon[timeA].timeStamp - tasks.Noon[timeB].timeStamp; }).map(key => {
+                                return (
+                                    <Task
+                                        task={tasks.Noon[key]}
+                                        index={key}
+                                        key={key}
+                                    />
+                                )
+                            })}
+                        </> : null}
+
+
+                    {tasks.Evening && tasks.Evening.length > 0 ?
+                        <>
                             <h3 className='events__list__time'>Avond</h3>
-                            {Object.keys(tasks.Evening).map(key => (
-                                <>
+                            {Object.keys(tasks.Evening).sort((timeA, timeB) => { return tasks.Evening[timeA].timeStamp - tasks.Evening[timeB].timeStamp; }).map(key => {
+                                return (
                                     <Task
                                         task={tasks.Evening[key]}
                                         index={key}
                                         key={key}
                                     />
-                                </>
-                            ))}
+                                )
+                            })}
                         </> : null}
                     </> :
                         <p>Geen data gepland</p>}
