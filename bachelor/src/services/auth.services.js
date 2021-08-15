@@ -194,6 +194,12 @@ export const getCurrentUser = async () => {
     return await currentUser;
   }
 };
+export const isSuperAdmin = async () => {
+  let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
+  let data = (await db.ref().child(`user/${currentUser.uid}`).once('value')).val().isSuperAdmin;
+  if (!data) return false;
+  return data;
+}
 export const isAdmin = async () => {
   let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
   let data = (await db.ref().child('access').orderByChild("adminId").equalTo(currentUser.uid).once('value')).val();

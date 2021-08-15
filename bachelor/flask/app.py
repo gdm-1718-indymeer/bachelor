@@ -100,6 +100,10 @@ def background_timer_checker():
                                 "accessToken": mail_access_token,
                                 "template_params":{
                                         "to": email,
+                                        'client_name': "you",
+                                        'salutation': 'your',
+                                        "from_name":"Indy",
+                                        'email_text': "Make sure you confirmed taking the medication on "+ os.getenv("FLASK_APP_URL")+ "reminder/"+eventid,
                                         "name": clientName,
                                 }
                             }
@@ -135,8 +139,11 @@ def background_timer_checker():
                                     "accessToken": mail_access_token,
                                     "template_params":{
                                             "to": email,
+                                            "salutation":"their",
+                                            "from_name":"Indy",
                                             "name": adminName,
-                                            "client_name": clientName
+                                            "client_name": clientName,
+                                            "email_text": "Read more at "+ os.getenv("FLASK_APP_URL")+"dashboard/"+userid
                                     }
                                 }
                                 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}

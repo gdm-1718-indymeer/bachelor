@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faChartBar, faCog, faHome, faMedkit, faPowerOff, faTachometerAlt, faUser, } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -6,7 +6,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { Redirect } from 'react-router-dom';
 import AppContext from '../../services/context.services';
 import { Link } from 'react-router-dom'
-import { isAdmin } from '../../services/auth.services';
+import { isAdmin, isSuperAdmin } from '../../services/auth.services';
 
 const menuItems = {
   Home: {
@@ -42,59 +42,81 @@ const menuItems = {
   Medicines: {
     title: 'Medicines',
     icon: faMedkit,
-    link: '/dashboard/medication'
+    link: '/dashboard/medication',
+    permissions: ['isSuperAdmin']
   },
 };
 
 const BaseLayout = (props) => {
   const { children } = props;
   const [sideBarReduced, setSideBarReduced] = useState(true);
+  const [permissions, setPermissions] = useState({});
   const [activeMenuItem, setActiveMenuItem] = useState(1);
 
   let menuChangeActive = (index) => () => {
     setActiveMenuItem(index);
   };
-
+  const getPermissions = async () => {
+    const superAdmin = await isSuperAdmin();
+    setPermissions(Object.assign(permissions, { isSuperAdmin: superAdmin }))
+  }
   const renderMenuItems = useCallback(() => {
     const menuItemsComponentArray = [];
     Object.values(menuItems).forEach((el, index) => {
-      menuItemsComponentArray.push(
-        !sideBarReduced ? (
-          <Link to={el.link}
-            key={index}
-            onClick={menuChangeActive(index)}
-            className={`c-menu__item ${index === activeMenuItem && 'is-active'
-              }`}>
-            <div className='c-menu__item__inner'>
-              <FontAwesomeIcon className='icon' icon={el.icon} />
-              <div className='c-menu-item__title'>
-                <span>{el.title}</span>
-              </div>
-            </div>
-          </Link>
-        ) : (
-          <OverlayTrigger
-            key={index}
-            placement='right'
-            overlay={<Tooltip style={{ marginLeft: 5 }}>{el.title}</Tooltip>}>
+      let isVisible = true;
+      if (el.permissions) {
+        console.log('test')
+        for (const permissionName of el.permissions) {
+          const result = permissions[permissionName];
+
+          if (!result) {
+            isVisible = false;
+            break;
+          }
+        }
+      }
+      if (isVisible)
+        menuItemsComponentArray.push(
+          !sideBarReduced ? (
             <Link to={el.link}
+              key={index}
               onClick={menuChangeActive(index)}
               className={`c-menu__item ${index === activeMenuItem && 'is-active'
                 }`}>
               <div className='c-menu__item__inner'>
                 <FontAwesomeIcon className='icon' icon={el.icon} />
-
                 <div className='c-menu-item__title'>
                   <span>{el.title}</span>
                 </div>
               </div>
             </Link>
-          </OverlayTrigger>
-        )
-      );
+          ) : (
+            <OverlayTrigger
+              key={index}
+              placement='right'
+              overlay={<Tooltip style={{ marginLeft: 5 }}>{el.title}</Tooltip>}>
+              <Link to={el.link}
+                onClick={menuChangeActive(index)}
+                className={`c-menu__item ${index === activeMenuItem && 'is-active'
+                  }`}>
+                <div className='c-menu__item__inner'>
+                  <FontAwesomeIcon className='icon' icon={el.icon} />
+
+                  <div className='c-menu-item__title'>
+                    <span>{el.title}</span>
+                  </div>
+                </div>
+              </Link>
+            </OverlayTrigger>
+          )
+        );
     });
     return menuItemsComponentArray;
-  }, [activeMenuItem, sideBarReduced]);
+  }, [activeMenuItem, sideBarReduced, permissions]);
+
+  useEffect(() => {
+    getPermissions();
+  }, [])
   const appContext = useContext(AppContext);
   if (appContext.loginStatus === 'LOGGED_OUT') {
     return <Redirect to={`/login?callback=${window.location.origin}${props.location.pathname}${props.location.search}`} />;
@@ -106,7 +128,7 @@ const BaseLayout = (props) => {
   const sidebarChangeWidth = () => {
     setSideBarReduced((prevState) => !prevState);
   };
-
+  console.log(permissions);
   return (
     <div
       className={sideBarReduced ? 'sidebar-is-reduced' : 'sidebar-is-expanded'}>
@@ -136,7 +158,7 @@ const BaseLayout = (props) => {
         </div>
         <div className='l-sidebar__content'>
           <nav className='c-menu js-menu'>
-            <ul className='u-list'>{renderMenuItems()}</ul>
+            <ul className='u-list'>{renderMenuItems(permissions)}</ul>
           </nav>
         </div>
       </div>
