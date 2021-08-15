@@ -422,17 +422,13 @@ export const myUsersAcces = async (id) => {
       })
     }
   });
-
   // check for duplicates in keys
   let unique = keys.sort().filter(function (item, pos, ary) { return !pos || item !== ary[pos - 1]; });
-
-  unique.forEach(async (val) => {
+  for (const val of unique) {
     let user = await getUserData(val)
-
     Object.assign(user, { id: val })
     data.push(user)
-  })
-
+  }
   return data
 }
 
