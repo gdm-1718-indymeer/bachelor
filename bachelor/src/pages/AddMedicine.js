@@ -59,11 +59,10 @@ const AddMedicine = () => {
       let data = await getAllMedicineData();
       let user = await getUserData(currentUser.uid)
 
-      if (user.phoneNumer === "" || user.phoneNumer == null || user.phoneNumer === undefined){
+      if (user.phoneNumber === "" || user.phoneNumber == null || user.phoneNumber === undefined){
         setNeedPhone(true)
       }
 
-      console.log(user.phoneNumer)
       let names = []
       Object.entries(data).forEach(([key, val]) => {
         let obj = { name: val.name, label: val.label, value: val.value}
