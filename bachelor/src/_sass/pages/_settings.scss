@@ -6,6 +6,10 @@
 
 .dashboard {
   background-color: #edf1f2;
+
+  &__main {
+    background-color: $white;
+  }
 }
 
 .dashboard__header {
@@ -57,9 +61,9 @@
   &__profile {
     background-color: $lightOrange;
     svg {
-      fill: $orange;
-      color: $orange;
-      stroke: $orange;
+      fill: $salm;
+      color: $salm;
+      stroke: $salm;
     }
   }
 

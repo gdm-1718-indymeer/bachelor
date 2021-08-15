@@ -141,11 +141,8 @@
 .clearfix {
   display: flex;
   justify-content: center;
-
-  @include media-breakpoint-down(md) {
-    flex-direction: column-reverse;
-  }
 }
+
 /* Float cancel and delete buttons and add an equal width */
 .cancelbtn, .deletebtn {
   float: left;

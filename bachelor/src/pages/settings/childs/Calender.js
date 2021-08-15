@@ -51,7 +51,7 @@ const Calender = () => {
         <div className='container'>
           <div className='row'>
             <div className='col-12'>
-                <h1 className='pb-50'>Overzicht van alle evenementen</h1>
+                <h1 className='pb-50 calendar-overzicht'>Overzicht van alle evenementen</h1>
             </div>
           </div>
         </div>

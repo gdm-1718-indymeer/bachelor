@@ -3,18 +3,6 @@
   bottom: 0;
   width: 100%;
 }
-.menu {
-  margin: 0;
-  display: flex;
-  width: 100%;
-  font-size: 1.5em;
-  padding: 0 2.85em;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  background-color: $white;
-  box-shadow: 0 -5px 13px rgba(118, 134, 115, 0.08);
-}
 
 .menu__item {
   all: unset;
@@ -26,9 +14,8 @@
   border-radius: 50%;
   align-items: center;
   will-change: transform;
-  justify-content: center;
   padding: 0.55em 0 0.85em;
-  transition: transform var(--timeOut, $transition-duration);
+  justify-content: center;
 
   span {
     left: 63%;
@@ -46,17 +33,31 @@
     fill: transparent;
   }
 }
+.menu {
+  margin: 0;
+  display: flex;
+  width: 100%;
+  font-size: 1.5em;
+  padding: 0 2.85em;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background-color: $white;
+  box-shadow: 0 -5px 13px rgba(118, 134, 115, 0.08);
+  display: flex;
+  justify-content: center;
+}
 
 .menu__item::before {
   content: "";
-  z-index: -1;
-  width: 4.2em;
-  height: 4.2em;
+  z-index: 0;
+  width: 5em;
+  height: 4em;
   border-radius: 50%;
   position: absolute;
   transform: scale(0);
   transition: background-color $transition-duration,
-    transform $transition-duration;
+  transform $transition-duration;
 }
 
 .menu__item.active {
@@ -65,12 +66,14 @@
   svg {
     color: $clrDarkBlue;
     stroke: $clrDarkBlue;
+    z-index: 1;
   }
 }
 
 .menu__item.active::before {
-  transform: scale(0.7);
+  transform: scale(0.7) translate3d(0,-.8em,0);
   background-color: $white;
+  
 }
 
 .icon {
@@ -102,6 +105,7 @@
   height: 2.4em;
   position: absolute;
   clip-path: url(#menu);
+  -webkit-clip-path: url(#menu);
   will-change: transform;
   background-color: #e8e8e8;
   box-shadow: 0 -5px 13px rgba(118, 134, 115, 0.28);

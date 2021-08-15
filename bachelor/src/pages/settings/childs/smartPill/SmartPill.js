@@ -34,7 +34,9 @@ const SmartPill = () => {
                 setMessage(false);
                 setError(false)
             }, 3000);
-          }
+        }else if(keycheck) {
+            setCheck(true);
+        }
     }
     const getData = (async (uid) => {
         try {

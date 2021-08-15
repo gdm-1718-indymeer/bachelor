@@ -33,9 +33,9 @@ const Signup = (props) => {
             return
         }
 
-        if (state.email && state.password && state.firstname && state.lastname) {
+        if (state.email && state.password && state.firstname && state.lastname && state.phone) {
 
-            const result = await createUserWithEmailAndPassword(state.email, state.password, state.firstname, state.lastname)
+            const result = await createUserWithEmailAndPassword(state.email, state.password, state.firstname, state.lastname, state.phone)
             if (!result.message) {
                 window.location = queryParams.callback || '/welcome';
             } else if (result.message) {

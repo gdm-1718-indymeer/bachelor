@@ -37,6 +37,13 @@
         position: relative;
         margin: 45px 45px 0;
         margin-left: 0;
+
+        @include media-breakpoint-down(md) {
+          flex: 0;
+          overflow:initial;
+          margin: 45px 0;
+          min-width: 100%;
+        }
         
         &::after {
             bottom: -5px;

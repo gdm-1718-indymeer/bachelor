@@ -26,6 +26,9 @@ const Description = (props) => {
     const getEvents = (async (name, uid) => {
         try {
             const currentData = await getCurrentData(uid, props.match.params.id)
+            if(currentData === null){
+                history.push('/')
+            }
             const result = await getMedicineDetails(currentData.medicineName);
             setState([result, currentData])
             console.log(state)
@@ -175,7 +178,7 @@ const Description = (props) => {
                 </div>
             </div>
 
-            <div className="bodyPres container">
+            <div className="bodyPres container pb-100">
                 <div className="addPres row">
                     <div className='pres col-6'>
                         <h4>Waarschuwingen</h4>
