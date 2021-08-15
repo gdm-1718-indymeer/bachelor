@@ -186,7 +186,7 @@ const Webcam = (props) => {
                         </button>
                         
                         <button
-                          className='countdown-wrapper__button btn'
+                          className='countdown-wrapper__button btn pb-100'
                           onClick={() => sendBase64()}>
                           Verzenden
                         </button>
@@ -231,7 +231,7 @@ const Webcam = (props) => {
                         />
                         </div>
 
-                        <div className='upload-wrapper'>
+                        <div className='upload-wrapper pb-100'>
                           <button
                             className='countdown-wrapper__button btn'
                             onClick={() => setUpload(false)}>
@@ -300,10 +300,10 @@ const Webcam = (props) => {
             }
             </>) :(<> 
         <div className='container-fluid pt-100'>
-          <div className='row response-wrapper'>
+          <div className='row response-wrapper pb-200'>
             <h4 className='text-center pb-50'> Hier is de data die ik vond: </h4>
             <div className='response-wrapper__response-data' dangerouslySetInnerHTML={  {__html: response.response}}></div>
-            <button className='btn' onClick={() => {clearStates(); }}>Opnieuw?</button>
+            <button className='btn ' onClick={() => {clearStates(); }}>Opnieuw?</button>
           </div>
         </div> 
         </>
