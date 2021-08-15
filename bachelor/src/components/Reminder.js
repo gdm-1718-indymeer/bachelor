@@ -10,7 +10,7 @@ const Reminder = (props) => {
     const getEvents = (async (uid, date) => {
         try {
             let response = await getScheduleByDate(uid, date);
-            let item 
+            let item
 
             if (response) {
                 item = { Noon: [], Morning: [], Evening: [] }
@@ -41,20 +41,20 @@ const Reminder = (props) => {
         let date = props.handleDate;
         let uid = props.uid
         getEvents(uid, date);
-         
+
         AOS.refresh();
         AOS.init({
             duration: 1000
-       });
+        });
     }, [props.handleDate, props.uid]);
 
     function Task({ task }) {
-        
+
         return (
             <Link
                 to={`/reminder/${task.eventID}`}
                 className=" mb-3"
-                 data-aos="fade-up" key={task.eventID}>
+                data-aos="fade-up" key={task.eventID}>
 
                 <li className={`events__item ${task.isTaken ? '' : 'events__item__not '}`} key={task.eventID}>
                     <div className="events__item--left">
@@ -93,55 +93,51 @@ const Reminder = (props) => {
     }
 
     return (
-            <div className="tasks">
-                <ul className="events__list" data-aos="fade-up" key={Math.random()}>
-                    {tasks ? <>
+        <div className="tasks">
+            <ul className="events__list" data-aos="fade-up" key={Math.random()}>
+                {tasks ? <>
 
-                        {tasks.Morning && tasks.Morning.length > 0 ?
-                            <>
-                                <h3 className='events__list__time'>Ochtend</h3>
-                                {Object.keys(tasks.Morning).sort((timeA, timeB)=> { return tasks.Morning[timeB].timeStamp - tasks.Morning[timeA].timeStamp; }).map(key => (
-                                    <>
-                                        <Task
-                                            task={tasks.Morning[key]}
-                                            index={key}
-                                            key={key}
-                                        />
-                                    </>
-                                ))}
-                            </> : null}
+                    {tasks.Morning && tasks.Morning.length > 0 ?
+                        <>
+                            <h3 className='events__list__time'>Ochtend</h3>
+                            {Object.keys(tasks.Morning).sort((timeA, timeB) => { return tasks.Morning[timeA].timeStamp - tasks.Morning[timeB].timeStamp; }).map(key => {
+                                console.log(tasks.Morning[key]); return (
+                                    <Task
+                                        task={tasks.Morning[key]}
+                                        index={key}
+                                        key={key}
+                                    />
+                                )
+                            })}
+                        </> : null}
 
-                        {tasks.Noon && tasks.Noon.length > 0 ?
-                            <>
-                                <h3 className='events__list__time'>Middag</h3>
-                                {Object.keys(tasks.Noon).map(key => (
-                                    <>
-                                        <Task
-                                            task={tasks.Noon[key]}
-                                            index={key}
-                                            key={key}
-                                        />
-                                    </>
-                                ))}
-                            </> : null}
+                    {tasks.Noon && tasks.Noon.length > 0 ?
+                        <>
+                            <h3 className='events__list__time'>Middag</h3>
+                            {Object.keys(tasks.Noon).map(key => (
+                                <Task
+                                    task={tasks.Noon[key]}
+                                    index={key}
+                                    key={key}
+                                />
+                            ))}
+                        </> : null}
 
 
-                        {tasks.Evening && tasks.Evening.length > 0 ?
-                            <>
-                                <h3 className='events__list__time'>Avond</h3>
-                                {Object.keys(tasks.Evening).map(key => (
-                                    <>
-                                        <Task
-                                            task={tasks.Evening[key]}
-                                            index={key}
-                                            key={key}
-                                        />
-                                    </>
-                                ))}
-                            </> : null}
-                    </> : <p>Geen data gepland</p>}
-                </ul>
-            </div>
+                    {tasks.Evening && tasks.Evening.length > 0 ?
+                        <>
+                            <h3 className='events__list__time'>Avond</h3>
+                            {Object.keys(tasks.Evening).map(key => (
+                                <Task
+                                    task={tasks.Evening[key]}
+                                    index={key}
+                                    key={key}
+                                />
+                            ))}
+                        </> : null}
+                </> : <p>Geen data gepland</p>}
+            </ul>
+        </div>
     )
 }
 
