@@ -49,7 +49,7 @@ const menuItems = {
 const BaseLayout = (props) => {
   const { children } = props;
   const [sideBarReduced, setSideBarReduced] = useState(true);
-  const [activeMenuItem, setActiveMenuItem] = useState(null);
+  const [activeMenuItem, setActiveMenuItem] = useState(1);
 
   let menuChangeActive = (index) => () => {
     setActiveMenuItem(index);

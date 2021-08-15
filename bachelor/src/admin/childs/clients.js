@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect , useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Lottie from 'react-lottie';
+import { Link } from 'react-router-dom';
 import sitting from '../../assets/lotties/sitting.json'
 import { myUsersAcces } from '../../services/auth.services';
 import Users from '../components/users';
@@ -20,19 +21,19 @@ const Clients = () => {
 
   const getUsers = (async (uid) => {
     try {
-        let response =  await myUsersAcces(uid);
-        if(response) {
-          setState(response)
-          console.log(state)
-          console.log(response)
+      let response = await myUsersAcces(uid);
+      if (response) {
+        setState(response)
+        console.log(state)
+        console.log(response)
 
-        }
+      }
 
-      
+
     } catch (e) {
-        console.error(e);
+      console.error(e);
     }
-});
+  });
 
   useEffect(() => {
     const uid = currentUser.uid
@@ -41,26 +42,27 @@ const Clients = () => {
 
   return (
     <>
-     <div className='dashboard-intro container'>
-          <div className='row'>
-            <div className='col-md-4 col-12'>
-              <Lottie 
-                  options={defaultOptions}
-                  height={'100%'}
-                  width={'80%'}
-                  className={'test'}
-              />
-            </div>
-            <div className='col-md-8 col-12 dashboard-intro__text'>
-              <p>Dag {currentUser.displayName}! <br/> Hier onder zie je een overzicht van de gebruikers waar je toegang tot hebt. Klik op een profiel om de data's te bekijken.</p>
-            </div>
+      <div className='dashboard-intro container'>
+        <div className='row'>
+          <div className='col-md-4 col-12'>
+            <Lottie
+              options={defaultOptions}
+              height={'100%'}
+              width={'80%'}
+              className={'test'}
+            />
+          </div>
+          <div className='col-md-8 col-12 dashboard-intro__text'>
+            <p>Dag {currentUser.displayName}! <br /> Hier onder zie je een overzicht van de gebruikers waar je toegang tot hebt. Klik op een profiel om de data's te bekijken.</p>
           </div>
         </div>
-        <div className='container'>
-          {state  ? <>
-            <div className='user-cards'>
-              <Users mapUsers={state} /> 
-            </div> </> : <h4>Loading data</h4>}
+      </div>
+      <div className='container'>
+        <Link className="add-user" to="/invite">+ Voeg client toe</Link>
+        {state ? <>
+          <div className='user-cards'>
+            <Users mapUsers={state} />
+          </div> </> : <h4>Loading data</h4>}
       </div>
     </>
   )
