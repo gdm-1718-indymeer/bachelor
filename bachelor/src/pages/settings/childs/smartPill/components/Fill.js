@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactComponent as Pill } from '../../../../../assets/images/pillApp.svg';
-import {fillMedbox, getUserData} from '../../../../../services/auth.services';
+import {fillMedbox, getUserData, deleteSchedule, getMedbox} from '../../../../../services/auth.services';
 
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
@@ -12,6 +12,11 @@ const Fill = ({ navigation, setKey }) => {
         try {
             let uid = currentUser.uid;
             const response = await getUserData(uid);
+            const medboxData = await getMedbox(response.pillBoxId, uid);
+            medboxData.events.keys.forEach(async (val) => {
+               await deleteSchedule(uid, val)
+            })
+
             await fillMedbox(response.pillBoxId, uid)
             setKey({boxKey: response.pillBoxId, uid: uid})
             next()

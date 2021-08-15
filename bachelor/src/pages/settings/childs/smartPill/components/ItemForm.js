@@ -12,7 +12,7 @@ const ItemForm = (props, {...others }) => {
     props.onChange({
         target: {
             name: props.name,
-            value: event.format('HH:mm:ss')
+            value: event.format('HH:mm')
         }
     });
 }
@@ -21,7 +21,7 @@ const ItemForm = (props, {...others }) => {
     <TimePicker
           style={{ width: 100 }}
           showSecond={showSecond}
-          defaultValue={moment(props.value, 'HH:mm:ss')}
+          defaultValue={moment(props.value, 'HH:mm')}
           className='add-medicine__time__timepicker'
           onChange={handleChange}
           {...others}

@@ -90,8 +90,8 @@ const Description = (props) => {
                         {state[1].duringDinner && <span className="tag during">tijdens het eten</span>}
                         {state[1].afterDinner && <span className="tag after">{state[1].notification} min na het eten</span>}
                         {!state[1].isTaken ?
-                            <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
-                            >Ik heb mijn pil genomen!</button> : null}
+                        <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
+                        >Ik heb mijn pil genomen!</button> : null}
                     </div>
 
                     <button className='btn-red btn' onClick={togglePopup}>Herinnering verwijderen</button>

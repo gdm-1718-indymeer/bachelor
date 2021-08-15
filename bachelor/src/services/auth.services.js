@@ -54,7 +54,7 @@ export const signInWithGoogle = (url) => {
       db.ref('user').child(res.user.uid).update({
         displayName: user.displayName,
         email: user.email,
-        tel: user.phoneNumber,
+        phoneNumber: user.phoneNumber,
         profilePicture: user.photoURL,
       });
       window.location = url;
@@ -395,6 +395,21 @@ export const fillMedbox = async (key, uid) => {
     return error;
   }
 };
+
+// GET DATA FILLING PILLBOX
+
+export const getMedbox = async (key, uid) => {
+  try {
+    let data
+    await db.ref().child(`pillbox/${key}/${uid}`).once('value').then((userSnap) => {
+      data = userSnap.val();
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 
 // ADD DATA TO PILLBOX
 

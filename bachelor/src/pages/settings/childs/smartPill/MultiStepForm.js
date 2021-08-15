@@ -34,31 +34,31 @@ const steps = [
 
 const defaultData = {
     mondayName: "Ibuprofen",
-    mondayTime: moment().format('HH:mm:ss'),
+    mondayTime: moment().format('HH:mm'),
     mondayDate: format(date.setDate(date.getDate() + (1-date.getDay())), 'dd/MM/yyyy'),
 
     tuesdayName: "Ibuprofen",
-    tuesdayTime: moment().format('HH:mm:ss'),
+    tuesdayTime: moment().format('HH:mm'),
     tuesdayDate: format(date.setDate(date.getDate() + (2-date.getDay())), 'dd/MM/yyyy'),
 
     wednesdayName: "Ibuprofen",
-    wednesdayTime: moment().format('HH:mm:ss'),
+    wednesdayTime: moment().format('HH:mm'),
     wednesdayDate: format(date.setDate(date.getDate() + (3-date.getDay())), 'dd/MM/yyyy'),
 
     thursdayName: "Ibuprofen",
-    thursdayTime: moment().format('HH:mm:ss'),
+    thursdayTime: moment().format('HH:mm'),
     thursdayDate: format(date.setDate(date.getDate() + (4-date.getDay())), 'dd/MM/yyyy'),
 
     fridayName: "Ibuprofen",
-    fridayTime: moment().format('HH:mm:ss'),
+    fridayTime: moment().format('HH:mm'),
     fridayDate: format(date.setDate(date.getDate() + (5-date.getDay())), 'dd/MM/yyyy'),
 
     saturdayName: "Ibuprofen",
-    saturdayTime: moment().format('HH:mm:ss'),
+    saturdayTime: moment().format('HH:mm'),
     saturdayDate: format(date.setDate(date.getDate() + (6-date.getDay())), 'dd/MM/yyyy'),
 
     sundayName: "Ibuprofen",
-    sundayTime: moment().format('HH:mm:ss'),
+    sundayTime: moment().format('HH:mm'),
     sundayDate: format(date.setDate(date.getDate() + (7-date.getDay())), 'dd/MM/yyyy'),
 
 };

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
-import { setSchedule, uuidv4 } from '../services/auth.services';
-import { getAllMedicineData } from '../services/auth.services';
+import { setSchedule, uuidv4 , getAllMedicineData, getUserData} from '../services/auth.services';
 import AOS from 'aos';
 import "aos/dist/aos.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,9 +11,9 @@ import {faBreadSlice,faCoffee,faUtensils,} from '@fortawesome/free-solid-svg-ico
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
 
-
 import 'rc-time-picker/assets/index.css';
 const textmagicClient = require('textmagic-client');
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
 
 const client = textmagicClient.ApiClient.instance;
 const auth = client.authentications['BasicAuth'];
@@ -39,8 +38,8 @@ for (let i = 1; i < 100; i += 1) {
   options.push(option);
 }
 
+// create timestamp and create date
 let toDate = (year, month, day, hour, minute) => {
-  console.log(year, month, day, hour, minute)
   return new Date(year, month - 1, day, hour, minute);
 };
 
@@ -52,10 +51,19 @@ const AddMedicine = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [message, setMessage] = useState(false);
   const [medicines, setMedicines] = useState({});
+  const [needPhone, setNeedPhone] = useState(false);
+
 
   const getNames = (async () => {
     try {
       let data = await getAllMedicineData();
+      let user = await getUserData(currentUser.uid)
+
+      if (user.phoneNumer === "" || user.phoneNumer == null || user.phoneNumer === undefined){
+        setNeedPhone(true)
+      }
+
+      console.log(user.phoneNumer)
       let names = []
       Object.entries(data).forEach(([key, val]) => {
         let obj = { name: val.name, label: val.label, value: val.value}
@@ -123,6 +131,16 @@ const AddMedicine = () => {
   const onSubmit = async (e) => {
     let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
     const uid = currentUser.uid;
+    
+    if(needPhone) {
+      setMessage({
+        error: 'Gelieve een telefoonnummer toe te voegen bij je profiel',
+      });
+      setTimeout(() => {
+        setMessage({});
+      }, 5000);
+      return;
+    }
 
     if (state.before || state.during || state.after & selectedDay & state.medicine) {
 
@@ -134,7 +152,6 @@ const AddMedicine = () => {
       let data = {};
       for (let i = 0; i < state.days; i++) {
         let uid = uuidv4();
-        console.log(selectedDay)
         const date = toDate(
           selectedDay.year,
           selectedDay.month,
