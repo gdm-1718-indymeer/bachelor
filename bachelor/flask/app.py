@@ -103,7 +103,7 @@ def background_timer_checker():
                                         'client_name': "you",
                                         'salutation': 'your',
                                         "from_name":"Indy",
-                                        'email_text': "Make sure you confirmed taking the medication on "+ os.getenv("FLASK_APP_URL")+ "reminder/"+eventid,
+                                        'email_text': "Make sure you confirmed taking the medication on "+ os.getenv("REACT_APP_URL")+ "reminder/"+eventid,
                                         "name": clientName,
                                 }
                             }
@@ -143,7 +143,7 @@ def background_timer_checker():
                                             "from_name":"Indy",
                                             "name": adminName,
                                             "client_name": clientName,
-                                            "email_text": "Read more at "+ os.getenv("FLASK_APP_URL")+"dashboard/"+userid
+                                            "email_text": "Read more at "+ os.getenv("REACT_APP_URL")+"dashboard/"+userid
                                     }
                                 }
                                 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}

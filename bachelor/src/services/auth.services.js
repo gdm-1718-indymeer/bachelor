@@ -1,11 +1,11 @@
-import firebase from '../config/firebaseConfig';
-import emailJs from 'emailjs-com'
+import firebase from "../config/firebaseConfig";
+import emailJs from "emailjs-com";
 
 export const auth = firebase.auth();
 export const db = firebase.database();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-emailJs.init(process.env.REACT_APP_EMAIL_USER_ID)
+emailJs.init(process.env.REACT_APP_EMAIL_USER_ID);
 const serviceId = process.env.REACT_APP_EMAIL_SERVICE_ID;
 
 // SIGN IN
@@ -19,7 +19,13 @@ export const signInWithEmailAndPassword = async (email, password) => {
 };
 
 // SIGN UP
-export const createUserWithEmailAndPassword = async (email, password, firstname, lastname, phone) => {
+export const createUserWithEmailAndPassword = async (
+  email,
+  password,
+  firstname,
+  lastname,
+  phone
+) => {
   try {
     const createUser = await auth.createUserWithEmailAndPassword(
       email,
@@ -29,12 +35,13 @@ export const createUserWithEmailAndPassword = async (email, password, firstname,
       displayName: firstname,
     });
 
-    await db.ref('user').child(createUser.user.uid).set({
+    await db.ref("user").child(createUser.user.uid).set({
       firstname,
       lastname,
       email,
       phoneNumber: phone,
-      profilePicture: "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+      profilePicture:
+        "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
     });
 
     let result = createUser;
@@ -51,7 +58,7 @@ export const signInWithGoogle = (url) => {
     .signInWithPopup(googleProvider)
     .then((res) => {
       let user = res.user;
-      db.ref('user').child(res.user.uid).update({
+      db.ref("user").child(res.user.uid).update({
         displayName: user.displayName,
         email: user.email,
         phoneNumber: user.phoneNumber,
@@ -67,9 +74,9 @@ export const signInWithGoogle = (url) => {
 // RESET PASSWORD
 
 export const forgotPassword = (Email) => {
-  firebase.auth().sendPasswordResetEmail(Email)
-  return
-}
+  firebase.auth().sendPasswordResetEmail(Email);
+  return;
+};
 
 // CREATE CUSTOM UID
 
@@ -85,10 +92,8 @@ export const uuidv4 = () => {
 // PUSH SCHEDULE
 
 export const setSchedule = async (uid, data) => {
-  await db.ref().child(`event/${uid}/`).update(data);
-  return true;
+  return await db.ref().child(`event/${uid}/`).push(data);
 };
-
 
 // DELETE SCHEDULE
 
@@ -104,7 +109,7 @@ export const getCurrentData = async (uid, id) => {
   await db
     .ref()
     .child(`event/${uid}/${id}`)
-    .once('value')
+    .once("value")
     .then((snapshot) => {
       data = snapshot.val();
     });
@@ -114,16 +119,20 @@ export const getCurrentData = async (uid, id) => {
 //SET CURRENT DATA
 export const setCurrentData = async (uid, id, data) => {
   await db.ref().child(`event/${uid}/${id}`).set(data);
-}
+};
 
 // GET ALL DATA
 
 export const getAllData = async (uid) => {
   if (await canGetUserData(uid)) {
     let data;
-    await db.ref().child(`event/${uid}/`).once('value').then((snapshot) => {
-      data = snapshot.val();
-    });
+    await db
+      .ref()
+      .child(`event/${uid}/`)
+      .once("value")
+      .then((snapshot) => {
+        data = snapshot.val();
+      });
     return data;
   }
 };
@@ -135,9 +144,9 @@ export const getScheduleByDate = async (uid, date) => {
   await db
     .ref()
     .child(`event/${uid}/`)
-    .orderByChild('targetDate')
+    .orderByChild("targetDate")
     .equalTo(date)
-    .once('value')
+    .once("value")
     .then((snapshot) => {
       data = snapshot.val();
     });
@@ -150,10 +159,10 @@ export const getPreviousData = async (uid, time) => {
   let data;
   await db
     .ref(`event/${uid}/`)
-    .orderByChild('timeStamp')
+    .orderByChild("timeStamp")
     .endAt(time)
     .limitToLast(1)
-    .once('value')
+    .once("value")
     .then((snapshot) => {
       snapshot.forEach((childSnapshot) => {
         data = childSnapshot.val();
@@ -169,67 +178,88 @@ export const getNextData = async (uid, time) => {
   let key;
   await db
     .ref(`event/${uid}/`)
-    .orderByChild('timeStamp')
+    .orderByChild("timeStamp")
     .startAt(time)
-    .once('value')
+    .once("value")
     .then((snapshot) => {
-      snapshot
-        .forEach((childSnapshot) => {
-          if (!childSnapshot.val().isTaken && !key && !data) {
-            key = childSnapshot.key;
-            data = childSnapshot.val();
-          }
-        });
+      snapshot.forEach((childSnapshot) => {
+        if (!childSnapshot.val().isTaken && !key && !data) {
+          key = childSnapshot.key;
+          data = childSnapshot.val();
+        }
+      });
     });
-  return [data, key].filter((i) => { return i; });
+  return [data, key].filter((i) => {
+    return i;
+  });
 };
 
 // GET USER
 
 export const getCurrentUser = async () => {
-  const currentUser = await JSON.parse(
-    localStorage.getItem('firebase:currentUser')
-  );
+  const currentUserUid = (await JSON.parse(
+    localStorage.getItem("firebase:currentUser")
+  )).uid;
+  const currentUser = (await db.ref().child(`user/${currentUserUid}`).once("value")).val()
   if (currentUser) {
     return await currentUser;
   }
 };
 export const isSuperAdmin = async () => {
-  let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
-  let data = (await db.ref().child(`user/${currentUser.uid}`).once('value')).val().isSuperAdmin;
+  let currentUser = JSON.parse(localStorage.getItem("firebase:currentUser"));
+  let data = (
+    await db.ref().child(`user/${currentUser.uid}`).once("value")
+  ).val().isSuperAdmin;
   if (!data) return false;
   return data;
-}
+};
 export const isAdmin = async () => {
-  let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
-  let data = (await db.ref().child('access').orderByChild("adminId").equalTo(currentUser.uid).once('value')).val();
+  let currentUser = JSON.parse(localStorage.getItem("firebase:currentUser"));
+  let data = (
+    await db
+      .ref()
+      .child("access")
+      .orderByChild("adminId")
+      .equalTo(currentUser.uid)
+      .once("value")
+  ).val();
   if (Object.keys(data).length > 0) return true;
   return false;
-}
+};
 export const canGetUserData = async (uid) => {
-  let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
+  let currentUser = JSON.parse(localStorage.getItem("firebase:currentUser"));
   if (uid === currentUser.uid) {
     return true;
   }
-  let data = (await db.ref().child('access').orderByChild("adminId").equalTo(currentUser.uid).once('value')).val();
+  let data = (
+    await db
+      .ref()
+      .child("access")
+      .orderByChild("adminId")
+      .equalTo(currentUser.uid)
+      .once("value")
+  ).val();
   for (const i of Object.keys(data)) {
     if (data[i].clientId === uid) {
       return true;
     }
   }
   return false;
-}
-
+};
 
 // GET USER DATA
 
 export const getUserData = async (uid) => {
   if (await canGetUserData(uid)) {
-
     let data;
-    await db.ref().child('user').child(uid).once('value').then((userSnap) => {
-      data = userSnap.val();
-    });
+    await db
+      .ref()
+      .child("user")
+      .child(uid)
+      .once("value")
+      .then((userSnap) => {
+        data = userSnap.val();
+      });
     return data;
   }
 };
@@ -249,9 +279,13 @@ export const addMedication = async (data) => {
 
 export const getAllMedicineData = async () => {
   let data;
-  await db.ref().child('medicine').once('value').then((userSnap) => {
-    data = userSnap.val();
-  });
+  await db
+    .ref()
+    .child("medicine")
+    .once("value")
+    .then((userSnap) => {
+      data = userSnap.val();
+    });
   return data;
 };
 
@@ -259,9 +293,13 @@ export const getAllMedicineData = async () => {
 
 export const getMedicineDetails = async (name) => {
   let data;
-  await db.ref().child(`medicine/${name}`).once('value').then((userSnap) => {
-    data = userSnap.val();
-  });
+  await db
+    .ref()
+    .child(`medicine/${name}`)
+    .once("value")
+    .then((userSnap) => {
+      data = userSnap.val();
+    });
   return data;
 };
 
@@ -278,19 +316,24 @@ export const deleteMedication = async (id) => {
 
 // UPDATE PERSONAL  INFORMATION
 
-export const updatePersonalInformation = async (uid, displayName, email, phone, photo) => {
+export const updatePersonalInformation = async (
+  uid,
+  displayName,
+  email,
+  phone,
+  photo
+) => {
   await db.ref(`user/${uid}`).update({
     displayName: displayName,
     email: email,
     phoneNumber: phone,
-    profilePicture: photo
-
+    profilePicture: photo,
   });
 
   const currentUser = auth.currentUser;
   await currentUser.updateProfile({
     displayName: displayName,
-    profilePicture: photo
+    profilePicture: photo,
   });
 
   return true;
@@ -303,12 +346,14 @@ export const uploadProfilePicture = async (file) => {
   var user = firebase.auth().currentUser;
 
   // Create a Storage Ref w/ username
-  var storageRef = firebase.storage().ref(user.uid + '/profilePicture/' + file.name);
+  var storageRef = firebase
+    .storage()
+    .ref(user.uid + "/profilePicture/" + file.name);
 
   // Upload file
-  await storageRef.put(file)
+  await storageRef.put(file);
 
-  await storageRef.getDownloadURL().then(url => {
+  await storageRef.getDownloadURL().then((url) => {
     pictureUrl = url;
   });
 
@@ -319,36 +364,41 @@ export const uploadProfilePicture = async (file) => {
 
 export const pushInvitationData = async (invitationId, data) => {
   getCurrentUser().then((user) => {
-    db.ref().child(`invitations`).child(invitationId).set({ ...data, adminId: user.uid })
+    db.ref()
+      .child(`invitations`)
+      .child(invitationId)
+      .set({ ...data, adminId: user.uid });
   });
-}
+};
 
 //GET INVITATION DATA
 
 export const getInvitationsById = async (userId, invitationID) => {
-  let data =
-    await db.ref().child(`invitations`).child(invitationID).once('value')
-  return data.val()
-}
+  let data = await db
+    .ref()
+    .child(`invitations`)
+    .child(invitationID)
+    .once("value");
+  return data.val();
+};
 
 //DELETE INVITATION DATA
 
 export const deleteInvitationById = async (invitationId) => {
-  await db.ref().child('invitations').child(invitationId).remove();
-}
+  await db.ref().child("invitations").child(invitationId).remove();
+};
 
 //ADD ADMIN ROLE
 
 export const setAdminProfile = async (id) => {
-  await db.ref().child('user').child(id).update({ isAdmin: true });
-}
-
+  await db.ref().child("user").child(id).update({ isAdmin: true });
+};
 
 //PUSH ACCESS
 
 export const pushAccess = async ({ adminId, clientId }) => {
-  await db.ref().child('access').push({ adminId, clientId })
-}
+  await db.ref().child("access").push({ adminId, clientId });
+};
 
 //SEND INVITE
 
@@ -356,48 +406,54 @@ export const sendInvite = (email, inviteId) => {
   const templateId = process.env.REACT_APP_EMAIL_INVITE_TEMPLATE_ID;
   getCurrentUser().then((user) => {
     const username = user.displayName || user.firstname + " " + user.lastname;
-    emailJs.send(serviceId, templateId, { adminName: username, inviteId, to: email }, process.env.REACT_APP_EMAIL_USER_ID)
-
-  })
-}
+    emailJs.send(
+      serviceId,
+      templateId,
+      { adminName: username, inviteId, to: email },
+      process.env.REACT_APP_EMAIL_USER_ID
+    );
+  });
+};
 
 // CHECK IF MEDBOX KEY EXIST
 
 export const checkIfExist = async (key) => {
   try {
-    let c
+    let c;
     let user = firebase.auth().currentUser;
 
-    await db.ref().child('pillbox').once('value').then((snapshot) => {
-      c = snapshot.child(key).exists(); // true
-    });
+    await db
+      .ref()
+      .child("pillbox")
+      .once("value")
+      .then((snapshot) => {
+        c = snapshot.child(key).exists(); // true
+      });
 
     if (c) {
       await db.ref().child(`pillbox/${key}`).child(user.uid).set({
-        welcome: true
-      })
-      await db.ref('user').child(user.uid).update({
+        welcome: true,
+      });
+      await db.ref("user").child(user.uid).update({
         havePillbox: true,
-        pillBoxId: key
-      })
+        pillBoxId: key,
+      });
     }
-    return c
+    return c;
   } catch (error) {
     return error;
   }
 };
 
-
 // ADD CHECK FOR FILLING PILLBOX
 
 export const fillMedbox = async (key, uid) => {
   try {
-
     await db.ref().child(`pillbox/${key}/${uid}`).update({
-      fill: true
+      fill: true,
     });
 
-    return true
+    return true;
   } catch (error) {
     return error;
   }
@@ -407,58 +463,66 @@ export const fillMedbox = async (key, uid) => {
 
 export const getMedbox = async (key, uid) => {
   try {
-    let data
-    await db.ref().child(`pillbox/${key}/${uid}`).once('value').then((userSnap) => {
-      data = userSnap.val();
-    });
+    let data;
+    await db
+      .ref()
+      .child(`pillbox/${key}/${uid}`)
+      .once("value")
+      .then((userSnap) => {
+        data = userSnap.val();
+      });
     return data;
   } catch (error) {
     return error;
   }
 };
 
-
 // ADD DATA TO PILLBOX
 
 export const addDataMedBox = async (key, uid, events) => {
   try {
-
     await db.ref().child(`pillbox/${key}/${uid}`).update({ events });
 
-    return true
+    return true;
   } catch (error) {
     return error;
   }
 };
 
-
-// GET USER WHERE YOU ACCES HAVE TO 
+// GET USER WHERE YOU ACCES HAVE TO
 
 export const myUsersAcces = async (id) => {
-  let keys = []
+  let keys = [];
   let data = [];
-  await db.ref().child("access").orderByChild("adminId").equalTo(id).once("value", snapshot => {
-    if (snapshot.exists()) {
-      snapshot.forEach(childSnapshot => {
-        let key = childSnapshot.val()
-        keys.push(key.clientId)
-      })
-    }
-  });
+  await db
+    .ref()
+    .child("access")
+    .orderByChild("adminId")
+    .equalTo(id)
+    .once("value", (snapshot) => {
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          let key = childSnapshot.val();
+          keys.push(key.clientId);
+        });
+      }
+    });
   // check for duplicates in keys
-  let unique = keys.sort().filter(function (item, pos, ary) { return !pos || item !== ary[pos - 1]; });
+  let unique = keys.sort().filter(function (item, pos, ary) {
+    return !pos || item !== ary[pos - 1];
+  });
   for (const val of unique) {
-    let user = await getUserData(val)
-    Object.assign(user, { id: val })
-    data.push(user)
+    let user = await getUserData(val);
+    Object.assign(user, { id: val });
+    data.push(user);
   }
-  return data
-}
+  return data;
+};
 
 // SIGN OUT
 
 export const signOut = async () => {
-  localStorage.removeItem('firebase:currentUser');
+  localStorage.removeItem("firebase:currentUser");
   return await auth.signOut();
 };
 

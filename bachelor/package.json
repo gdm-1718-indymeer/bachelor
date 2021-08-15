@@ -105,7 +105,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "build-flask": "build-flask.cmd",
-    "deploy-flask": "deploy-flask.cmd"
+    "deploy-flask": "deploy-flask.cmd",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "eslintConfig": {
     "extends": [
