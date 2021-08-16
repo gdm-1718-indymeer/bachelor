@@ -41,6 +41,7 @@ function App() {
     onAuthStateChanged is a listener so this will detect changes while the app is running...
     If the user is logged out this will catch the error
     */
+  
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         localStorage.setItem('firebase:currentUser', JSON.stringify(user));

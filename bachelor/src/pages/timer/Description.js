@@ -35,12 +35,10 @@ const Description = (props) => {
             setState([result, currentData])
      
             let today = new Date().getTime() / 1000;
-            if(state) {
-            let minutes = Math.floor(((today - state[1].timeStamp) % 3600) / 60)
-            if(minutes > 20 )
+            let minutes = Math.floor(((today - currentData.timeStamp) % 3600) / 60)
+            if(minutes < 0 || minutes > 20 ){
                 setTaken(false)
             }
-
         } catch (e) {
             console.error(e);
         }
