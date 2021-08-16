@@ -104,7 +104,7 @@
 
     .tag {
       @include media-breakpoint-down(md) {
-        font-size: $fontSize16;
+        font-size: $fontSize12;
       }
     }
 

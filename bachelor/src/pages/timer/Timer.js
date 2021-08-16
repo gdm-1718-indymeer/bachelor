@@ -8,7 +8,7 @@ import AOS from 'aos';
 import "aos/dist/aos.css"
 let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
-const Timer = () => {
+const Timer = (props) => {
   const [load, setLoad] = useState({});
   const [next, setNext] = useState(false);
   const [time, setTime] = useState({});
@@ -55,7 +55,7 @@ const Timer = () => {
       d.getMonth() + 1,
       d.getDate(),
       d.getHours(),
-      d.getMinutes() - 20,
+      d.getMinutes(),
       d.getSeconds()
     );
 
@@ -100,22 +100,6 @@ const Timer = () => {
     getEvents(uid, time);
   }, []);
  
-  const tookMedicine = async () => {
-    // let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
-    // const uid = currentUser.uid;
-    // await setCurrentData(uid, next[1], { ...next[0], isTaken: true })
-    // var d = new Date();
-    // let time = toTimestamp(
-    //   d.getFullYear(),
-    //   d.getMonth() + 1,
-    //   d.getDate(),
-    //   d.getHours(),
-    //   d.getMinutes() - 20,
-    //   d.getSeconds()
-    // );
-
-    // await getEvents(uid, time)
-  }
   const children = ({ remainingTime }) => {
     let d = Math.floor(remainingTime / (3600 * 24));
     let h = Math.floor((remainingTime % (3600 * 24)) / 3600);
@@ -198,10 +182,12 @@ const Timer = () => {
           <div className='countdown-wrapper__timer'>
             {time.time && (
               <CountdownCircleTimer
+                key={Math.random()}
                 onComplete={() => {
-                  wantNext()
                   // do your stuff here
-                  return [false, 1500]; // repeat animation in 1.5 seconds
+                  wantNext()
+
+                  // repeat animation in 1.5 seconds
                 }}
                 isPlaying
                 duration={time.prev}
@@ -213,9 +199,6 @@ const Timer = () => {
               </CountdownCircleTimer>
             )}
           </div>
-          {/* {time.time <= 60 * 15 ?
-            <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
-            >Ik heb mijn pil genomen!</button> : null} */}
           <Link
             className='countdown-wrapper__button btn'
             to={`reminder/${next[1]}`}>

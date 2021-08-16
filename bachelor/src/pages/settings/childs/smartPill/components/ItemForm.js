@@ -8,7 +8,6 @@ const ItemForm = (props, {...others }) => {
 
   const handleChange = (event) => {
     props.sendToParent(event);
-    console.log()
     props.onChange({
         target: {
             name: props.name,

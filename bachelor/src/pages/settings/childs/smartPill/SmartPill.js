@@ -24,7 +24,6 @@ const SmartPill = () => {
     
     const onSubmit = async () => {
         const keycheck = await checkIfExist(state.otp)
-        console.log(keycheck)
         if (!keycheck) {
             setMessage({
               error: 'De code bestaat niet',

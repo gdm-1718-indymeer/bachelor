@@ -61,9 +61,8 @@ export const signInWithGoogle = (url) => {
       db.ref("user").child(res.user.uid).update({
         displayName: user.displayName,
         email: user.email,
-        phoneNumber: user.phoneNumber,
-        profilePicture: user.photoURL,
       });
+      console.log(url)
       window.location = url;
     })
     .catch((error) => {
@@ -92,7 +91,8 @@ export const uuidv4 = () => {
 // PUSH SCHEDULE
 
 export const setSchedule = async (uid, data) => {
-  return await db.ref().child(`event/${uid}/`).push(data);
+   await db.ref().child(`event/${uid}`).update(data);
+   return true
 };
 
 // DELETE SCHEDULE
@@ -176,6 +176,7 @@ export const getPreviousData = async (uid, time) => {
 export const getNextData = async (uid, time) => {
   let data;
   let key;
+
   await db
     .ref(`event/${uid}/`)
     .orderByChild("timeStamp")
@@ -197,13 +198,15 @@ export const getNextData = async (uid, time) => {
 // GET USER
 
 export const getCurrentUser = async () => {
-  const currentUserUid = (await JSON.parse(
+  const currentUserUid = await JSON.parse(
     localStorage.getItem("firebase:currentUser")
-  )).uid;
-  const currentUser = (await db.ref().child(`user/${currentUserUid}`).once("value")).val()
-  if (currentUser) {
-    return await currentUser;
-  }
+  ).uid
+  let currentUser
+  await db.ref().child(`user/${currentUserUid}`).once("value").then((snapshot) => {
+    currentUser = snapshot.val();
+  });
+  return  currentUser;
+  
 };
 export const isSuperAdmin = async () => {
   let currentUser = JSON.parse(localStorage.getItem("firebase:currentUser"));
@@ -223,7 +226,7 @@ export const isAdmin = async () => {
       .equalTo(currentUser.uid)
       .once("value")
   ).val();
-  if (Object.keys(data).length > 0) return true;
+  if (data !== undefined || Object.keys(data).length > 0) return true;
   return false;
 };
 export const canGetUserData = async (uid) => {
@@ -363,11 +366,13 @@ export const uploadProfilePicture = async (file) => {
 //PUSH INVITATION DATA
 
 export const pushInvitationData = async (invitationId, data) => {
+  let currentUser = JSON.parse(localStorage.getItem("firebase:currentUser"));
+
   getCurrentUser().then((user) => {
     db.ref()
       .child(`invitations`)
       .child(invitationId)
-      .set({ ...data, adminId: user.uid });
+      .set({ ...data, adminId: currentUser.uid });
   });
 };
 

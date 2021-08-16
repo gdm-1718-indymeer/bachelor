@@ -24,7 +24,7 @@ const Login = (props) => {
   };
   
   const loginWithGoogle = () => {
-    signInWithGoogle(queryParams.callback || '/settings')
+    signInWithGoogle(queryParams.callback? queryParams.callback : '/welcome')
   }
   
   const onSubmitReset = async () => {
@@ -227,8 +227,7 @@ const Login = (props) => {
                   />
                </div></>}
                 <nav className='login-card-footer-nav'>
-                  <a href='#!'>Terms of use.</a>
-                  <a href='#!'>Privacy policy</a>
+                  <a href='https://www.arteveldehogeschool.be'>Opdracht in functie van Artevelde Hogeschool</a>
                 </nav>
               </div>
             </div>

@@ -26,7 +26,7 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
         sundayTime,
         sundayDate,
      } = formData;
-    const { go } = navigation;
+    const { go, next } = navigation;
 
     // create timestamp 
     let toDate = (year, month, day, hour, minute) => {
@@ -40,14 +40,11 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
       
     const pushData = (async () => {
 
-        console.log(formData)
-
         try {
             let data = {};
             let form = [formData]
             let keys = [];
             for (const property in days) {
-                console.log(`${property}: ${days[property]}`);
                     let uid = uuidv4();
                     let name =  formData[days[property]+'Name']
                     let time =  formData[days[property]+'Time']
@@ -68,7 +65,6 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
                     const date = toDate(year,month,day,hour,minute);
                     let newDate = toTimestamp(date);
 
-                    console.log(newDate)
 
                     data[uid] = {
                         medicineName: name,
@@ -86,8 +82,7 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
                         sendFirstReminder: false,
                         sendAdminReminder: false,
                     };
-
-            
+                    next()
               }
               formData = {...formData, ...{keys}}
     

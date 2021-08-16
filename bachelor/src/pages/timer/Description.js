@@ -19,6 +19,8 @@ let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'))
 const Description = (props) => {
     const [state, setState] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [taken, setTaken] = useState(true);
+
 
     const history = useHistory();
 
@@ -31,8 +33,12 @@ const Description = (props) => {
             }
             const result = await getMedicineDetails(currentData.medicineName);
             setState([result, currentData])
-            console.log(state)
-
+     
+            let today = new Date().getTime() / 1000;
+            let minutes = Math.floor(((today - currentData.timeStamp) % 3600) / 60)
+            if(minutes < 0 || minutes > 20 ){
+                setTaken(false)
+            }
         } catch (e) {
             console.error(e);
         }
@@ -58,21 +64,11 @@ const Description = (props) => {
         getEvents('imodium', uid);
 
     }, []);
+
     const tookMedicine = async () => {
         const uid = currentUser.uid;
         await setCurrentData(uid, props.match.params.id, { ...state[1], isTaken: true })
         await getEvents(null, uid)
-        // var d = new Date();
-        // let time = toTimestamp(
-        //   d.getFullYear(),
-        //   d.getMonth() + 1,
-        //   d.getDate(),
-        //   d.getHours(),
-        //   d.getMinutes() - 20,
-        //   d.getSeconds()
-        // );
-
-        // await getEvents(uid, time)
     }
     return (
         <>
@@ -89,9 +85,9 @@ const Description = (props) => {
                         {state[1].beforeDinner && <span className="tag before">{state[1].notification} min voor het eten</span>}
                         {state[1].duringDinner && <span className="tag during">tijdens het eten</span>}
                         {state[1].afterDinner && <span className="tag after">{state[1].notification} min na het eten</span>}
-                        {!state[1].isTaken ?
+                       {taken && <> {!state[1].isTaken ?
                         <button className='countdown-wrapper__button btn' onClick={tookMedicine} value="Ik heb mijn medicijn genomen"
-                        >Ik heb mijn pil genomen!</button> : null}
+                        >Ik heb mijn pil genomen!</button> : null}</>}
                     </div>
 
                     <button className='btn-red btn' onClick={togglePopup}>Herinnering verwijderen</button>

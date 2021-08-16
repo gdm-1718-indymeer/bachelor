@@ -68,7 +68,6 @@ const Profile = () => {
             let picture = state.photo;
 
             if (state.pictureBlob) {
-                console.log(state)
                 const img = await uploadProfilePicture(state.pictureBlob);
                 picture = img;
             }
@@ -117,7 +116,7 @@ const Profile = () => {
 
                             <div className='img-wrapper'>
                                 <div className='d-inline'>
-                                    <img className='picture' src={state.photo} alt='profilePicture'/>
+                                    <img className='picture' src={state.photo ? state.photo : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='profilePicture'/>
                                     <br />
                                     <input
                                         type='file'
@@ -147,7 +146,7 @@ const Profile = () => {
                                         id='fullName'
                                         onChange={onChange}
                                         name='displayName'
-                                        value={state.displayName}
+                                        value={state.displayName || state.firstname + ' ' + state.lastname}
                                     />
                                 </div>
 

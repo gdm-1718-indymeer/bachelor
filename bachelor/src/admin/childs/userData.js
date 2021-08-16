@@ -17,8 +17,6 @@ const UserData = (props) => {
 
             if(response) {
               setState(response)
-              console.log(state)
-              console.log(response)
             }
             let taken = []
             let notTaken = []

@@ -2,8 +2,7 @@ import axios from "axios";
 
 const medicineApi = "https://api.fda.gov";
 const recogniseUrl = "https://medcarepython.herokuapp.com/recognise/";
-const wikiPedia =
-  "https://cors-anywhere.herokuapp.com/https://nl.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=";
+const wikiPedia ="https://cors-anywhere.herokuapp.com/https://nl.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=";
 
 export const recognisePicture = async (picture) => {
   let data;
@@ -36,7 +35,7 @@ export const sendTextMessage = async (reminderId, phoneNumber, dateTime) => {
   const formattedDate = `${year}-${month}-${date} ${hour}:${minute}:${second}`
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   await axios.post(
-    'https://cors-anywhere.herokuapp.com/https://rest.textmagic.com/api/v2/messages',
+    'https://young-glade-1442.awanyanka.workers.dev/?https://rest.textmagic.com/api/v2/messages',
     {
       text: `Reminder:\n vergeet niet uw medicijn te nemen!\n Meer informatie: ${process.env.REACT_APP_URL}reminder/${reminderId}\n ***negeer dit bericht wanneer je dit al gedaan hebt***`,
       phones: phoneNumber,
@@ -54,7 +53,6 @@ export const sendTextMessage = async (reminderId, phoneNumber, dateTime) => {
     }
   )
     .then((res) => {
-      console.log(res);
     })
     .catch((ex) => {
       console.error(ex);

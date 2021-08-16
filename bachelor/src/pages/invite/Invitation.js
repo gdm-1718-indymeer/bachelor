@@ -3,6 +3,7 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { deleteInvitationById, getCurrentUser, getInvitationsById, getUserData, pushAccess, setAdminProfile } from '../../services/auth.services';
 import { ReactComponent as Dashboard} from '../../assets/images/dashboard.svg'
+let currentUser = JSON.parse(localStorage.getItem('firebase:currentUser'));
 
 const Invitation = (props) => {
     const [invitationInfo, setinvitationInfo] = useState();
@@ -11,29 +12,25 @@ const Invitation = (props) => {
     const queryParams = queryString.parse(props.location.search)
     useEffect(() => {
         getCurrentUser().then(user => {
-            getInvitationsById(user.uid, queryParams.inviteId).then(invitationRes => {
+            getInvitationsById(currentUser.uid, queryParams.inviteId).then(invitationRes => {
                 getUserData(invitationRes.adminId).then(res => setAdminInfo(res))
                 setinvitationInfo(invitationRes);
-                console.log(adminInfo)
-
             })
         });
     }, [])
-    if (!queryParams.inviteId) {
+    if (!queryParams.inviteId || currentUser.uid === invitationInfo.adminId ) {
         return <Redirect to="/" />
     }
     const handleConfirm = () => {
         //add to database
-        getCurrentUser().then(user => {
             pushAccess({
                 adminId: invitationInfo.adminId,
-                clientId: user.uid
+                clientId: currentUser.uid
             });
             setAdminProfile(invitationInfo.adminId)
             deleteInvitationById(queryParams.inviteId);
             props.history.push("/")
-        })
-
+        
     }
     return (
         <>

@@ -30,7 +30,6 @@ const Reminder = (props) => {
                 })
             }
             setTasks(item)
-            console.log(tasks)
 
         } catch (e) {
             console.error(e);
@@ -101,7 +100,7 @@ const Reminder = (props) => {
                         <>
                             <h3 className='events__list__time'>Ochtend</h3>
                             {Object.keys(tasks.Morning).sort((timeA, timeB) => { return tasks.Morning[timeA].timeStamp - tasks.Morning[timeB].timeStamp; }).map(key => {
-                                console.log(tasks.Morning[key]); return (
+                              return (
                                     <Task
                                         task={tasks.Morning[key]}
                                         index={key}
