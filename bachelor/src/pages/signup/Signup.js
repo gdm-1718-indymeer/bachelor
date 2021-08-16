@@ -37,7 +37,7 @@ const Signup = (props) => {
 
             const result = await createUserWithEmailAndPassword(state.email, state.password, state.firstname, state.lastname, state.phone)
             if (!result.message) {
-                window.location = queryParams.callback || '/welcome';
+                window.location = "/welcome" + (queryParams.callback ? `?callback=${queryParams.callback}` : "");
             } else if (result.message) {
                 setMessage({
                     error: result.message
@@ -83,16 +83,16 @@ const Signup = (props) => {
                                     <div className="form-group">
                                         <label htmlFor="phone" class="sr-only">Telefoon</label>
 
-                                    <PhoneInput
-                                        country={'be'}
-                                        regions={'europe'}
-                                        localization={be}
-                                        className="form-control"
-                                        value={state.phone ? state.phone : ''}
-                                        onChange={(phone) =>
-                                            setValue({ ...state, phone: phone })
-                                        }
-                                    />
+                                        <PhoneInput
+                                            country={'be'}
+                                            regions={'europe'}
+                                            localization={be}
+                                            className="form-control"
+                                            value={state.phone ? state.phone : ''}
+                                            onChange={(phone) =>
+                                                setValue({ ...state, phone: phone })
+                                            }
+                                        />
                                     </div>
 
                                     <div className="form-group mb-4">

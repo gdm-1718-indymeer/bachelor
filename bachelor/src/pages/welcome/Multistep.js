@@ -17,11 +17,10 @@ const steps = [
     { id: "pillbox" },
 ];
 
-const Multistep = () => {
+const Multistep = (props) => {
 
     const { step, navigation } = useStep({ initialStep: 0, steps });
     const { id } = step;
-    const props = {navigation};
 
     useEffect(() => {
         AOS.init({
@@ -31,15 +30,15 @@ const Multistep = () => {
 
     switch (id) {
         case "welcome":
-            return <Welcome {...props} key={1} />;
+            return <Welcome {...props} navigation={navigation} key={1} />;
         case "camera":
-            return <Camera {...props} key={2} />;
+            return <Camera {...props} navigation={navigation} key={2} />;
         case "timer":
-            return <Timer {...props} key={3} />;
+            return <Timer {...props} navigation={navigation} key={3} />;
         case "dashboard":
-            return <Dashboard {...props} key={4} />;
+            return <Dashboard {...props} navigation={navigation} key={4} />;
         case "pillbox":
-            return <Pillbox {...props} key={5} />;
+            return <Pillbox {...props} navigation={navigation} key={5} />;
         default:
             return null;
     }
