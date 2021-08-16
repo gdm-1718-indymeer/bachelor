@@ -45,7 +45,6 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
             let form = [formData]
             let keys = [];
             for (const property in days) {
-                console.log(`${property}: ${days[property]}`);
                     let uid = uuidv4();
                     let name =  formData[days[property]+'Name']
                     let time =  formData[days[property]+'Time']
@@ -66,7 +65,6 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
                     const date = toDate(year,month,day,hour,minute);
                     let newDate = toTimestamp(date);
 
-                    console.log(newDate)
 
                     data[uid] = {
                         medicineName: name,

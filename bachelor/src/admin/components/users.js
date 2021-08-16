@@ -7,7 +7,7 @@ const Users = (props) => {
           <div className='image-wrapper'>
             <img src={value.profilePicture} alt='user' />
           </div>
-          <p className='user-name'>{value.displayName}</p>
+          <p className='user-name'>{value.displayName || value.firstname + ' ' + value.lastname}</p>
           <p className='user-text'>{value.phoneNumber}</p>
           <p className='user-text'>{value.email}</p>
 

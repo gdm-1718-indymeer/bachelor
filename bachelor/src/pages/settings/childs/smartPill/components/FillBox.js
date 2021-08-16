@@ -18,7 +18,6 @@ const FillBox = ({ navigation, formData }) =>{
         { title: 'Leeg', value: 12.5, color: '#C13C37' },
 
     ]
-    console.log(formData)
     return (
         <div className='container pt-100  pb-100'>
             <div className='row chart-wrapper'>

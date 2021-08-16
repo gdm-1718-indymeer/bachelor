@@ -2,8 +2,7 @@ import axios from "axios";
 
 const medicineApi = "https://api.fda.gov";
 const recogniseUrl = "https://medcarepython.herokuapp.com/recognise/";
-const wikiPedia =
-  "https://cors-anywhere.herokuapp.com/https://nl.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=";
+const wikiPedia ="https://cors-anywhere.herokuapp.com/https://nl.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=";
 
 export const recognisePicture = async (picture) => {
   let data;
@@ -54,7 +53,6 @@ export const sendTextMessage = async (reminderId, phoneNumber, dateTime) => {
     }
   )
     .then((res) => {
-      console.log(res);
     })
     .catch((ex) => {
       console.error(ex);

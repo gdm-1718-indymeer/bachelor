@@ -24,9 +24,6 @@ const Clients = () => {
       let response = await myUsersAcces(uid);
       if (response) {
         setState(response)
-        console.log(state)
-        console.log(response)
-
       }
 
 

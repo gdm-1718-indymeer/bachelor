@@ -44,11 +44,6 @@ const Webcam = (props) => {
   const [responseSwitch, setResponseSwitch] = useState(true);
   const [response, setResponse] = useState({});
 
-  const handleTakePhoto = (dataUri) => {
-    // Do stuff with the photo...
-    console.log('takePhoto');
-    console.log(typeof dataUri);
-  };
 
   const clearStates = () => {
     setRendering(true)
@@ -90,10 +85,7 @@ const Webcam = (props) => {
       if(data) {
         setResponse({response: data})
         setResponseSwitch(false)
-        console.log(data)
-        console.log(response)
       }
-      console.log(response)
 
     } catch (e) {
       console.error(e);
@@ -108,13 +100,6 @@ const Webcam = (props) => {
 
   const handleCameraError = (error) => {
     console.log('handleCameraError', error);
-    // if(refCamera.current.querySelector('.display-error') !== null){
-    //   refCamera.current.querySelector('.display-error').innerHTML = `
-    //     <h2>Het lijkt er op dat je geen toegang hebt gegeven om de camera te gebruiken</h2>`
-    // }
-    // nonReactLibraryFunction(refCamera.current, 'test');
-
-    // refCamera.current.querySelector('.display-error').innerHTML = 'Oepsie'
   };
 
   const handleCameraStart = (stream) => {
@@ -204,9 +189,6 @@ const Webcam = (props) => {
                         <h4 className='text-center pb-50'> Upload een foto van een medicijn om het te herkennen</h4>
 
                         <Camera
-                          onTakePhoto={(dataUri) => {
-                            handleTakePhoto(dataUri);
-                          }}
                           onTakePhotoAnimationDone={(dataUri) => {
                             handleTakePhotoAnimationDone(dataUri);
                           }}

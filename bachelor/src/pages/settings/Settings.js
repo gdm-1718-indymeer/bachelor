@@ -15,7 +15,6 @@ const Settings = () => {
       setProfile(user.profilePicture)
       if(user.isAdmin) {
         setDashboard('/dashboard');
-
       }
      
     } catch (e) {
@@ -40,10 +39,10 @@ const Settings = () => {
             <h1>SETTINGS</h1>
             <p>Verander je profiel settings hier.</p>
           </div>
-          <div class="image_outer_container">
-            <div class="green_icon"></div>
-            <div class="image_inner_container">
-              <img src={profile} alt='profile' />
+          <div className="image_outer_container">
+            <div className="green_icon"></div>
+            <div className="image_inner_container">
+              <img src={profile ? profile : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='profile' />
             </div>
           </div>
         </div>

@@ -151,7 +151,6 @@ const AddMedicine = () => {
       let minute = Number(a[1]);
 
       let data = {};
-      console.log(state.days)
       
       for (let i = 0; i < state.days ; i++) {
         let customId = uuidv4();

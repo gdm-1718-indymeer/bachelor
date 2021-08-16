@@ -14,7 +14,6 @@ const AllEvents = (props) => {
         let items = []
         let timeOfTheDay = { Noon: [], Morning: [], Evening: [] }
 
-        console.log(date)
         if (date === undefined || date === null) {
             let currentDate = new Date();
             let day = currentDate.getDate()
@@ -120,7 +119,7 @@ const AllEvents = (props) => {
                         <>
                             <h3 className='events__list__time'>Ochtend</h3>
                             {Object.keys(tasks.Morning).sort((timeA, timeB) => { return tasks.Morning[timeA].timeStamp - tasks.Morning[timeB].timeStamp; }).map(key => {
-                                console.log(tasks.Morning[key]); return (
+                               return (
                                     <Task
                                         task={tasks.Morning[key]}
                                         index={key}

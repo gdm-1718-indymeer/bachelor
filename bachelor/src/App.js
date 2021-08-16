@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import {
   AddMedicine,
@@ -83,6 +83,9 @@ function App() {
 
           {/* Admin */}
           <RouteWrapper path={Routes.INVITE} layout={SettingsLayout} component={Invite} exact />
+
+          {/* 404 */}
+          <Redirect path='*' to='/'/>
         </Switch>
       </Router>
     </AppProvider>

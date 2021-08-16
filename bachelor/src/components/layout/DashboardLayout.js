@@ -50,7 +50,6 @@ const BaseLayout = (props) => {
     Object.values(menuItems).forEach((el, index) => {
       let isVisible = true;
       if (el.permissions) {
-        console.log('test')
         for (const permissionName of el.permissions) {
           const result = permissions[permissionName];
 
@@ -113,7 +112,6 @@ const BaseLayout = (props) => {
   const sidebarChangeWidth = () => {
     setSideBarReduced((prevState) => !prevState);
   };
-  console.log(permissions);
   return (
     <div
       className={sideBarReduced ? 'sidebar-is-reduced' : 'sidebar-is-expanded'}>
