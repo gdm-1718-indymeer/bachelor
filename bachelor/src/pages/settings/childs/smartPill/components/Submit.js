@@ -1,10 +1,17 @@
 import React from "react";
-const Submit = ({ navigation }) => {
-    const { go } = navigation;
+import Box from '../../../../../assets/images/box_down.jpg';
+
+const Submit = ({ navigation, formData }) => {
+
+    const { next } = navigation;
     return (
-        <div>
-            <h3>Thank you for submitting. We will be in touch</h3>
-            New Form  <button onClick={() => go("fill")}>New</button>
+        <div className='container pt-100  pb-100'>
+            <div className='row'>
+            <h4 className='text-center'>Leg de doos neer zoals de afbeelding hieronder. ( Deksel verwijderen)</h4>
+  
+            <img src={Box} className='smartbox-img pt-50' alt='smartBox' />
+                 <button className='btn pb-100 jusity-content-center mx-auto ' onClick={next}>Volgende stap</button>
+            </div>
         </div>
     );
 };

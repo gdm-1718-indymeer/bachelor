@@ -26,7 +26,7 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
         sundayTime,
         sundayDate,
      } = formData;
-    const { go } = navigation;
+    const { go, next } = navigation;
 
     // create timestamp 
     let toDate = (year, month, day, hour, minute) => {
@@ -39,8 +39,6 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
     };
       
     const pushData = (async () => {
-
-        console.log(formData)
 
         try {
             let data = {};
@@ -86,8 +84,7 @@ const Review = ({ setForm, formData, navigation , boxkey}) => {
                         sendFirstReminder: false,
                         sendAdminReminder: false,
                     };
-
-            
+                    next()
               }
               formData = {...formData, ...{keys}}
     

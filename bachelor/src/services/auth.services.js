@@ -92,7 +92,8 @@ export const uuidv4 = () => {
 // PUSH SCHEDULE
 
 export const setSchedule = async (uid, data) => {
-  return await db.ref().child(`event/${uid}/`).push(data);
+   await db.ref().child(`event/${uid}`).update(data);
+   return true
 };
 
 // DELETE SCHEDULE
@@ -176,6 +177,7 @@ export const getPreviousData = async (uid, time) => {
 export const getNextData = async (uid, time) => {
   let data;
   let key;
+  
   await db
     .ref(`event/${uid}/`)
     .orderByChild("timeStamp")

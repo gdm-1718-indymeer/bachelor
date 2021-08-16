@@ -5,6 +5,7 @@ import "aos/dist/aos.css"
 import moment from 'moment';
 
 import Fill from "./components/Fill";
+import FillBox from "./components/FillBox";
 import Monday from "./components/week/Monday";
 import Tuesday from "./components/week/Tuesday";
 import Wednesday from "./components/week/Wednesday";
@@ -29,7 +30,8 @@ const steps = [
     { id: "saturday" },
     { id: "sunday" },
     { id: "review" },
-    { id: "submit" }
+    { id: "submit" },
+    { id: "fillbox" }
 ];
 
 const defaultData = {
@@ -98,6 +100,8 @@ const MultiStepForm = () => {
             return <Review {...props} key={9} />;
         case "submit":
             return <Submit {...props} key={10} />;
+        case "fillbox":
+            return <FillBox {...props} key={11} />;
         default:
             return null;
     }

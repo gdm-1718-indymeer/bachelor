@@ -28,6 +28,27 @@
                 box-shadow: 8px 1px 13px rgba($color: #000000, $alpha: 0.13);
             }
         }
+
+        .smartbox-img {
+            max-height: 500px;
+            margin-top: 3em;
+            object-fit: contain;
+        }
+
+        .chart-wrapper {
+            flex-direction: column;
+            margin: auto;
+        }
+
+        .chart {
+            max-width: 800px;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .days-wrapper {
+            margin: auto;
+        }
     }
 }
 

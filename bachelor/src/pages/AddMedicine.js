@@ -11,39 +11,25 @@ import {
 } from "../services/auth.services";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBreadSlice,
-  faCoffee,
-  faUtensils,
-} from "@fortawesome/free-solid-svg-icons";
 
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "@hassanmojab/react-modern-calendar-datepicker";
 
 import "rc-time-picker/assets/index.css";
 import { sendTextMessage } from "../services/medication.services";
-const textmagicClient = require("textmagic-client");
 let currentUser = JSON.parse(localStorage.getItem("firebase:currentUser"));
-
-const client = textmagicClient.ApiClient.instance;
-const auth = client.authentications["BasicAuth"];
-const api = new textmagicClient.TextMagicApi();
-
-auth.username = process.env.REACT_APP_SMS_USERNAME;
-auth.password = "ZAH7BlldVKUcm5Dv6kyGKPCfEqCD9C"; //process.env.REACT_APP_SMS_API;
 
 const showSecond = false;
 
 const pillNames = [
-  { value: "Paracetamol", label: "Paracetamol" },
+  { value: "Felbamaat", label: "Felbamaat" },
   { value: "Ibuprofen", label: "Ibuprofen" },
 ];
 
 const options = [];
 for (let i = 1; i < 100; i += 1) {
   const option = {
-    value: `${i - 1}`,
+    value: `${i}`,
     label: `${i}`,
   };
   options.push(option);
@@ -91,10 +77,10 @@ const AddMedicine = () => {
   const [state, setValue] = useState({
     medicine: pillNames[0].value,
     value: pillNames[0].value,
-    days: options[1].value,
+    days: options[0].value,
     time: moment().format("HH:mm"),
-    pillAmount: options[1].value,
-    notificationTime: options[1].value,
+    pillAmount: options[0].value,
+    notificationTime: options[0].value,
     before: false,
     during: false,
     after: false,
@@ -141,8 +127,8 @@ const AddMedicine = () => {
 
   // ON SUBMIT
   const onSubmit = async (e) => {
-    let currentUser = await getCurrentUser();
-    const uid = currentUser.uid;
+    let authUser = await getCurrentUser();
+    const newUid = authUser.uid;
 
     if (needPhone) {
       setMessage({
@@ -157,7 +143,7 @@ const AddMedicine = () => {
     if (
       state.before ||
       state.during ||
-      state.after & selectedDay & state.medicine
+      state.after || selectedDay & state.medicine
     ) {
       let time = state.time;
       var a = time.split(":"); // split it at the colons
@@ -165,8 +151,10 @@ const AddMedicine = () => {
       let minute = Number(a[1]);
 
       let data = {};
-      for (let i = 0; i < state.days; i++) {
-        let uid = uuidv4();
+      console.log(state.days)
+      
+      for (let i = 0; i < state.days ; i++) {
+        let customId = uuidv4();
         const date = toDate(
           selectedDay.year,
           selectedDay.month,
@@ -180,48 +168,39 @@ const AddMedicine = () => {
           }/${date.getFullYear()}`;
 
         let newDate = toTimestamp(date);
-        data[uid] = {
-          medicineName: state.medicine,
-          medicineValue: state.value,
-          targetDate: targetDate,
-          numberOfDays: state.days,
-          targetTime: state.time,
-          Amount: state.pillAmount,
-          beforeDinner: state.before,
-          duringDinner: state.during,
-          afterDinner: state.after,
-          notification: state.notificationTime,
-          timeStamp: newDate,
-          isTaken: false,
-          sendFirstReminder: false,
-          sendAdminReminder: false,
-        };
-
-        const input = {
-          text: "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
-          phones: "32491066364",
-          sendingDateTime: `${selectedDay.year}-${selectedDay.month}-${selectedDay.day} ${time}`,
-        };
-
-        const opts = {
-          page: 1,
-          limit: 10,
-          lastId: 1,
-        };
+          data[customId] = {
+            medicineName: state.medicine,
+            medicineValue: state.value,
+            targetDate: targetDate,
+            numberOfDays: state.days,
+            targetTime: state.time,
+            Amount: state.pillAmount,
+            beforeDinner: state.before,
+            duringDinner: state.during,
+            afterDinner: state.after,
+            notification: state.notificationTime,
+            timeStamp: newDate,
+            isTaken: false,
+            sendFirstReminder: false,
+            sendAdminReminder: false,
+          };
       }
-      const result = await setSchedule(uid, data);
-      for (let uid of Object.keys(data)) {
+      const result = await setSchedule(currentUser.uid, data);
 
+      for (let uid of Object.keys(data)) {
         const dateTime = new Date(data[uid].timeStamp * 1000);
-        sendTextMessage(result.key, currentUser.phoneNumber, dateTime);
+        sendTextMessage(uid, authUser.phoneNumber, dateTime);
       }
 
       if (!result.message) {
         setMessage({
           succeed: "De data is succesvol toegevoegd.",
         });
+        setSelectedDay(null)
+
         setValue({
           medicine: pillNames[0].value,
+          value: pillNames[0].value,
           days: options[0].value,
           time: moment().format("HH:mm"),
           pillAmount: options[0].value,
